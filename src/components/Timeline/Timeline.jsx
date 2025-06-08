@@ -162,7 +162,7 @@ const Timeline = ({ items = [] }) => {
               width: '2px',
               height: `${(driverEnRouteIndex - rideRequestedIndex) * 56 * animationProgress}px`,
               backgroundColor: '#000000',
-              zIndex: 1, // Lower z-index so it doesn't cover dots
+              zIndex: 20, // Lower z-index so it doesn't cover dots
               transition: 'none'
             }}
           />
