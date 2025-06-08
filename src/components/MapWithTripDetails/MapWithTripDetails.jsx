@@ -287,8 +287,12 @@ const MapWithTripDetails = ({
         el.textContent = 'P';
       }
     } else if (type === 'dropoff') {
-      el.style.backgroundColor = BASE_TOKENS.colors.red[500];
-      el.textContent = 'D';
+      el.style.backgroundColor = 'transparent';
+      el.style.border = 'none';
+      el.style.boxShadow = 'none';
+      el.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="black">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+      </svg>`;
     } else if (type === 'driver') {
       el.style.backgroundColor = BASE_TOKENS.colors.blue[500];
       el.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="white">
