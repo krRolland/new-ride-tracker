@@ -75,34 +75,43 @@ const RideTrackingDashboard = ({
 
   const styles = {
     container: {
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: BASE_TOKENS.spacing['2xl'],
       backgroundColor: BASE_TOKENS.colors.gray[50],
       minHeight: '100vh',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
     },
     header: {
-      marginBottom: BASE_TOKENS.spacing['2xl']
+      position: 'sticky',
+      top: 0,
+      backgroundColor: '#000000',
+      color: '#ffffff',
+      padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
+      marginBottom: BASE_TOKENS.spacing['2xl'],
+      zIndex: 1000,
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+    },
+    content: {
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: `0 ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
     },
     pageTitle: {
       fontSize: BASE_TOKENS.typography.fontSize['2xl'],
       fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-      color: BASE_TOKENS.colors.gray[900],
+      color: '#ffffff',
       lineHeight: BASE_TOKENS.typography.lineHeight.xl,
       margin: 0,
       marginBottom: BASE_TOKENS.spacing.xs
     },
     tripId: {
       fontSize: BASE_TOKENS.typography.fontSize.sm,
-      color: BASE_TOKENS.colors.gray[500],
+      color: '#cccccc',
       fontWeight: BASE_TOKENS.typography.fontWeight.medium,
       margin: 0,
       marginBottom: '2px'
     },
     uuid: {
       fontSize: BASE_TOKENS.typography.fontSize.xs,
-      color: BASE_TOKENS.colors.gray[400],
+      color: '#999999',
       fontWeight: BASE_TOKENS.typography.fontWeight.normal,
       margin: 0
     },
@@ -138,75 +147,80 @@ const RideTrackingDashboard = ({
       initial="hidden"
       animate="visible"
     >
-      {/* Page Header */}
+      {/* Sticky Header */}
       <motion.div 
         style={styles.header}
         variants={headerVariants}
       >
-        <motion.h1 
-          style={styles.pageTitle}
-          variants={componentVariants}
-        >
-          Live Ride Tracking
-        </motion.h1>
-        <motion.p 
-          style={styles.tripId}
-          variants={componentVariants}
-        >
-          Trip ID: {tripInfo.id}
-        </motion.p>
-        <motion.p 
-          style={styles.uuid}
-          variants={componentVariants}
-        >
-          UUID: {tripInfo.uuid}
-        </motion.p>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.h1 
+            style={styles.pageTitle}
+            variants={componentVariants}
+          >
+            Live Ride Tracking
+          </motion.h1>
+          <motion.p 
+            style={styles.tripId}
+            variants={componentVariants}
+          >
+            Trip ID: {tripInfo.id}
+          </motion.p>
+          <motion.p 
+            style={styles.uuid}
+            variants={componentVariants}
+          >
+            UUID: {tripInfo.uuid}
+          </motion.p>
+        </div>
       </motion.div>
 
-      {/* Main Layout */}
-      <motion.div 
-        style={styles.layout}
-        variants={containerVariants}
-      >
-        {/* Left Column */}
+      {/* Main Content */}
+      <div style={styles.content}>
+        {/* Main Layout */}
         <motion.div 
-          style={styles.leftColumn}
-          variants={columnVariants}
+          style={styles.layout}
+          variants={containerVariants}
         >
-          <motion.div variants={componentVariants}>
-            <Timeline items={timelineData} />
+          {/* Left Column */}
+          <motion.div 
+            style={styles.leftColumn}
+            variants={columnVariants}
+          >
+            <motion.div variants={componentVariants}>
+              <Timeline items={timelineData} />
+            </motion.div>
+            <motion.div variants={componentVariants}>
+              <CommunicationLog 
+                callLogs={callLogs} 
+                messages={messages} 
+              />
+            </motion.div>
           </motion.div>
-          <motion.div variants={componentVariants}>
-            <CommunicationLog 
-              callLogs={callLogs} 
-              messages={messages} 
-            />
-          </motion.div>
-        </motion.div>
 
-        {/* Right Column */}
-        <motion.div 
-          style={styles.rightColumn}
-          variants={columnVariants}
-        >
-          <motion.div variants={componentVariants}>
-            <MapWithTripDetails 
-              distance={tripInfo.distance}
-              duration={tripInfo.duration}
-              fare={tripInfo.fare}
-              surge={tripInfo.surge}
-              pickupLocation={tripInfo.pickupLocation}
-              dropoffLocation={tripInfo.dropoffLocation}
-            />
-          </motion.div>
-          <motion.div variants={componentVariants}>
-            <PeopleSection 
-              driver={driver}
-              rider={rider}
-            />
+          {/* Right Column */}
+          <motion.div 
+            style={styles.rightColumn}
+            variants={columnVariants}
+          >
+            <motion.div variants={componentVariants}>
+              <MapWithTripDetails 
+                distance={tripInfo.distance}
+                duration={tripInfo.duration}
+                fare={tripInfo.fare}
+                surge={tripInfo.surge}
+                pickupLocation={tripInfo.pickupLocation}
+                dropoffLocation={tripInfo.dropoffLocation}
+              />
+            </motion.div>
+            <motion.div variants={componentVariants}>
+              <PeopleSection 
+                driver={driver}
+                rider={rider}
+              />
+            </motion.div>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };
