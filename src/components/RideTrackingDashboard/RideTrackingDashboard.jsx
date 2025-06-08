@@ -210,6 +210,7 @@ const RideTrackingDashboard = ({
                 surge={tripInfo.surge}
                 pickupLocation={tripInfo.pickupLocation}
                 dropoffLocation={tripInfo.dropoffLocation}
+                rider={rider}
               />
             </motion.div>
             <motion.div variants={componentVariants}>

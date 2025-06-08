@@ -7,7 +7,8 @@ const MapWithTripDetails = ({
   fare, 
   surge,
   pickupLocation,
-  dropoffLocation 
+  dropoffLocation,
+  rider 
 }) => {
   const [mapLoading, setMapLoading] = useState(true);
   const [driverPosition, setDriverPosition] = useState(0); // 0 to 1 along route
@@ -256,9 +257,9 @@ const MapWithTripDetails = ({
   // Create custom marker elements
   const createMarkerElement = (type) => {
     const el = document.createElement('div');
-    el.style.width = type === 'driver' ? '32px' : '24px';
-    el.style.height = type === 'driver' ? '32px' : '24px';
-    el.style.borderRadius = type === 'driver' ? '50%' : '12px 12px 12px 2px';
+    el.style.width = type === 'driver' ? '32px' : '28px';
+    el.style.height = type === 'driver' ? '32px' : '28px';
+    el.style.borderRadius = type === 'pickup' ? '50%' : (type === 'driver' ? '50%' : '12px 12px 12px 2px');
     el.style.border = '2px solid white';
     el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
     el.style.display = 'flex';
@@ -267,10 +268,24 @@ const MapWithTripDetails = ({
     el.style.fontSize = '10px';
     el.style.fontWeight = '700';
     el.style.color = 'white';
+    el.style.overflow = 'hidden';
     
     if (type === 'pickup') {
-      el.style.backgroundColor = BASE_TOKENS.colors.green[500];
-      el.textContent = 'P';
+      // Use rider avatar for pickup marker
+      if (rider && rider.name) {
+        const img = document.createElement('img');
+        img.src = '/headshot-2.png'; // Rider avatar
+        img.alt = `${rider.name} avatar`;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
+        el.appendChild(img);
+      } else {
+        // Fallback to green P if no rider data
+        el.style.backgroundColor = BASE_TOKENS.colors.green[500];
+        el.textContent = 'P';
+      }
     } else if (type === 'dropoff') {
       el.style.backgroundColor = BASE_TOKENS.colors.red[500];
       el.textContent = 'D';
