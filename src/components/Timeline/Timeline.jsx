@@ -3,6 +3,7 @@ import { BASE_TOKENS } from '../../tokens';
 
 const Timeline = ({ items = [] }) => {
   const [animationProgress, setAnimationProgress] = useState(0);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   // Animation effect on component mount
   useEffect(() => {
@@ -70,12 +71,21 @@ const Timeline = ({ items = [] }) => {
       position: 'relative',
       paddingLeft: BASE_TOKENS.spacing['3xl'],
       paddingBottom: BASE_TOKENS.spacing.md,
-      minHeight: '40px'
+      paddingRight: BASE_TOKENS.spacing.sm,
+      paddingTop: BASE_TOKENS.spacing.sm,
+      minHeight: '40px',
+      borderRadius: BASE_TOKENS.borderRadius.md,
+      cursor: 'pointer',
+      transition: 'background-color 0.2s ease'
+    },
+    timelineItemHover: {
+      backgroundColor: BASE_TOKENS.colors.gray[50]
     },
     timelineIcon: {
       position: 'absolute',
       left: '0',
-      top: '6px', // Adjusted for smaller dot
+      top: '50%',
+      transform: 'translateY(-50%)',
       width: '8px',
       height: '8px',
       borderRadius: BASE_TOKENS.borderRadius.full,
@@ -148,7 +158,7 @@ const Timeline = ({ items = [] }) => {
             style={{
               position: 'absolute',
               left: '3px',
-              top: `${rideRequestedIndex * 56 + 14}px`, // Start from first dot center
+              top: `${rideRequestedIndex * 56 + 20}px`, // Start from first dot center
               width: '2px',
               height: `${(driverEnRouteIndex - rideRequestedIndex) * 56 * animationProgress}px`,
               backgroundColor: '#000000',
@@ -163,9 +173,9 @@ const Timeline = ({ items = [] }) => {
     style={{
       position: 'absolute',
       left: '3px',
-      top: '14px', // Start from first dot
+      top: '18px', // Start from first dot
       width: '2px',
-      bottom: `${(items.length - 1 - dropoffIndex) * 56 + 26}px`, // Increase the bottom offset slightly
+      bottom: `${(items.length - 1 - dropoffIndex) * 56 + 20}px`, // Increase the bottom offset slightly
       backgroundColor: BASE_TOKENS.colors.gray[300],
       zIndex: 0,
       transition: 'none'
@@ -175,9 +185,18 @@ const Timeline = ({ items = [] }) => {
         
         {items.map((item, index) => {
           const isCompleted = item.status === 'completed' || item.status === 'current';
+          const isHovered = hoveredItem === item.id;
           
           return (
-            <li key={item.id} style={styles.timelineItem}>
+            <li 
+              key={item.id} 
+              style={{
+                ...styles.timelineItem,
+                ...(isHovered ? styles.timelineItemHover : {})
+              }}
+              onMouseEnter={() => setHoveredItem(item.id)}
+              onMouseLeave={() => setHoveredItem(null)}
+            >
               <div style={{
                 ...styles.timelineIcon,
                 ...(isCompleted ? styles.completedDot : styles.pendingDot)
