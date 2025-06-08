@@ -175,9 +175,9 @@ const Timeline = ({ items = [] }) => {
       left: '3px',
       top: '18px', // Start from first dot
       width: '2px',
-      bottom: `${(items.length - 1 - dropoffIndex) * 56 + 20}px`, // Increase the bottom offset slightly
+      bottom: `${(items.length - 1 - dropoffIndex) * 56 + 22}px`, // Increase the bottom offset slightly
       backgroundColor: BASE_TOKENS.colors.gray[300],
-      zIndex: 0,
+      zIndex: 5, // Higher z-index so it appears above hover background
       transition: 'none'
     }}
   />
