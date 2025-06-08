@@ -1,7 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BASE_TOKENS } from '../../tokens';
 
 const Timeline = ({ items = [] }) => {
+  const [animationProgress, setAnimationProgress] = useState(0);
+
+  // Animation effect on component mount
+  useEffect(() => {
+    const animationDuration = 2000; // 2 seconds
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / animationDuration, 1);
+      
+      setAnimationProgress(progress);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    // Start animation after a short delay
+    const timeout = setTimeout(() => {
+      animate();
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Find the indices for different timeline items
+  const rideRequestedIndex = items.findIndex(item => item.title === 'Ride Requested');
+  const driverEnRouteIndex = items.findIndex(item => item.title === 'Driver En Route');
+  const pickupIndex = items.findIndex(item => item.title === 'Pickup');
+  const dropoffIndex = items.findIndex(item => item.title === 'Drop-off');
+
   const styles = {
     container: {
       backgroundColor: BASE_TOKENS.colors.white,
@@ -31,7 +63,8 @@ const Timeline = ({ items = [] }) => {
     timelineList: {
       margin: 0,
       padding: 0,
-      listStyle: 'none'
+      listStyle: 'none',
+      position: 'relative'
     },
     timelineItem: {
       position: 'relative',
@@ -45,7 +78,8 @@ const Timeline = ({ items = [] }) => {
       top: '6px', // Adjusted for smaller dot
       width: '8px',
       height: '8px',
-      borderRadius: BASE_TOKENS.borderRadius.full
+      borderRadius: BASE_TOKENS.borderRadius.full,
+      zIndex: 10 // Higher z-index so dots appear above lines
     },
     completedDot: {
       backgroundColor: BASE_TOKENS.colors.gray[900]
@@ -108,21 +142,42 @@ const Timeline = ({ items = [] }) => {
       </div>
       
       <ul style={styles.timelineList}>
+        {/* Animated black line from Ride Requested to Driver En Route */}
+        {rideRequestedIndex !== -1 && driverEnRouteIndex !== -1 && (
+          <div
+            style={{
+              position: 'absolute',
+              left: '3px',
+              top: `${rideRequestedIndex * 56 + 14}px`, // Start from first dot center
+              width: '2px',
+              height: `${(driverEnRouteIndex - rideRequestedIndex) * 56 * animationProgress}px`,
+              backgroundColor: '#000000',
+              zIndex: 1, // Lower z-index so it doesn't cover dots
+              transition: 'none'
+            }}
+          />
+        )}
+        
+        {rideRequestedIndex !== -1 && dropoffIndex !== -1 && (
+  <div
+    style={{
+      position: 'absolute',
+      left: '3px',
+      top: '14px', // Start from first dot
+      width: '2px',
+      bottom: `${(items.length - 1 - dropoffIndex) * 56 + 26}px`, // Increase the bottom offset slightly
+      backgroundColor: BASE_TOKENS.colors.gray[300],
+      zIndex: 0,
+      transition: 'none'
+    }}
+  />
+)}
+        
         {items.map((item, index) => {
-          const isLast = index === items.length - 1;
           const isCompleted = item.status === 'completed' || item.status === 'current';
-          const nextItem = items[index + 1];
-          const isNextCompleted = nextItem && (nextItem.status === 'completed' || nextItem.status === 'current');
           
           return (
             <li key={item.id} style={styles.timelineItem}>
-              {!isLast && (
-                <div style={{
-                  ...styles.timelineLine,
-                  ...(isCompleted && isNextCompleted ? styles.completedLine : styles.pendingLine)
-                }}></div>
-              )}
-              
               <div style={{
                 ...styles.timelineIcon,
                 ...(isCompleted ? styles.completedDot : styles.pendingDot)

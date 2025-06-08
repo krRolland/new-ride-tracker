@@ -21,244 +21,35 @@ const MapWithTripDetails = ({
   const routeSource = useRef(null);
 
   // Demo coordinates (San Francisco area)
-  const pickupCoords = [-122.4661, 37.7701]; // Japanese Tea Garden, Golden Gate Park
-  const dropoffCoords = [-122.408, 37.793]; // North Beach SF
+  const pickupCoords = [-122.465827, 37.772639];
+  const dropoffCoords = [-122.432902, 37.775673]; // North Beach SF
   
   // Driver starting position (5 minutes away from pickup)
   const driverStartCoords = [-122.4520, 37.7850]; // Richmond District, about 5 min drive to Tea Garden
   
-  // Route from driver's current location to pickup (following streets with more points for smoothness)
+  // Route from driver's current location to pickup (realistic SF streets)
   const toPickupRoute = [
-    [-122.4520, 37.7850], // Driver starting position (Richmond)
-    [-122.4522, 37.7848], // Start moving
-    [-122.4525, 37.7845], // Geary Blvd approach
-    [-122.4528, 37.7842], // On Geary
-    [-122.4530, 37.7840], // Geary Blvd
-    [-122.4533, 37.7837], // Continue
-    [-122.4536, 37.7834], // Continue on Geary
-    [-122.4540, 37.7830], // Continue on Geary
-    [-122.4543, 37.7827], // Geary towards park
-    [-122.4546, 37.7824], // Approaching park
-    [-122.4550, 37.7820], // Geary towards park
-    [-122.4553, 37.7817], // Getting closer
-    [-122.4556, 37.7814], // Almost at park
-    [-122.4560, 37.7810], // Approach Golden Gate Park
-    [-122.4563, 37.7807], // Park entrance area
-    [-122.4566, 37.7804], // Entering park zone
-    [-122.4570, 37.7800], // Park Presidio Blvd
-    [-122.4573, 37.7797], // In park area
-    [-122.4576, 37.7794], // Continue in park
-    [-122.4580, 37.7790], // Enter Golden Gate Park area
-    [-122.4583, 37.7787], // JFK Drive approach
-    [-122.4586, 37.7784], // On JFK
-    [-122.4590, 37.7780], // JFK Drive
-    [-122.4593, 37.7777], // Continue JFK
-    [-122.4596, 37.7774], // JFK Drive
-    [-122.4600, 37.7770], // Continue on JFK
-    [-122.4603, 37.7767], // Approaching Tea Garden area
-    [-122.4606, 37.7764], // Getting closer
-    [-122.4610, 37.7760], // Approach Tea Garden
-    [-122.4613, 37.7757], // Near Tea Garden
-    [-122.4616, 37.7754], // Very close
-    [-122.4620, 37.7750], // Near Tea Garden
-    [-122.4623, 37.7747], // Almost there
-    [-122.4626, 37.7744], // Getting closer
-    [-122.4630, 37.7740], // Getting closer
-    [-122.4633, 37.7737], // Very close
-    [-122.4636, 37.7734], // Almost there
-    [-122.4640, 37.7730], // Almost there
-    [-122.4643, 37.7727], // Final approach
-    [-122.4646, 37.7724], // Final approach
-    [-122.4650, 37.7720], // Final approach
-    [-122.4653, 37.7717], // Very close
-    [-122.4656, 37.7714], // Almost arrived
-    [-122.4659, 37.7711], // Almost arrived
-    [-122.4661, 37.7701]  // Japanese Tea Garden (pickup)
-  ];
-  
+    [-122.452052, 37.784944],
+    [-122.451873, 37.784126],
+    [-122.459096, 37.783866],
+    [-122.458411, 37.774338],
+    [-122.465891, 37.773436],     // Fixed: added brackets, flipped coordinates
+    [-122.465827, 37.772639]      // Fixed: added brackets, flipped coordinates
+];
   // Route from pickup to dropoff (following SF streets with more points)
   const fromPickupRoute = [
-    [-122.4661, 37.7701], // Japanese Tea Garden
-    [-122.4658, 37.7703], // Start leaving
-    [-122.4655, 37.7705], // Exit Golden Gate Park
-    [-122.4650, 37.7705], // Exit Golden Gate Park
-    [-122.4647, 37.7707], // Stanyan approach
-    [-122.4644, 37.7709], // On Stanyan
-    [-122.4640, 37.7710], // Stanyan St
-    [-122.4637, 37.7712], // Continue Stanyan
-    [-122.4634, 37.7714], // Haight approach
-    [-122.4630, 37.7716], // Turning to Haight
-    [-122.4627, 37.7718], // On Haight
-    [-122.4624, 37.7719], // Haight St
-    [-122.4620, 37.7720], // Haight St
-    [-122.4617, 37.7722], // Continue Haight
-    [-122.4614, 37.7724], // Continue Haight
-    [-122.4610, 37.7726], // Continue Haight
-    [-122.4607, 37.7728], // Continue Haight
-    [-122.4604, 37.7729], // Continue Haight
-    [-122.4600, 37.7730], // Continue on Haight
-    [-122.4597, 37.7732], // Divisadero approach
-    [-122.4594, 37.7734], // Turning to Divisadero
-    [-122.4590, 37.7736], // On Divisadero
-    [-122.4587, 37.7738], // Divisadero St
-    [-122.4584, 37.7739], // Divisadero St
-    [-122.4580, 37.7740], // Divisadero St
-    [-122.4577, 37.7742], // Continue Divisadero
-    [-122.4574, 37.7744], // Fillmore approach
-    [-122.4570, 37.7746], // Turning to Fillmore
-    [-122.4567, 37.7748], // On Fillmore
-    [-122.4564, 37.7749], // Fillmore St
-    [-122.4560, 37.7750], // Fillmore St
-    [-122.4557, 37.7752], // Continue east
-    [-122.4554, 37.7754], // Continue east
-    [-122.4550, 37.7756], // Continue east
-    [-122.4547, 37.7758], // Steiner approach
-    [-122.4544, 37.7759], // On Steiner
-    [-122.4540, 37.7760], // Steiner St
-    [-122.4537, 37.7762], // Continue east
-    [-122.4534, 37.7764], // Continue east
-    [-122.4530, 37.7766], // Pierce approach
-    [-122.4527, 37.7768], // On Pierce
-    [-122.4524, 37.7769], // Pierce St
-    [-122.4520, 37.7770], // Pierce St
-    [-122.4517, 37.7772], // Continue east
-    [-122.4514, 37.7774], // Continue east
-    [-122.4510, 37.7776], // Scott approach
-    [-122.4507, 37.7778], // On Scott
-    [-122.4504, 37.7779], // Scott St
-    [-122.4500, 37.7780], // Scott St
-    [-122.4497, 37.7782], // Continue east
-    [-122.4494, 37.7784], // Continue east
-    [-122.4490, 37.7786], // Divisadero approach
-    [-122.4487, 37.7788], // Turning to Divisadero
-    [-122.4484, 37.7789], // On Divisadero
-    [-122.4480, 37.7790], // Divisadero to Geary
-    [-122.4477, 37.7792], // Continue north
-    [-122.4474, 37.7794], // Continue north
-    [-122.4470, 37.7796], // Geary approach
-    [-122.4467, 37.7798], // Turning to Geary
-    [-122.4464, 37.7799], // On Geary
-    [-122.4460, 37.7800], // Geary Blvd
-    [-122.4457, 37.7802], // Continue Geary
-    [-122.4454, 37.7804], // Continue Geary
-    [-122.4450, 37.7806], // Continue Geary
-    [-122.4447, 37.7808], // Continue Geary
-    [-122.4444, 37.7809], // Continue Geary
-    [-122.4440, 37.7810], // Continue on Geary
-    [-122.4437, 37.7812], // Van Ness approach
-    [-122.4434, 37.7814], // Van Ness approach
-    [-122.4430, 37.7816], // Turning to Van Ness
-    [-122.4427, 37.7818], // On Van Ness
-    [-122.4424, 37.7819], // Van Ness Ave
-    [-122.4420, 37.7820], // Van Ness Ave
-    [-122.4417, 37.7822], // Continue east
-    [-122.4414, 37.7824], // Continue east
-    [-122.4410, 37.7826], // Polk approach
-    [-122.4407, 37.7828], // On Polk
-    [-122.4404, 37.7829], // Polk St
-    [-122.4400, 37.7830], // Polk St
-    [-122.4397, 37.7832], // Continue east
-    [-122.4394, 37.7834], // Continue east
-    [-122.4390, 37.7836], // Larkin approach
-    [-122.4387, 37.7838], // On Larkin
-    [-122.4384, 37.7839], // Larkin St
-    [-122.4380, 37.7840], // Larkin St
-    [-122.4377, 37.7842], // Continue east
-    [-122.4374, 37.7844], // Continue east
-    [-122.4370, 37.7846], // Hyde approach
-    [-122.4367, 37.7848], // On Hyde
-    [-122.4364, 37.7849], // Hyde St
-    [-122.4360, 37.7850], // Hyde St
-    [-122.4357, 37.7852], // Continue east
-    [-122.4354, 37.7854], // Continue east
-    [-122.4350, 37.7856], // Leavenworth approach
-    [-122.4347, 37.7858], // On Leavenworth
-    [-122.4344, 37.7859], // Leavenworth St
-    [-122.4340, 37.7860], // Leavenworth St
-    [-122.4337, 37.7862], // Continue east
-    [-122.4334, 37.7864], // Continue east
-    [-122.4330, 37.7866], // Jones approach
-    [-122.4327, 37.7868], // On Jones
-    [-122.4324, 37.7869], // Jones St
-    [-122.4320, 37.7870], // Jones St
-    [-122.4317, 37.7872], // Continue east
-    [-122.4314, 37.7874], // Continue east
-    [-122.4310, 37.7876], // Taylor approach
-    [-122.4307, 37.7878], // On Taylor
-    [-122.4304, 37.7879], // Taylor St
-    [-122.4300, 37.7880], // Taylor St
-    [-122.4297, 37.7882], // Continue east
-    [-122.4294, 37.7884], // Continue east
-    [-122.4290, 37.7886], // Mason approach
-    [-122.4287, 37.7888], // On Mason
-    [-122.4284, 37.7889], // Mason St
-    [-122.4280, 37.7890], // Mason St
-    [-122.4277, 37.7892], // Continue east
-    [-122.4274, 37.7894], // Continue east
-    [-122.4270, 37.7896], // Powell approach
-    [-122.4267, 37.7898], // On Powell
-    [-122.4264, 37.7899], // Powell St
-    [-122.4260, 37.7900], // Powell St
-    [-122.4257, 37.7902], // Continue east
-    [-122.4254, 37.7904], // Continue east
-    [-122.4250, 37.7906], // Stockton approach
-    [-122.4247, 37.7908], // On Stockton
-    [-122.4244, 37.7909], // Stockton St
-    [-122.4240, 37.7910], // Stockton St
-    [-122.4237, 37.7912], // Continue east
-    [-122.4234, 37.7914], // Continue east
-    [-122.4230, 37.7916], // Grant approach
-    [-122.4227, 37.7918], // On Grant
-    [-122.4224, 37.7919], // Grant Ave
-    [-122.4220, 37.7920], // Grant Ave
-    [-122.4217, 37.7921], // Continue east
-    [-122.4214, 37.7922], // Continue east
-    [-122.4210, 37.7923], // Kearny approach
-    [-122.4207, 37.7924], // On Kearny
-    [-122.4204, 37.7924], // Kearny St
-    [-122.4200, 37.7925], // Kearny St
-    [-122.4197, 37.7926], // Continue east
-    [-122.4194, 37.7926], // Continue east
-    [-122.4190, 37.7927], // Montgomery approach
-    [-122.4187, 37.7927], // On Montgomery
-    [-122.4184, 37.7928], // Montgomery St
-    [-122.4180, 37.7928], // Montgomery St
-    [-122.4177, 37.7929], // Continue east
-    [-122.4174, 37.7929], // Continue east
-    [-122.4170, 37.7930], // Sansome approach
-    [-122.4167, 37.7930], // On Sansome
-    [-122.4164, 37.7930], // Sansome St
-    [-122.4160, 37.7930], // Sansome St
-    [-122.4157, 37.7931], // Continue east
-    [-122.4154, 37.7931], // Continue east
-    [-122.4150, 37.7932], // Battery approach
-    [-122.4147, 37.7932], // On Battery
-    [-122.4144, 37.7932], // Battery St
-    [-122.4140, 37.7932], // Battery St
-    [-122.4137, 37.7933], // Continue east
-    [-122.4134, 37.7933], // Continue east
-    [-122.4130, 37.7934], // Front approach
-    [-122.4127, 37.7934], // On Front
-    [-122.4124, 37.7934], // Front St
-    [-122.4120, 37.7934], // Front St
-    [-122.4117, 37.7935], // Continue east
-    [-122.4114, 37.7935], // Continue east
-    [-122.4110, 37.7936], // Davis approach
-    [-122.4107, 37.7936], // On Davis
-    [-122.4104, 37.7936], // Davis St
-    [-122.4100, 37.7936], // Davis St
-    [-122.4097, 37.7937], // Continue east
-    [-122.4094, 37.7937], // Continue east
-    [-122.4090, 37.7938], // Drumm approach
-    [-122.4087, 37.7938], // On Drumm
-    [-122.4084, 37.7938], // Drumm St
-    [-122.4080, 37.7938], // Drumm St
-    [-122.4077, 37.7939], // Final approach
-    [-122.4074, 37.7940], // Almost there
-    [-122.4071, 37.7941], // Very close
-    [-122.408, 37.793]     // North Beach SF (final destination)
-  ];
-  
+    [-122.466684, 37.772583], 
+    [-122.465264, 37.772590],
+    [-122.462078, 37.771790],
+    [-122.455251, 37.770904],     // Fixed: added brackets, flipped coordinates
+    [-122.454031, 37.771459],     // Fixed: added brackets, flipped coordinates
+    [-122.453573, 37.769206],     // Fixed: added brackets, flipped coordinates
+    [-122.437062, 37.771275],     // Fixed: added brackets, flipped coordinates
+    [-122.437497, 37.773209],     // Fixed: added brackets, flipped coordinates
+    [-122.435844, 37.773444],     // Fixed: added brackets, flipped coordinates
+    [-122.436175, 37.775234],     // Fixed: added brackets, flipped coordinates
+    [-122.432902, 37.775673]      // Fixed: added brackets, flipped coordinates
+];
   // Combined route coordinates
   const routeCoordinates = [...toPickupRoute, ...fromPickupRoute.slice(1)]; // Remove duplicate pickup point
   

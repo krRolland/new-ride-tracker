@@ -227,15 +227,12 @@ const CommunicationLog = ({ callLogs = [], messages = [] }) => {
       )}
 
       {/* Messages Section */}
-      {messages.length > 0 && (
-        <div style={styles.section}>
-          <div style={styles.sectionHeader}>
-            {/* <div style={styles.sectionIcon}>
-              <MessageIcon />
-            </div> */}
-            <h3 style={styles.sectionTitle}>Messages</h3>
-          </div>
+      <div style={styles.section}>
+        <div style={styles.sectionHeader}>
+          <h3 style={styles.sectionTitle}>Messages</h3>
+        </div>
 
+        {messages.length > 0 ? (
           <div style={styles.messagesList}>
             {messages.map((message) => (
               <div
@@ -286,8 +283,25 @@ const CommunicationLog = ({ callLogs = [], messages = [] }) => {
               </div>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div style={{
+            padding: BASE_TOKENS.spacing.lg,
+            textAlign: 'center',
+            backgroundColor: BASE_TOKENS.colors.gray[50],
+            borderRadius: BASE_TOKENS.borderRadius.md,
+            border: `1px solid ${BASE_TOKENS.colors.gray[200]}`
+          }}>
+            <p style={{
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              color: BASE_TOKENS.colors.gray[600],
+              margin: 0,
+              fontStyle: 'italic'
+            }}>
+              No messages between driver and passenger thus far
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Updated Action Buttons */}
       <div style={{

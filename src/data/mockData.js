@@ -7,8 +7,8 @@ export const mockRideData = {
       duration: '12 min',
       fare: '$18.50',
       surge: '1.5x',
-      pickupLocation: 'The Japanese Tea Garden',
-      dropoffLocation: 'Salesforce Park'
+      pickupLocation: 'Golden Gate Park',
+      dropoffLocation: 'The Painted Ladies'
     },
   
     timelineData: [
@@ -52,7 +52,7 @@ export const mockRideData = {
         id: 6, 
         status: 'pending', 
         title: 'Drop-off', 
-        time: '3:15 PM', 
+        time: '2:53 PM', 
         icon: '✓' 
       }
     ],
@@ -65,33 +65,11 @@ export const mockRideData = {
         direction: 'incoming',
         duration: '45 seconds',
         status: 'completed',
-        timestamp: '2:56 PM'
+        timestamp: '2:28 PM'
       }
     ],
   
-    messages: [
-      {
-        id: 1,
-        type: 'message',
-        participant: 'rider',
-        message: "Hi, I'm the one in the blue jacket by the coffee shop",
-        timestamp: '2:58 PM'
-      },
-      {
-        id: 2,
-        type: 'message',
-        participant: 'driver',
-        message: 'Got it! I see you. Silver Camry pulling up now',
-        timestamp: '2:59 PM'
-      },
-      {
-        id: 3,
-        type: 'message',
-        participant: 'rider',
-        message: 'Perfect, thank you!',
-        timestamp: '3:00 PM'
-      }
-    ],
+    messages: [],
   
     driver: {
       name: 'Marcus Johnson',
@@ -107,4 +85,3 @@ export const mockRideData = {
       phone: '+1 (444) 987-6543'
     }
   };
-  

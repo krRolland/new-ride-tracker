@@ -1080,8 +1080,8 @@ export const mockRideData = {
     duration: '12 min',
     fare: '$18.50',
     surge: '1.5x',
-    pickupLocation: 'The Japanese Tea Garden',
-    dropoffLocation: 'Salesforce Park'
+    pickupLocation: 'Golden Gate Park',
+    dropoffLocation: 'The Painted Ladies'
   },
 
   timelineData: [
