@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
 import Timeline from '../Timeline';
 import CommunicationLog from '../CommunicationLog';
@@ -13,6 +14,65 @@ const RideTrackingDashboard = ({
   driver, 
   rider 
 }) => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: -20 
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const columnVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 30 
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const componentVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 20,
+      scale: 0.95
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   const styles = {
     container: {
       maxWidth: '1200px',
@@ -72,42 +132,82 @@ const RideTrackingDashboard = ({
   };
 
   return (
-    <div style={styles.container}>
+    <motion.div 
+      style={styles.container}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Page Header */}
-      <div style={styles.header}>
-        <h1 style={styles.pageTitle}>Live Ride Tracking</h1>
-        <p style={styles.tripId}>Trip ID: {tripInfo.id}</p>
-        <p style={styles.uuid}>UUID: {tripInfo.uuid}</p>
-      </div>
+      <motion.div 
+        style={styles.header}
+        variants={headerVariants}
+      >
+        <motion.h1 
+          style={styles.pageTitle}
+          variants={componentVariants}
+        >
+          Live Ride Tracking
+        </motion.h1>
+        <motion.p 
+          style={styles.tripId}
+          variants={componentVariants}
+        >
+          Trip ID: {tripInfo.id}
+        </motion.p>
+        <motion.p 
+          style={styles.uuid}
+          variants={componentVariants}
+        >
+          UUID: {tripInfo.uuid}
+        </motion.p>
+      </motion.div>
 
       {/* Main Layout */}
-      <div style={styles.layout}>
+      <motion.div 
+        style={styles.layout}
+        variants={containerVariants}
+      >
         {/* Left Column */}
-        <div style={styles.leftColumn}>
-          <Timeline items={timelineData} />
-          <CommunicationLog 
-            callLogs={callLogs} 
-            messages={messages} 
-          />
-        </div>
+        <motion.div 
+          style={styles.leftColumn}
+          variants={columnVariants}
+        >
+          <motion.div variants={componentVariants}>
+            <Timeline items={timelineData} />
+          </motion.div>
+          <motion.div variants={componentVariants}>
+            <CommunicationLog 
+              callLogs={callLogs} 
+              messages={messages} 
+            />
+          </motion.div>
+        </motion.div>
 
         {/* Right Column */}
-        <div style={styles.rightColumn}>
-          <MapWithTripDetails 
-            distance={tripInfo.distance}
-            duration={tripInfo.duration}
-            fare={tripInfo.fare}
-            surge={tripInfo.surge}
-            pickupLocation={tripInfo.pickupLocation}
-            dropoffLocation={tripInfo.dropoffLocation}
-          />
-          <PeopleSection 
-            driver={driver}
-            rider={rider}
-          />
-        </div>
-      </div>
-    </div>
+        <motion.div 
+          style={styles.rightColumn}
+          variants={columnVariants}
+        >
+          <motion.div variants={componentVariants}>
+            <MapWithTripDetails 
+              distance={tripInfo.distance}
+              duration={tripInfo.duration}
+              fare={tripInfo.fare}
+              surge={tripInfo.surge}
+              pickupLocation={tripInfo.pickupLocation}
+              dropoffLocation={tripInfo.dropoffLocation}
+            />
+          </motion.div>
+          <motion.div variants={componentVariants}>
+            <PeopleSection 
+              driver={driver}
+              rider={rider}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
