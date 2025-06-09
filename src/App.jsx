@@ -1,6 +1,7 @@
 import React from 'react';
 import RideTrackingDashboard from './components/RideTrackingDashboard';
 import { mockRideData } from './data/mockData';
+import QueryVisualizer from './components/QueryVisualizer/QueryVisualizer';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         driver={mockRideData.driver}
         rider={mockRideData.rider}
       />
+      {/* <QueryVisualizer /> */}
     </div>
   );
 }
