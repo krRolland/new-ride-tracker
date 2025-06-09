@@ -241,6 +241,24 @@ const ExpandableChatBox = ({
     }
   };
 
+  // Dark theme color tokens
+  const darkTheme = {
+    background: '#1a1a1a',
+    backgroundSecondary: '#2a2a2a',
+    text: 'rgba(255, 255, 255, 0.9)',
+    textSecondary: 'rgba(255, 255, 255, 0.6)',
+    border: 'rgba(255, 255, 255, 0.2)',
+    borderHover: 'rgba(255, 255, 255, 0.4)',
+    button: '#333333',
+    buttonHover: '#404040',
+    input: '#2a2a2a',
+    inputBorder: 'rgba(255, 255, 255, 0.3)',
+    messageBg: '#333333',
+    userMessageBg: '#4a4a4a',
+    avatar: '#404040',
+    shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)'
+  };
+
   // Static container style - no size animations
   const getContainerStyle = () => {
     let containerWidth, containerHeight;
@@ -260,14 +278,18 @@ const ExpandableChatBox = ({
       position,
       width: containerWidth,
       height: containerHeight,
-      backgroundColor: isMinimized ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.white,
+      backgroundColor: isMinimized 
+        ? (darkMode ? darkTheme.background : BASE_TOKENS.colors.gray[900])
+        : isExpanded 
+          ? (darkMode ? darkTheme.background : BASE_TOKENS.colors.white)
+          : (darkMode ? 'rgb(42, 42, 42)' : BASE_TOKENS.colors.white),
       borderRadius: isExpanded ? BASE_TOKENS.borderRadius.lg : '35px',
-      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+      border: `1px solid ${darkMode ? darkTheme.border : BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
       overflow: 'hidden',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+      boxShadow: darkMode ? darkTheme.shadow : '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
     };
   };
 
@@ -284,7 +306,7 @@ const ExpandableChatBox = ({
     collapsedTitle: {
       fontSize: BASE_TOKENS.typography.fontSize.lg,
       fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-      color: BASE_TOKENS.colors.gray[900],
+      color: darkMode ? darkTheme.text : BASE_TOKENS.colors.gray[900],
       margin: 0,
       marginBottom: BASE_TOKENS.spacing.md,
       textAlign: 'center'
@@ -295,7 +317,7 @@ const ExpandableChatBox = ({
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.lg,
       overflow: 'hidden',
-      boxShadow: BASE_TOKENS.shadows.sm,
+      boxShadow: darkMode ? darkTheme.shadow : BASE_TOKENS.shadows.sm,
       width: '100%',
       margin: `0 ${BASE_TOKENS.spacing.xs}`
     },
@@ -306,12 +328,13 @@ const ExpandableChatBox = ({
       outline: 'none',
       fontSize: BASE_TOKENS.typography.fontSize.sm,
       fontFamily: 'inherit',
-      backgroundColor: BASE_TOKENS.colors.white,
+      backgroundColor: darkMode ? darkTheme.input : BASE_TOKENS.colors.white,
+      color: darkMode ? darkTheme.text : BASE_TOKENS.colors.gray[900],
       transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
     },
     collapsedButton: {
       padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.md}`,
-      backgroundColor: BASE_TOKENS.colors.gray[900],
+      backgroundColor: darkMode ? darkTheme.button : BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.lg,
@@ -325,8 +348,8 @@ const ExpandableChatBox = ({
     },
     header: {
       padding: BASE_TOKENS.spacing.lg,
-      borderBottom: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      backgroundColor: BASE_TOKENS.colors.gray[50],
+      borderBottom: `1px solid ${darkMode ? darkTheme.border : BASE_TOKENS.colors.gray[200]}`,
+      backgroundColor: darkMode ? darkTheme.backgroundSecondary : BASE_TOKENS.colors.gray[50],
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between'
@@ -337,19 +360,19 @@ const ExpandableChatBox = ({
     headerTitle: {
       fontSize: BASE_TOKENS.typography.fontSize.lg,
       fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-      color: BASE_TOKENS.colors.gray[900],
+      color: darkMode ? darkTheme.text : BASE_TOKENS.colors.gray[900],
       margin: 0,
       marginBottom: BASE_TOKENS.spacing.xs
     },
     headerSubtitle: {
       fontSize: BASE_TOKENS.typography.fontSize.sm,
-      color: BASE_TOKENS.colors.gray[600],
+      color: darkMode ? darkTheme.textSecondary : BASE_TOKENS.colors.gray[600],
       margin: 0
     },
     closeButton: {
       padding: BASE_TOKENS.spacing.xs,
       backgroundColor: 'transparent',
-      color: BASE_TOKENS.colors.gray[500],
+      color: darkMode ? darkTheme.textSecondary : BASE_TOKENS.colors.gray[500],
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.md,
       cursor: 'pointer',
@@ -383,9 +406,9 @@ const ExpandableChatBox = ({
       width: '32px',
       height: '32px',
       borderRadius: BASE_TOKENS.borderRadius.full,
-      backgroundColor: BASE_TOKENS.colors.gray[200],
-      border: `2px solid ${BASE_TOKENS.colors.white}`,
-      boxShadow: BASE_TOKENS.shadows.md,
+      backgroundColor: darkMode ? darkTheme.avatar : BASE_TOKENS.colors.gray[200],
+      border: `2px solid ${darkMode ? darkTheme.background : BASE_TOKENS.colors.white}`,
+      boxShadow: darkMode ? darkTheme.shadow : BASE_TOKENS.shadows.md,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -393,10 +416,10 @@ const ExpandableChatBox = ({
       overflow: 'hidden'
     },
     botAvatar: {
-      backgroundColor: BASE_TOKENS.colors.blue[50]
+      backgroundColor: darkMode ? darkTheme.avatar : BASE_TOKENS.colors.blue[50]
     },
     userAvatar: {
-      backgroundColor: BASE_TOKENS.colors.gray[200]
+      backgroundColor: darkMode ? darkTheme.avatar : BASE_TOKENS.colors.gray[200]
     },
     avatarImage: {
       width: '100%',
@@ -418,18 +441,18 @@ const ExpandableChatBox = ({
       wordWrap: 'break-word'
     },
     userMessage: {
-      backgroundColor: BASE_TOKENS.colors.gray[900],
+      backgroundColor: darkMode ? darkTheme.userMessageBg : BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
       borderBottomRightRadius: BASE_TOKENS.borderRadius.sm
     },
     botMessage: {
-      backgroundColor: BASE_TOKENS.colors.gray[100],
-      color: BASE_TOKENS.colors.gray[900],
+      backgroundColor: darkMode ? darkTheme.messageBg : BASE_TOKENS.colors.gray[100],
+      color: darkMode ? darkTheme.text : BASE_TOKENS.colors.gray[900],
       borderBottomLeftRadius: BASE_TOKENS.borderRadius.sm
     },
     messageTimestamp: {
       fontSize: BASE_TOKENS.typography.fontSize.xs,
-      color: BASE_TOKENS.colors.gray[500],
+      color: darkMode ? darkTheme.textSecondary : BASE_TOKENS.colors.gray[500],
       alignSelf: 'flex-end'
     },
     userTimestamp: {
@@ -443,7 +466,7 @@ const ExpandableChatBox = ({
       alignItems: 'center',
       gap: BASE_TOKENS.spacing.sm,
       padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.md}`,
-      backgroundColor: BASE_TOKENS.colors.gray[100],
+      backgroundColor: darkMode ? darkTheme.messageBg : BASE_TOKENS.colors.gray[100],
       borderRadius: BASE_TOKENS.borderRadius.lg,
       borderBottomLeftRadius: BASE_TOKENS.borderRadius.sm,
       maxWidth: '70%'
@@ -456,12 +479,12 @@ const ExpandableChatBox = ({
       width: '6px',
       height: '6px',
       borderRadius: BASE_TOKENS.borderRadius.full,
-      backgroundColor: BASE_TOKENS.colors.gray[400]
+      backgroundColor: darkMode ? darkTheme.textSecondary : BASE_TOKENS.colors.gray[400]
     },
     inputContainer: {
       padding: BASE_TOKENS.spacing.lg,
-      borderTop: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      backgroundColor: BASE_TOKENS.colors.white
+      borderTop: `1px solid ${darkMode ? darkTheme.border : BASE_TOKENS.colors.gray[200]}`,
+      backgroundColor: darkMode ? darkTheme.backgroundSecondary : BASE_TOKENS.colors.white
     },
     inputWrapper: {
       display: 'flex',
@@ -471,7 +494,7 @@ const ExpandableChatBox = ({
     textInput: {
       flex: .9,
       padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.md}`,
-      border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
+      border: `1px solid ${darkMode ? darkTheme.inputBorder : BASE_TOKENS.colors.gray[300]}`,
       borderRadius: BASE_TOKENS.borderRadius.lg,
       fontSize: BASE_TOKENS.typography.fontSize.sm,
       outline: 'none',
@@ -479,11 +502,13 @@ const ExpandableChatBox = ({
       minHeight: '40px',
       maxHeight: '120px',
       transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`,
-      fontFamily: 'inherit'
+      fontFamily: 'inherit',
+      backgroundColor: darkMode ? darkTheme.input : BASE_TOKENS.colors.white,
+      color: darkMode ? darkTheme.text : BASE_TOKENS.colors.gray[900]
     },
     sendButton: {
       padding: BASE_TOKENS.spacing.sm,
-      backgroundColor: BASE_TOKENS.colors.gray[900],
+      backgroundColor: darkMode ? darkTheme.button : BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.lg,
@@ -496,7 +521,7 @@ const ExpandableChatBox = ({
       height: '40px'
     },
     sendButtonDisabled: {
-      backgroundColor: BASE_TOKENS.colors.gray[300],
+      backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : BASE_TOKENS.colors.gray[300],
       cursor: 'not-allowed'
     }
   };
@@ -609,7 +634,7 @@ const ExpandableChatBox = ({
       ) : (
         // Expanded State - Full Chat Interface
         <motion.div
-          style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+          style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}
           variants={contentVariants}
           initial="collapsed"
           animate="expanded"

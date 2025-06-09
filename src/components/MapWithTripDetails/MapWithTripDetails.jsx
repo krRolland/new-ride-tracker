@@ -517,7 +517,7 @@ const MapWithTripDetails = ({
     if (!driverMarker.current || driverMoving) return;
     
     setDriverMoving(true);
-    const duration = 300000; // 5 minutes (300 seconds) for realistic timing
+    const duration = 420000; // 7 minutes (420 seconds) for slower, more realistic timing
     const startTime = Date.now();
     
     const animate = () => {

@@ -123,7 +123,7 @@ const ChatDemo = () => {
 
   const getLeftColumnFlex = () => {
     if (isChatMinimized) return '0 0 124px';
-    if (hasEverExpanded) return '0 0 550px';
+    if (hasEverExpanded) return '0 0 510px';
     return '1';
   };
 
@@ -241,7 +241,8 @@ const ChatDemo = () => {
         <div style={{
           flex: getLeftColumnFlex(),
           padding: hasEverExpanded ? BASE_TOKENS.spacing.xl : BASE_TOKENS.spacing.xl,
-          paddingLeft: hasEverExpanded ? 50 : 0,
+          paddingLeft: hasEverExpanded ? 0 : 0,
+          paddingRight: hasEverExpanded ? 0 : BASE_TOKENS.spacing.xl,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -277,6 +278,7 @@ const ChatDemo = () => {
           width: hasEverExpanded ? 'auto' : '0px',
           overflow: 'hidden',
           padding: hasEverExpanded ? BASE_TOKENS.spacing.xl : 0,
+          paddingLeft: hasEverExpanded ? 0 : 0,
           paddingRight: hasEverExpanded ? BASE_TOKENS.spacing.xl : 0,
           transition: 'all 0.4s ease-in-out'
         }}>

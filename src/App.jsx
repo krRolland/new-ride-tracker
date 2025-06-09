@@ -45,8 +45,8 @@ function App() {
         width="350px" 
         height="500px" 
       /> */}
-      {/* <ChatDemo /> */}
-      < DarkThemeChatDemo />
+      <ChatDemo />
+      {/* < DarkThemeChatDemo /> */}
     </div>
   );
 }
