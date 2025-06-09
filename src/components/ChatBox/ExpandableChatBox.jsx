@@ -10,6 +10,7 @@ const ExpandableChatBox = ({
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("What do you want to make?");
   const [headerSubtitle, setHeaderSubtitle] = useState("Let's build something amazing together");
   const [messages, setMessages] = useState([
@@ -55,7 +56,13 @@ const ExpandableChatBox = ({
 
   const handleCollapse = () => {
     setIsExpanded(false);
+    setIsMinimized(true);
     setInputValue('');
+  };
+
+  const handleExpand = () => {
+    setIsMinimized(false);
+    setIsExpanded(true);
   };
 
   const handleSendMessage = () => {
@@ -122,10 +129,17 @@ const ExpandableChatBox = ({
     </svg>
   );
 
-  const CloseIcon = ({ size = 16, color = 'currentColor' }) => (
+  const CollapseIcon = ({ size = 16, color = 'currentColor' }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18"/>
-      <line x1="6" y1="6" x2="18" y2="18"/>
+      <path d="M11 17l-5-5 5-5"/>
+      <path d="M18 17l-5-5 5-5"/>
+    </svg>
+  );
+
+  const ExpandIcon = ({ size = 16, color = 'currentColor' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
+      <path d="M13 7l5 5-5 5"/>
+      <path d="M6 7l5 5-5 5"/>
     </svg>
   );
 
@@ -140,6 +154,14 @@ const ExpandableChatBox = ({
     collapsed: {
       width: 'auto',
       height: 'auto',
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1]
+      }
+    },
+    minimized: {
+      width: '60px',
+      height: '200px',
       transition: {
         duration: 0.6,
         ease: [0.25, 0.1, 0.25, 1]
@@ -211,7 +233,8 @@ const ExpandableChatBox = ({
     return {
       position,
       backgroundColor: BASE_TOKENS.colors.white,
-      borderRadius: BASE_TOKENS.borderRadius.lg,
+      // Dynamic border radius - much higher when collapsed, regular when expanded
+      borderRadius: isExpanded ? BASE_TOKENS.borderRadius.lg : '20px',
       border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
       flexDirection: 'column',
@@ -469,10 +492,46 @@ const ExpandableChatBox = ({
         className={className}
         variants={containerVariants}
         initial="collapsed"
-        animate={isExpanded ? "expanded" : "collapsed"}
+        animate={isExpanded ? "expanded" : isMinimized ? "minimized" : "collapsed"}
         {...props}
       >
-      {!isExpanded ? (
+      {isMinimized ? (
+        // Minimized State - 60px floating column
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          padding: BASE_TOKENS.spacing.sm
+        }}>
+          <button
+            onClick={handleExpand}
+            style={{
+              padding: BASE_TOKENS.spacing.sm,
+              backgroundColor: BASE_TOKENS.colors.gray[900],
+              color: BASE_TOKENS.colors.white,
+              border: 'none',
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '40px',
+              height: '40px',
+              transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[800];
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[900];
+            }}
+          >
+            <ExpandIcon size={16} />
+          </button>
+        </div>
+      ) : !isExpanded ? (
         // Collapsed State - Title and Input Box
         <div style={styles.collapsedContainer}>
           <h3 style={styles.collapsedTitle}>What do you want to make?</h3>
@@ -559,7 +618,7 @@ const ExpandableChatBox = ({
                 e.target.style.color = BASE_TOKENS.colors.gray[500];
               }}
             >
-              <CloseIcon size={16} />
+              <CollapseIcon size={16} />
             </button>
           </div>
 
