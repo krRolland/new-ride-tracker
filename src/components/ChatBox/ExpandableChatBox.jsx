@@ -10,6 +10,8 @@ const ExpandableChatBox = ({
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [headerTitle, setHeaderTitle] = useState("What do you want to make?");
+  const [headerSubtitle, setHeaderSubtitle] = useState("Let's build something amazing together");
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -20,6 +22,8 @@ const ExpandableChatBox = ({
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [hasExpanded, setHasExpanded] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -32,6 +36,22 @@ const ExpandableChatBox = ({
       scrollToBottom();
     }
   }, [messages, isExpanded]);
+
+  // Animation effects for collapsed state
+  useEffect(() => {
+    const wasReady = isReady;
+    const nowReady = inputValue.trim().length > 0;
+    setIsReady(nowReady);
+    
+    // Trigger expansion when going from empty to having content
+    if (!wasReady && nowReady) {
+      setHasExpanded(true);
+    }
+    // Trigger contraction when going from content to empty
+    if (wasReady && !nowReady) {
+      setHasExpanded(false);
+    }
+  }, [inputValue, isReady]);
 
   const handleCollapse = () => {
     setIsExpanded(false);
@@ -63,10 +83,17 @@ const ExpandableChatBox = ({
     
     // Simulate bot typing
     setIsTyping(true);
+    
+    // Change header title after "thinking" (during typing)
+    setTimeout(() => {
+      setHeaderTitle("Ride Tracking Dashboard");
+      setHeaderSubtitle("Building your custom dashboard");
+    }, 1000);
+    
     setTimeout(() => {
       const botResponse = {
         id: messages.length + 2,
-        text: "Thanks for your message! This is a demo response.",
+        text: "Here's your ride dashboard!",
         sender: 'bot',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -152,29 +179,54 @@ const ExpandableChatBox = ({
   };
 
   const typingVariants = {
-    hidden: { opacity: 0 },
+    hidden: { 
+      opacity: 0,
+      y: 10,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    },
     visible: {
       opacity: 1,
+      y: 0,
       transition: {
-        duration: 0.3
+        duration: 0.4,
+        ease: "easeOut"
       }
     }
   };
 
-  const styles = {
-    container: {
+  // Dynamic container style with animations
+  const getContainerStyle = () => {
+    return {
       position,
       backgroundColor: BASE_TOKENS.colors.white,
       borderRadius: BASE_TOKENS.borderRadius.lg,
       border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      boxShadow: BASE_TOKENS.shadows.lg,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-      overflow: 'hidden'
-    },
+      overflow: 'hidden',
+      // Combined glow effect (Ambient Glow)
+      boxShadow: isReady && !isExpanded
+        ? '0 0 25px rgba(59, 130, 246, 0.2), 0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+        : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      // Combined pulse effect (Heartbeat Pulse)
+      transform: hasExpanded && !isExpanded ? 'scale(1.015)' : 'scale(1)',
+      // Combined shimmer effect (Shimmer Wave)
+      background: isReady && !isExpanded
+        ? 'linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%, #ffffff 100%)'
+        : BASE_TOKENS.colors.white,
+      backgroundSize: isReady && !isExpanded ? '200% 200%' : '100% 100%',
+      animation: isReady && !isExpanded ? 'shimmer 8s ease-in-out infinite' : 'none',
+      transition: 'all 1.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
+    };
+  };
+
+  const styles = {
     collapsedContainer: {
-      padding: BASE_TOKENS.spacing.lg,
+      padding: BASE_TOKENS.spacing['3xl'],
       minWidth: '300px'
     },
     collapsedTitle: {
@@ -213,7 +265,7 @@ const ExpandableChatBox = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`,
+      transition: 'all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       minWidth: '60px'
     },
     header: {
@@ -311,7 +363,7 @@ const ExpandableChatBox = ({
       wordWrap: 'break-word'
     },
     userMessage: {
-      backgroundColor: BASE_TOKENS.colors.blue[500],
+      backgroundColor: BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
       borderBottomRightRadius: BASE_TOKENS.borderRadius.sm
     },
@@ -395,14 +447,22 @@ const ExpandableChatBox = ({
   };
 
   return (
-    <motion.div
-      style={{ ...styles.container, ...props.style }}
-      className={className}
-      variants={containerVariants}
-      initial="collapsed"
-      animate={isExpanded ? "expanded" : "collapsed"}
-      {...props}
-    >
+    <>
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
+      <motion.div
+        style={{ ...getContainerStyle(), ...props.style }}
+        className={className}
+        variants={containerVariants}
+        initial="collapsed"
+        animate={isExpanded ? "expanded" : "collapsed"}
+        {...props}
+      >
       {!isExpanded ? (
         // Collapsed State - Title and Input Box
         <div style={styles.collapsedContainer}>
@@ -421,7 +481,10 @@ const ExpandableChatBox = ({
               disabled={inputValue.trim() === ''}
               style={{
                 ...styles.collapsedButton,
-                ...(inputValue.trim() === '' ? styles.sendButtonDisabled : {})
+                ...(inputValue.trim() === '' ? styles.sendButtonDisabled : {}),
+                transition: inputValue.trim() === '' 
+                  ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
+                  : 'all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               }}
               onMouseEnter={(e) => {
                 if (inputValue.trim() !== '') {
@@ -456,8 +519,24 @@ const ExpandableChatBox = ({
           {/* Header */}
           <div style={styles.header}>
             <div style={styles.headerContent}>
-              <h3 style={styles.headerTitle}>What do you want to make?</h3>
-              <p style={styles.headerSubtitle}>Let's build something amazing together</p>
+              <motion.h3 
+                style={styles.headerTitle}
+                key={headerTitle}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                {headerTitle}
+              </motion.h3>
+              <motion.p 
+                style={styles.headerSubtitle}
+                key={headerSubtitle}
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              >
+                {headerSubtitle}
+              </motion.p>
             </div>
             <button
               onClick={handleCollapse}
@@ -493,7 +572,7 @@ const ExpandableChatBox = ({
                   {message.sender === 'bot' && (
                     <div style={{ ...styles.messageAvatar, ...styles.botAvatar }}>
                       <img 
-                        src="/headshot-1.png" 
+                        src="/headshot-3.png" 
                         alt="Support avatar"
                         style={styles.avatarImage}
                       />
@@ -522,7 +601,7 @@ const ExpandableChatBox = ({
                   {message.sender === 'user' && (
                     <div style={{ ...styles.messageAvatar, ...styles.userAvatar }}>
                       <img 
-                        src="/headshot-2.png" 
+                        src="/headshot-4.png" 
                         alt="User avatar"
                         style={styles.avatarImage}
                       />
@@ -542,7 +621,7 @@ const ExpandableChatBox = ({
                 >
                   <div style={{ ...styles.messageAvatar, ...styles.botAvatar }}>
                     <img 
-                      src="/headshot-1.png" 
+                      src="/headshot-3.png" 
                       alt="Support avatar"
                       style={styles.avatarImage}
                     />
@@ -618,7 +697,8 @@ const ExpandableChatBox = ({
           </div>
         </motion.div>
       )}
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
