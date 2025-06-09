@@ -5,6 +5,7 @@ import QueryVisualizer from './components/QueryVisualizer/QueryVisualizer';
 import ChatBox from './components/ChatBox';
 import ExpandableChatBox from './components/ChatBox/ExpandableChatBox';
 import ChatDemo from './components/ChatDemo';
+import DarkThemeChatDemo from './components/DarkThemeChatDemo';
 
 function App() {
   return (
@@ -44,7 +45,8 @@ function App() {
         width="350px" 
         height="500px" 
       /> */}
-      <ChatDemo />
+      {/* <ChatDemo /> */}
+      < DarkThemeChatDemo />
     </div>
   );
 }

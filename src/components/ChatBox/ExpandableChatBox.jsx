@@ -8,6 +8,7 @@ const ExpandableChatBox = ({
   position = 'relative',
   className = '',
   showCollapseButton = true,
+  darkMode = false,
   onExpansionChange,
   onMinimizedChange,
   ...props 
