@@ -108,6 +108,7 @@ const ChatDemo = () => {
                 
                 <motion.h1 
                   style={{
+                    layout:"position",
                     fontSize: BASE_TOKENS.typography.fontSize['2xl'],
                     fontWeight: BASE_TOKENS.typography.fontWeight.bold,
                     color: BASE_TOKENS.colors.gray[900],
@@ -148,6 +149,7 @@ const ChatDemo = () => {
             width="450px"
             height={hasEverExpanded ? `calc(100vh - ${BASE_TOKENS.spacing.xl} * 2)` : "550px"}
             position="relative"
+            showCollapseButton={false}
             onExpansionChange={handleExpansionChange}
             onMinimizedChange={handleMinimizedChange}
           />
