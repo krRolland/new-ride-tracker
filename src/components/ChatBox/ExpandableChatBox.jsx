@@ -165,63 +165,41 @@ const ExpandableChatBox = ({
     </svg>
   );
 
-  // Animation variants
+  // Simple fade variants - no size changes
   const containerVariants = {
     collapsed: {
-      width: '320px',
-      height: '100px',
-      transition: {
-        duration: 0.4,
-        ease: "easeInOut"
-      }
+      opacity: 1
     },
     minimized: {
-      width: '60px',
-      height,
-      transition: {
-        duration: 0.4,
-        ease: "easeInOut"
-      }
+      opacity: 1
     },
     expanded: {
-      width,
-      height,
-      transition: {
-        duration: 0.4,
-        ease: "easeInOut"
-      }
+      opacity: 1
     }
   };
 
   const contentVariants = {
     collapsed: {
-      transition: {
-        duration: 0.2,
-        ease: "linear"
-      }
+      opacity: 0
     },
     expanded: {
+      opacity: 1,
       transition: {
         duration: 0.2,
-        ease: "linear"
+        ease: "easeOut"
       }
     }
   };
 
   const individualContentVariants = {
     hidden: {
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: "linear"
-      }
+      opacity: 0
     },
     visible: {
       opacity: 1,
       transition: {
-        duration: 0.3,
-        delay: 0.3,
-        ease: "linear"
+        duration: 0.2,
+        ease: "easeOut"
       }
     }
   };
@@ -261,32 +239,33 @@ const ExpandableChatBox = ({
     }
   };
 
-  // Dynamic container style with animations
+  // Static container style - no size animations
   const getContainerStyle = () => {
+    let containerWidth, containerHeight;
+    
+    if (isMinimized) {
+      containerWidth = '60px';
+      containerHeight = height;
+    } else if (isExpanded) {
+      containerWidth = width;
+      containerHeight = height;
+    } else {
+      containerWidth = '320px';
+      containerHeight = '100px';
+    }
+    
     return {
       position,
-      // Dynamic background - black when minimized, white otherwise
+      width: containerWidth,
+      height: containerHeight,
       backgroundColor: isMinimized ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.white,
-      // Dynamic border radius - much higher when collapsed, regular when expanded
       borderRadius: isExpanded ? BASE_TOKENS.borderRadius.lg : '35px',
       border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
       overflow: 'hidden',
-      // Combined glow effect (Ambient Glow) - only when not minimized
-      boxShadow: isReady && !isExpanded && !isMinimized
-        ? '0 0 25px rgba(59, 130, 246, 0.2), 0 10px 25px -5px rgba(0, 0, 0, 0.1)'
-        : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-      // Combined pulse effect (Heartbeat Pulse) - only when not minimized
-      transform: hasExpanded && !isExpanded && !isMinimized ? 'scale(1.015)' : 'scale(1)',
-      // Combined shimmer effect (Shimmer Wave) - only when not minimized
-      background: isReady && !isExpanded && !isMinimized
-        ? 'linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%, #ffffff 100%)'
-        : isMinimized ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.white,
-      backgroundSize: isReady && !isExpanded && !isMinimized ? '200% 200%' : '100% 100%',
-      animation: isReady && !isExpanded && !isMinimized ? 'shimmer 8s ease-in-out infinite' : 'none',
-      transition: 'all 1.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
     };
   };
 
@@ -336,7 +315,7 @@ const ExpandableChatBox = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: 'all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      transition: 'all 0.2s ease-out',
       minWidth: '60px'
     },
     header: {
@@ -588,10 +567,7 @@ const ExpandableChatBox = ({
               disabled={inputValue.trim() === ''}
               style={{
                 ...styles.collapsedButton,
-                ...(inputValue.trim() === '' ? styles.sendButtonDisabled : {}),
-                transition: inputValue.trim() === '' 
-                  ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
-                  : 'all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                ...(inputValue.trim() === '' ? styles.sendButtonDisabled : {})
               }}
               onMouseEnter={(e) => {
                 if (inputValue.trim() !== '') {
