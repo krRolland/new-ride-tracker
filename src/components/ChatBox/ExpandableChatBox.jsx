@@ -250,7 +250,7 @@ const ExpandableChatBox = ({
       containerWidth = width;
       containerHeight = height;
     } else {
-      containerWidth = '320px';
+      containerWidth = '380px';
       containerHeight = '100px';
     }
     
@@ -271,7 +271,7 @@ const ExpandableChatBox = ({
 
   const styles = {
     collapsedContainer: {
-      padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
+      padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.md}`,
       minWidth: '300px',
       height: '100%',
       display: 'flex',
@@ -289,14 +289,16 @@ const ExpandableChatBox = ({
     },
     collapsedInput: {
       display: 'flex',
-      alignItems: 'stretch',
+      alignItems: 'center',
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.lg,
       overflow: 'hidden',
-      boxShadow: BASE_TOKENS.shadows.sm
+      boxShadow: BASE_TOKENS.shadows.sm,
+      width: '100%',
+      margin: `0 ${BASE_TOKENS.spacing.xs}`
     },
     collapsedInputField: {
-      flex: 1,
+      flex: .9,
       padding: `${BASE_TOKENS.spacing.md} ${BASE_TOKENS.spacing.lg}`,
       border: 'none',
       outline: 'none',
@@ -306,7 +308,7 @@ const ExpandableChatBox = ({
       transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
     },
     collapsedButton: {
-      padding: `${BASE_TOKENS.spacing.md} ${BASE_TOKENS.spacing.lg}`,
+      padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.md}`,
       backgroundColor: BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
       border: 'none',
@@ -316,7 +318,8 @@ const ExpandableChatBox = ({
       alignItems: 'center',
       justifyContent: 'center',
       transition: 'all 0.2s ease-out',
-      minWidth: '60px'
+      minWidth: '50px',
+      height: '36px'
     },
     header: {
       padding: BASE_TOKENS.spacing.lg,
@@ -464,7 +467,7 @@ const ExpandableChatBox = ({
       alignItems: 'flex-end'
     },
     textInput: {
-      flex: 1,
+      flex: .9,
       padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.md}`,
       border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
       borderRadius: BASE_TOKENS.borderRadius.lg,
@@ -552,15 +555,25 @@ const ExpandableChatBox = ({
         </div>
       ) : !isExpanded ? (
         // Collapsed State - Input Box Only
-        <div style={styles.collapsedContainer}>
-          <div style={styles.collapsedInput}>
-            <input
+        <div style={{
+          ...styles.collapsedContainer,
+          justifyContent: 'center'
+        }}>
+          <div style={{...styles.collapsedInput, justifyContent:'center'}}>
+            <textarea
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Start a conversation..."
-              style={styles.collapsedInputField}
+              style={{
+                ...styles.collapsedInputField,
+                resize: 'none',
+                minHeight: '40px',
+                // maxHeight: '80px',
+                overflow: 'auto',
+                lineHeight: '1.4',
+              }}
             />
             <button
               onClick={handleSendMessage}
