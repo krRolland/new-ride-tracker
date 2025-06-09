@@ -7,6 +7,7 @@ const ExpandableChatBox = ({
   height = '500px', 
   position = 'relative',
   className = '',
+  showCollapseButton = true,
   onExpansionChange,
   onMinimizedChange,
   ...props 
@@ -639,20 +640,22 @@ const ExpandableChatBox = ({
                 {headerSubtitle}
               </motion.p>
             </div>
-            <button
-              onClick={handleCollapse}
-              style={styles.closeButton}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = BASE_TOKENS.colors.gray[100];
-                e.target.style.color = BASE_TOKENS.colors.gray[700];
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'transparent';
-                e.target.style.color = BASE_TOKENS.colors.gray[500];
-              }}
-            >
-              <CollapseIcon size={16} />
-            </button>
+            {showCollapseButton && (
+              <button
+                onClick={handleCollapse}
+                style={styles.closeButton}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = BASE_TOKENS.colors.gray[100];
+                  e.target.style.color = BASE_TOKENS.colors.gray[700];
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.color = BASE_TOKENS.colors.gray[500];
+                }}
+              >
+                <CollapseIcon size={16} />
+              </button>
+            )}
           </motion.div>
 
           {/* Messages */}

@@ -60,7 +60,7 @@ const ChatDemo = () => {
           paddingLeft: 50,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: hasEverExpanded ? 'flex-start' : 'center',
           alignItems: hasEverExpanded ? 'flex-start' : 'center',
           transition: 'flex 0.4s ease-in-out',
           backgroundColor: BASE_TOKENS.colors.gray[50]
@@ -70,7 +70,8 @@ const ChatDemo = () => {
               <motion.div 
                 style={{
                   textAlign: 'center',
-                  marginBottom: BASE_TOKENS.spacing.xl
+                  marginBottom: BASE_TOKENS.spacing.xl,
+                  position: 'relative'
                 }}
                 initial={{ opacity: 1 }}
                 exit={{ 
@@ -78,13 +79,42 @@ const ChatDemo = () => {
                   transition: { duration: 0.3, ease: "easeOut" }
                 }}
               >
+                {/* OP Logo Background */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    top: '-120px',
+                    left: 'calc(50% - 100px)',
+                    transform: 'translateX(-50%)',
+                    width: '200px',
+                    height: '200px',
+                    backgroundImage: 'url(/op-logo.png)',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    opacity: 0.1,
+                    zIndex: 0,
+                    pointerEvents: 'none'
+                  }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 0.1, scale: 1 }}
+                  exit={{ 
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: { duration: 0.4, ease: "easeOut" }
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                />
+                
                 <motion.h1 
                   style={{
                     fontSize: BASE_TOKENS.typography.fontSize['2xl'],
                     fontWeight: BASE_TOKENS.typography.fontWeight.bold,
                     color: BASE_TOKENS.colors.gray[900],
                     margin: 0,
-                    marginBottom: BASE_TOKENS.spacing.sm
+                    marginBottom: BASE_TOKENS.spacing.sm,
+                    position: 'relative',
+                    zIndex: 1
                   }}
                   exit={{ 
                     opacity: 0, 
@@ -98,7 +128,9 @@ const ChatDemo = () => {
                   style={{
                     fontSize: BASE_TOKENS.typography.fontSize.md,
                     color: BASE_TOKENS.colors.gray[600],
-                    margin: 0
+                    margin: 0,
+                    position: 'relative',
+                    zIndex: 1
                   }}
                   exit={{ 
                     opacity: 0, 
@@ -114,7 +146,7 @@ const ChatDemo = () => {
 
           <ExpandableChatBox 
             width="450px"
-            height="550px"
+            height={hasEverExpanded ? `calc(100vh - ${BASE_TOKENS.spacing.xl} * 2)` : "550px"}
             position="relative"
             onExpansionChange={handleExpansionChange}
             onMinimizedChange={handleMinimizedChange}
