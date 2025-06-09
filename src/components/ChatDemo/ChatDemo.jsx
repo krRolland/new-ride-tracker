@@ -18,11 +18,11 @@ const ChatDemo = () => {
       setHasEverExpanded(true);
       setIsLoadingDashboard(true);
       
-      // Show loading for 4 seconds, then show dashboard
+      // Show loading for 2 seconds, then show dashboard
       setTimeout(() => {
         setIsLoadingDashboard(false);
         setShowDashboard(true);
-      }, 4000);
+      }, 2000);
     }
   };
 
@@ -112,20 +112,13 @@ const ChatDemo = () => {
             )}
           </AnimatePresence>
 
-          <motion.div
-            animate={{ 
-              x: 0,
-              transition: { duration: 0.6, ease: "easeInOut" }
-            }}
-          >
-            <ExpandableChatBox 
-              width="450px"
-              height="550px"
-              position="relative"
-              onExpansionChange={handleExpansionChange}
-              onMinimizedChange={handleMinimizedChange}
-            />
-          </motion.div>
+          <ExpandableChatBox 
+            width="450px"
+            height="550px"
+            position="relative"
+            onExpansionChange={handleExpansionChange}
+            onMinimizedChange={handleMinimizedChange}
+          />
         </div>
 
         {/* Right Column - Ride Tracking Dashboard */}
@@ -133,7 +126,7 @@ const ChatDemo = () => {
           flex: hasEverExpanded ? 1 : 0,
           width: hasEverExpanded ? 'auto' : '0px',
           overflow: 'hidden',
-          padding: hasEverExpanded ? BASE_TOKENS.spacing.md : 0,
+          padding: hasEverExpanded ? BASE_TOKENS.spacing.xl : 0,
           paddingRight: hasEverExpanded ? BASE_TOKENS.spacing.xl : 0,
           transition: 'all 0.4s ease-in-out'
         }}>
@@ -186,9 +179,9 @@ const ChatDemo = () => {
               ) : showDashboard ? (
                 <motion.div
                   key="dashboard"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                   style={{ 
                     width: '100%', 
                     height: '100%',

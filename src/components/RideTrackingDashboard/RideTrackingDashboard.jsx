@@ -117,7 +117,7 @@ const RideTrackingDashboard = ({
     },
     layout: {
       display: 'grid',
-      gridTemplateColumns: '360px 1fr',
+      gridTemplateColumns: '340px 1fr',
       gap: BASE_TOKENS.spacing['2xl'],
       alignItems: 'start'
     },
