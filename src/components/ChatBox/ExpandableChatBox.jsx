@@ -91,6 +91,7 @@ const ExpandableChatBox = ({
     }, 1000);
     
     setTimeout(() => {
+      // Add the bot message first, then stop typing to create smoother transition
       const botResponse = {
         id: messages.length + 2,
         text: "Here's your ride dashboard!",
@@ -98,7 +99,11 @@ const ExpandableChatBox = ({
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
+      
+      // Stop typing after a brief delay to allow message to start animating
+      setTimeout(() => {
+        setIsTyping(false);
+      }, 100);
     }, 1500);
   };
 
@@ -167,13 +172,17 @@ const ExpandableChatBox = ({
   };
 
   const messageVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       transition: {
-        duration: 0.3,
-        ease: "easeOut"
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        opacity: { duration: 0.4 },
+        y: { duration: 0.6 },
+        scale: { duration: 0.5 }
       }
     }
   };
@@ -181,18 +190,18 @@ const ExpandableChatBox = ({
   const typingVariants = {
     hidden: { 
       opacity: 0,
-      y: 10,
+      scale: 0.95,
       transition: {
-        duration: 0.4,
-        ease: "easeOut"
+        duration: 0.3,
+        ease: [0.4, 0, 0.2, 1]
       }
     },
     visible: {
       opacity: 1,
-      y: 0,
+      scale: 1,
       transition: {
-        duration: 0.4,
-        ease: "easeOut"
+        duration: 0.3,
+        ease: [0.4, 0, 0.2, 1]
       }
     }
   };
