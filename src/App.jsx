@@ -4,17 +4,18 @@ import { mockRideData } from './data/mockData';
 import QueryVisualizer from './components/QueryVisualizer/QueryVisualizer';
 import ChatBox from './components/ChatBox';
 import ExpandableChatBox from './components/ChatBox/ExpandableChatBox';
+import ChatDemo from './components/ChatDemo';
 
 function App() {
   return (
     <div className="App" style={{ 
-      padding: '20px', 
-      backgroundColor: '#F9FAFB', 
-      minHeight: '100vh',
-      display: 'flex',
-      gap: '20px',
-      flexWrap: 'wrap',
-      alignItems: 'flex-start'
+      // padding: '20px', 
+      // backgroundColor: '#F9FAFB', 
+      // minHeight: '100vh',
+      // display: 'flex',
+      // gap: '20px',
+      // felexWrap: 'wrap',
+      // alignItems: 'flex-start'
     }}>
       {/* <RideTrackingDashboard 
         tripInfo={mockRideData.tripInfo}
@@ -27,22 +28,23 @@ function App() {
       {/* <QueryVisualizer /> */}
       
       {/* Regular ChatBox Demo */}
-      <ChatBox 
+      {/* <ChatBox 
         width="400px" 
         height="600px" 
       />
-      
+       */}
       {/* Expandable ChatBox Demo */}
-      <ExpandableChatBox 
+      {/* <ExpandableChatBox 
         width="400px" 
         height="600px" 
-      />
+      /> */}
       
       {/* Another Expandable ChatBox with different size */}
-      <ExpandableChatBox 
+      {/* <ExpandableChatBox 
         width="350px" 
         height="500px" 
-      />
+      /> */}
+      <ChatDemo />
     </div>
   );
 }

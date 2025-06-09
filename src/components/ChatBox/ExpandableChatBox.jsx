@@ -7,6 +7,7 @@ const ExpandableChatBox = ({
   height = '500px', 
   position = 'relative',
   className = '',
+  onExpansionChange,
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -53,6 +54,13 @@ const ExpandableChatBox = ({
       setHasExpanded(false);
     }
   }, [inputValue, isReady]);
+
+  // Notify parent of expansion state changes
+  useEffect(() => {
+    if (onExpansionChange) {
+      onExpansionChange(isExpanded);
+    }
+  }, [isExpanded, onExpansionChange]);
 
   const handleCollapse = () => {
     setIsExpanded(false);
@@ -152,43 +160,60 @@ const ExpandableChatBox = ({
   // Animation variants
   const containerVariants = {
     collapsed: {
-      width: 'auto',
-      height: 'auto',
+      width: '320px',
+      height: '100px',
       transition: {
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1]
+        duration: 0.4,
+        ease: "easeInOut"
       }
     },
     minimized: {
       width: '60px',
-      height: '200px',
+      height,
       transition: {
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1]
+        duration: 0.4,
+        ease: "easeInOut"
       }
     },
     expanded: {
       width,
       height,
       transition: {
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1]
+        duration: 0.4,
+        ease: "easeInOut"
       }
     }
   };
 
   const contentVariants = {
     collapsed: {
-      opacity: 0,
       transition: {
-        duration: 0.3
+        duration: 0.2,
+        ease: "linear"
       }
     },
     expanded: {
+      transition: {
+        duration: 0.2,
+        ease: "linear"
+      }
+    }
+  };
+
+  const individualContentVariants = {
+    hidden: {
+      opacity: 0,
+      transition: {
+        duration: 0.2,
+        ease: "linear"
+      }
+    },
+    visible: {
       opacity: 1,
       transition: {
-        duration: 0.5,
-        delay: 0.2
+        duration: 0.3,
+        delay: 0.3,
+        ease: "linear"
       }
     }
   };
@@ -232,34 +257,40 @@ const ExpandableChatBox = ({
   const getContainerStyle = () => {
     return {
       position,
-      backgroundColor: BASE_TOKENS.colors.white,
+      // Dynamic background - black when minimized, white otherwise
+      backgroundColor: isMinimized ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.white,
       // Dynamic border radius - much higher when collapsed, regular when expanded
-      borderRadius: isExpanded ? BASE_TOKENS.borderRadius.lg : '20px',
+      borderRadius: isExpanded ? BASE_TOKENS.borderRadius.lg : '35px',
       border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
       flexDirection: 'column',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
       overflow: 'hidden',
-      // Combined glow effect (Ambient Glow)
-      boxShadow: isReady && !isExpanded
+      // Combined glow effect (Ambient Glow) - only when not minimized
+      boxShadow: isReady && !isExpanded && !isMinimized
         ? '0 0 25px rgba(59, 130, 246, 0.2), 0 10px 25px -5px rgba(0, 0, 0, 0.1)'
         : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-      // Combined pulse effect (Heartbeat Pulse)
-      transform: hasExpanded && !isExpanded ? 'scale(1.015)' : 'scale(1)',
-      // Combined shimmer effect (Shimmer Wave)
-      background: isReady && !isExpanded
+      // Combined pulse effect (Heartbeat Pulse) - only when not minimized
+      transform: hasExpanded && !isExpanded && !isMinimized ? 'scale(1.015)' : 'scale(1)',
+      // Combined shimmer effect (Shimmer Wave) - only when not minimized
+      background: isReady && !isExpanded && !isMinimized
         ? 'linear-gradient(135deg, #ffffff 0%, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%, #ffffff 100%)'
-        : BASE_TOKENS.colors.white,
-      backgroundSize: isReady && !isExpanded ? '200% 200%' : '100% 100%',
-      animation: isReady && !isExpanded ? 'shimmer 8s ease-in-out infinite' : 'none',
+        : isMinimized ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.white,
+      backgroundSize: isReady && !isExpanded && !isMinimized ? '200% 200%' : '100% 100%',
+      animation: isReady && !isExpanded && !isMinimized ? 'shimmer 8s ease-in-out infinite' : 'none',
       transition: 'all 1.4s cubic-bezier(0.25, 0.1, 0.25, 1)'
     };
   };
 
   const styles = {
     collapsedContainer: {
-      padding: BASE_TOKENS.spacing['3xl'],
-      minWidth: '300px'
+      padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
+      minWidth: '300px',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     collapsedTitle: {
       fontSize: BASE_TOKENS.typography.fontSize.lg,
@@ -496,45 +527,45 @@ const ExpandableChatBox = ({
         {...props}
       >
       {isMinimized ? (
-        // Minimized State - 60px floating column
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          padding: BASE_TOKENS.spacing.sm
-        }}>
-          <button
-            onClick={handleExpand}
-            style={{
-              padding: BASE_TOKENS.spacing.sm,
-              backgroundColor: BASE_TOKENS.colors.gray[900],
-              color: BASE_TOKENS.colors.white,
-              border: 'none',
-              borderRadius: BASE_TOKENS.borderRadius.full,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '40px',
-              height: '40px',
-              transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[800];
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[900];
-            }}
-          >
+        // Minimized State - 60px floating column (entire column is clickable)
+        <div 
+          onClick={handleExpand}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            padding: BASE_TOKENS.spacing.sm,
+            cursor: 'pointer',
+            transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = BASE_TOKENS.colors.gray[800];
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = BASE_TOKENS.colors.gray[900];
+          }}
+        >
+          <div style={{
+            padding: BASE_TOKENS.spacing.sm,
+            backgroundColor: 'transparent',
+            color: BASE_TOKENS.colors.white,
+            border: 'none',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '40px',
+            height: '40px',
+            pointerEvents: 'none'
+          }}>
             <ExpandIcon size={16} />
-          </button>
+          </div>
         </div>
       ) : !isExpanded ? (
-        // Collapsed State - Title and Input Box
+        // Collapsed State - Input Box Only
         <div style={styles.collapsedContainer}>
-          <h3 style={styles.collapsedTitle}>What do you want to make?</h3>
           <div style={styles.collapsedInput}>
             <input
               ref={inputRef}
@@ -585,7 +616,12 @@ const ExpandableChatBox = ({
           animate="expanded"
         >
           {/* Header */}
-          <div style={styles.header}>
+          <motion.div 
+            style={styles.header}
+            variants={individualContentVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <div style={styles.headerContent}>
               <motion.h3 
                 style={styles.headerTitle}
@@ -620,10 +656,15 @@ const ExpandableChatBox = ({
             >
               <CollapseIcon size={16} />
             </button>
-          </div>
+          </motion.div>
 
           {/* Messages */}
-          <div style={styles.messagesContainer}>
+          <motion.div 
+            style={styles.messagesContainer}
+            variants={individualContentVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <AnimatePresence>
               {messages.map((message) => (
                 <motion.div
@@ -720,10 +761,15 @@ const ExpandableChatBox = ({
               )}
             </AnimatePresence>
             <div ref={messagesEndRef} />
-          </div>
+          </motion.div>
 
           {/* Input */}
-          <div style={styles.inputContainer}>
+          <motion.div 
+            style={styles.inputContainer}
+            variants={individualContentVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <div style={styles.inputWrapper}>
               <textarea
                 ref={inputRef}
@@ -762,7 +808,7 @@ const ExpandableChatBox = ({
                 <ArrowIcon size={18} />
               </button>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
       </motion.div>
