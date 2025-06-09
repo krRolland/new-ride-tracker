@@ -490,6 +490,28 @@ const MapWithTripDetails = ({
     handleMapLoad();
   }, []);
 
+  // Handle map resize when container size changes
+  useEffect(() => {
+    if (!map.current) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      // Delay resize to ensure container has finished resizing
+      setTimeout(() => {
+        if (map.current) {
+          map.current.resize();
+        }
+      }, 100);
+    });
+
+    if (mapContainer.current) {
+      resizeObserver.observe(mapContainer.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [map.current]);
+
   // Animate driver movement along the route
   const animateDriver = () => {
     if (!driverMarker.current || driverMoving) return;

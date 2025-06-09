@@ -8,6 +8,7 @@ const ExpandableChatBox = ({
   position = 'relative',
   className = '',
   onExpansionChange,
+  onMinimizedChange,
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -61,6 +62,13 @@ const ExpandableChatBox = ({
       onExpansionChange(isExpanded);
     }
   }, [isExpanded, onExpansionChange]);
+
+  // Notify parent of minimized state changes
+  useEffect(() => {
+    if (onMinimizedChange) {
+      onMinimizedChange(isMinimized);
+    }
+  }, [isMinimized, onMinimizedChange]);
 
   const handleCollapse = () => {
     setIsExpanded(false);

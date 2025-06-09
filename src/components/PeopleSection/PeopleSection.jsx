@@ -100,9 +100,15 @@ const PeopleSection = ({ driver, rider }) => {
       margin: 0
     },
     rating: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: BASE_TOKENS.spacing.xs,
       fontSize: BASE_TOKENS.typography.fontSize.sm,
       fontWeight: BASE_TOKENS.typography.fontWeight.medium,
       color: BASE_TOKENS.colors.gray[700]
+    },
+    starIcon: {
+      color: BASE_TOKENS.colors.yellow[500]
     },
     phone: {
       fontSize: BASE_TOKENS.typography.fontSize.xs,
@@ -129,6 +135,13 @@ const PeopleSection = ({ driver, rider }) => {
   const PeopleIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.5 7h-5c-.8 0-1.5.7-1.5 1.5v6c0 .8.7 1.5 1.5 1.5H16v6h4zM12.5 11.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm2 16v-7H9V9c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6h1.5v7h4z"/>
+    </svg>
+  );
+
+  // Star Icon component
+  const StarIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>
   );
 
@@ -163,7 +176,12 @@ const PeopleSection = ({ driver, rider }) => {
               <div style={styles.profileInfo}>
                 <div style={styles.nameRating}>
                   <h4 style={styles.name}>{profile.name}</h4>
-                  <span style={styles.rating}>{profile.rating}</span>
+                  <div style={styles.rating}>
+                    <div style={styles.starIcon}>
+                      <StarIcon />
+                    </div>
+                    {profile.rating}
+                  </div>
                 </div>
 
                 <div style={styles.phone}>{profile.phone}</div>
