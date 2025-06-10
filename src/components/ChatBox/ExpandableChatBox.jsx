@@ -11,6 +11,7 @@ const ExpandableChatBox = ({
   darkMode = false,
   onExpansionChange,
   onMinimizedChange,
+  onUserMessage,
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -94,6 +95,12 @@ const ExpandableChatBox = ({
     };
 
     setMessages(prev => [...prev, newMessage]);
+    
+    // Call the onUserMessage callback if provided
+    if (onUserMessage) {
+      onUserMessage(newMessage);
+    }
+    
     const currentInputValue = inputValue;
     setInputValue('');
     

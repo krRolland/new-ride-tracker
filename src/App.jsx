@@ -2,10 +2,10 @@ import React from 'react';
 import RideTrackingDashboard from './components/RideTrackingDashboard';
 import { mockRideData } from './data/mockData';
 import QueryVisualizer from './components/QueryVisualizer/QueryVisualizer';
-import ChatBox from './components/ChatBox';
-import ExpandableChatBox from './components/ChatBox/ExpandableChatBox';
+import { ChatBox, ExpandableChatBox } from './components/ChatBox';
 import ChatDemo from './components/ChatDemo';
 import DarkThemeChatDemo from './components/DarkThemeChatDemo';
+import CallbackDemo from './components/ChatDemo/CallbackDemo';
 
 function App() {
   return (
@@ -46,6 +46,7 @@ function App() {
         height="500px" 
       /> */}
       <ChatDemo />
+      {/* <CallbackDemo /> */}
       {/* < DarkThemeChatDemo /> */}
       {/* <QueryVisualizer /> */}
     </div>

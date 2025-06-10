@@ -7,6 +7,7 @@ const ChatBox = ({
   height = '500px', 
   position = 'relative',
   className = '',
+  onUserMessage,
   ...props 
 }) => {
   const [messages, setMessages] = useState([
@@ -41,6 +42,12 @@ const ChatBox = ({
     };
 
     setMessages(prev => [...prev, newMessage]);
+    
+    // Call the onUserMessage callback if provided
+    if (onUserMessage) {
+      onUserMessage(newMessage);
+    }
+    
     setInputValue('');
     
     // Simulate bot typing
