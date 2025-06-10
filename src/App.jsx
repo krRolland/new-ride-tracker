@@ -19,7 +19,7 @@ function App() {
       // felexWrap: 'wrap',
       // alignItems: 'flex-start'
     }}>
-      <RideTrackingDashboard 
+      {/* <RideTrackingDashboard 
         tripInfo={mockRideData.tripInfo}
         timelineData={mockRideData.timelineData}
         callLogs={mockRideData.callLogs}
@@ -27,7 +27,7 @@ function App() {
         driver={mockRideData.driver}
         rider={mockRideData.rider}
         showCommunicationLog={false}
-      />
+      /> */}
       {/* <QueryVisualizer /> */}
       
       {/* Regular ChatBox Demo */}
@@ -48,7 +48,7 @@ function App() {
         height="500px" 
       /> */}
       {/* <ChatDemo /> */}
-      {/* <ChatDemo2 /> */}
+      <ChatDemo2 />
       {/* <CallbackDemo /> */}
       {/* < DarkThemeChatDemo /> */}
       {/* <QueryVisualizer /> */}

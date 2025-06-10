@@ -1,74 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ExpandableChatBox from '../ChatBox/ExpandableChatBox';
 import RideTrackingDashboard from '../RideTrackingDashboard/RideTrackingDashboard';
+import DashboardSkeleton from '../DashboardSkeleton';
 import { BASE_TOKENS } from '../../tokens';
 import { mockRideData } from '../../data/mockData';
-
-/**
- * A skeleton loader that mimics the structure of the dashboard.
- * It provides a better user experience by showing a preview of the upcoming content.
- */
-const DashboardSkeleton = ({ tokens }) => {
-  const skeletonBox = (height, width = '100%') => (
-    <div style={{
-      backgroundColor: tokens.colors.gray[200],
-      borderRadius: tokens.borderRadius.md,
-      height,
-      width,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Shimmer effect */}
-      <motion.div 
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: `linear-gradient(90deg, transparent 0%, ${tokens.colors.gray[100]} 50%, transparent 100%)`,
-          opacity: 0.6,
-        }}
-        animate={{ x: ['-100%', '100%'] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-      />
-    </div>
-  );
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      style={{ 
-        padding: '24px', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '24px', 
-        width: '100%', 
-        height: '100%', 
-        boxSizing: 'border-box'
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {skeletonBox('28px', '45%')}
-        {skeletonBox('18px', '35%')}
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '40% 1fr', gap: '24px', flex: 1 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {skeletonBox('280px')}
-          {skeletonBox('220px')}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {skeletonBox('320px')}
-          {skeletonBox('180px')}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
 
 const ChatDemo2 = () => {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
@@ -78,6 +14,9 @@ const ChatDemo2 = () => {
   const [showDashboard, setShowDashboard] = useState(false);
   const [thinkingPhase, setThinkingPhase] = useState(0);
   const [thinkingMessage, setThinkingMessage] = useState('');
+  const [userMessageCount, setUserMessageCount] = useState(0);
+  const [showCommunicationLog, setShowCommunicationLog] = useState(false);
+  const dashboardScrollRef = useRef(null);
 
   const handleExpansionChange = (expanded) => {
     setIsChatExpanded(expanded);
@@ -119,6 +58,35 @@ const ChatDemo2 = () => {
 
   const handleMinimizedChange = (minimized) => {
     setIsChatMinimized(minimized);
+  };
+
+  const handleUserMessage = (message) => {
+    const newCount = userMessageCount + 1;
+    setUserMessageCount(newCount);
+    
+    // Trigger event when second user message is typed
+    if (newCount === 2) {
+      console.log('🎉 Second user message event triggered!', {
+        message: message.text,
+        timestamp: message.timestamp,
+        messageId: message.id,
+        totalMessages: newCount
+      });
+      
+      // Show communication log immediately when second message is sent
+      setShowCommunicationLog(true);
+      
+      // Scroll down 100px in the dashboard
+      if (dashboardScrollRef.current) {
+        dashboardScrollRef.current.scrollBy({
+          top: 200,
+          behavior: 'smooth'
+        });
+      }
+      
+      // You can add any additional logic here for the second message event
+      // For example: analytics tracking, feature unlocks, UI changes, etc.
+    }
   };
 
   const getLeftColumnFlex = () => {
@@ -228,6 +196,7 @@ const ChatDemo2 = () => {
         )}
       </AnimatePresence>
 
+
       {/* Main Grid Layout */}
       <div style={{
         display: 'flex',
@@ -268,6 +237,7 @@ const ChatDemo2 = () => {
               showCollapseButton={false}
               onExpansionChange={handleExpansionChange}
               onMinimizedChange={handleMinimizedChange}
+              onUserMessage={handleUserMessage}
             />
           </div>
         </div>
@@ -367,6 +337,7 @@ const ChatDemo2 = () => {
               ) : showDashboard ? (
                 <motion.div
                   key="dashboard"
+                  ref={dashboardScrollRef}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1, transition: { duration: 0.5, ease: "easeOut" } }}
                   style={{ width: '100%', height: '100%', overflowY: 'auto' }}
@@ -378,6 +349,7 @@ const ChatDemo2 = () => {
                     messages={mockRideData.messages}
                     driver={mockRideData.driver}
                     rider={mockRideData.rider}
+                    showCommunicationLog={showCommunicationLog}
                   />
                 </motion.div>
               ) : null}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
 import Timeline from '../Timeline';
 import CommunicationLog from '../CommunicationLog';
@@ -15,6 +15,24 @@ const RideTrackingDashboard = ({
   rider,
   showCommunicationLog = false
 }) => {
+  const [isLoadingCommunicationLog, setIsLoadingCommunicationLog] = useState(false);
+  const [showActualCommunicationLog, setShowActualCommunicationLog] = useState(false);
+  const communicationLogRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Handle communication log loading when showCommunicationLog becomes true
+  useEffect(() => {
+    if (showCommunicationLog && !showActualCommunicationLog) {
+      // Start loading process immediately
+      setIsLoadingCommunicationLog(true);
+      
+      // Show skeleton for 1.5 seconds, then show actual component
+      setTimeout(() => {
+        setIsLoadingCommunicationLog(false);
+        setShowActualCommunicationLog(true);
+      }, 1500);
+    }
+  }, [showCommunicationLog, showActualCommunicationLog]);
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,6 +91,101 @@ const RideTrackingDashboard = ({
       }
     }
   };
+
+  // Skeleton component for CommunicationLog loading
+  const CommunicationLogSkeleton = () => (
+    <div style={{
+      backgroundColor: BASE_TOKENS.colors.white,
+      borderRadius: BASE_TOKENS.borderRadius.lg,
+      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+      padding: BASE_TOKENS.spacing['2xl'],
+      boxShadow: BASE_TOKENS.shadows.md,
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Header skeleton */}
+      <div style={{
+        height: '24px',
+        width: '60%',
+        backgroundColor: BASE_TOKENS.colors.gray[200],
+        borderRadius: BASE_TOKENS.borderRadius.md,
+        marginBottom: BASE_TOKENS.spacing.lg,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <motion.div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: `linear-gradient(90deg, transparent 0%, ${BASE_TOKENS.colors.gray[100]} 50%, transparent 100%)`,
+          }}
+          animate={{ x: ['-100%', '100%'] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+        />
+      </div>
+      
+      {/* Messages skeleton */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: BASE_TOKENS.spacing.md }}>
+        {[1, 2, 3].map((i) => (
+          <div key={i} style={{
+            height: '60px',
+            backgroundColor: BASE_TOKENS.colors.gray[100],
+            borderRadius: BASE_TOKENS.borderRadius.md,
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <motion.div 
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: `linear-gradient(90deg, transparent 0%, ${BASE_TOKENS.colors.gray[50]} 50%, transparent 100%)`,
+              }}
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', delay: i * 0.2 }}
+            />
+          </div>
+        ))}
+      </div>
+      
+      {/* Generating indicator */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          top: BASE_TOKENS.spacing.md,
+          right: BASE_TOKENS.spacing.md,
+          display: 'flex',
+          alignItems: 'center',
+          gap: BASE_TOKENS.spacing.xs,
+          backgroundColor: BASE_TOKENS.colors.blue[50],
+          padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+          borderRadius: BASE_TOKENS.borderRadius.md,
+          border: `1px solid ${BASE_TOKENS.colors.blue[200]}`
+        }}
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div style={{
+          width: '8px',
+          height: '8px',
+          backgroundColor: BASE_TOKENS.colors.blue[500],
+          borderRadius: '50%'
+        }} />
+        <span style={{
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          color: BASE_TOKENS.colors.blue[700],
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium
+        }}>
+          Generating...
+        </span>
+      </motion.div>
+    </div>
+  );
 
   const styles = {
     container: {
@@ -143,6 +256,7 @@ const RideTrackingDashboard = ({
 
   return (
     <motion.div 
+      ref={containerRef}
       style={styles.container}
       variants={containerVariants}
       initial="hidden"
@@ -190,21 +304,47 @@ const RideTrackingDashboard = ({
             <motion.div variants={componentVariants}>
               <Timeline items={timelineData} />
             </motion.div>
-            {showCommunicationLog ? (
-              <motion.div variants={componentVariants}>
-                <CommunicationLog 
-                  callLogs={callLogs} 
-                  messages={messages} 
-                />
-              </motion.div>
-            ) : (
-              <motion.div variants={componentVariants}>
-                <PeopleSection 
-                  driver={driver}
-                  rider={rider}
-                />
-              </motion.div>
-            )}
+            <AnimatePresence mode="wait">
+              {isLoadingCommunicationLog ? (
+                <motion.div
+                  key="communication-skeleton"
+                  ref={communicationLogRef}
+                  variants={componentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
+                  <CommunicationLogSkeleton />
+                </motion.div>
+              ) : showActualCommunicationLog ? (
+                <motion.div
+                  key="communication-log"
+                  variants={componentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
+                  <CommunicationLog 
+                    callLogs={callLogs} 
+                    messages={messages} 
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="people-section-left"
+                  ref={communicationLogRef}
+                  variants={componentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
+                  <PeopleSection 
+                    driver={driver}
+                    rider={rider}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           {/* Right Column */}
@@ -223,14 +363,22 @@ const RideTrackingDashboard = ({
                 rider={rider}
               />
             </motion.div>
-            {showCommunicationLog && (
-              <motion.div variants={componentVariants}>
-                <PeopleSection 
-                  driver={driver}
-                  rider={rider}
-                />
-              </motion.div>
-            )}
+            <AnimatePresence mode="wait">
+              {showCommunicationLog ? (
+                <motion.div
+                  key="people-section-right"
+                  variants={componentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                >
+                  <PeopleSection 
+                    driver={driver}
+                    rider={rider}
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </motion.div>
         </motion.div>
       </div>
