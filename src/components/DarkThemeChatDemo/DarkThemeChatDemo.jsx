@@ -297,7 +297,7 @@ const DarkThemeChatDemo = () => {
                   margin: `0 0 ${DARK_THEME_TOKENS.spacing.md} 0`,
                 }}
               >
-                Welcome to <span style={{ ...gradientTextStyle, fontWeight: 700 }}>Operative</span>
+                Welcome to <span style={{ ...gradientTextStyle, fontWeight: 600, fontFamily: "'JetBrains Mono', monospace" }}>Operative</span>
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -316,30 +316,36 @@ const DarkThemeChatDemo = () => {
 
       <div
         style={{
-          display: 'flex', height: '100vh', width: '100vw',
+          display: 'flex',
+          height: '100vh',
+          width: '100vw',
           padding: hasEverExpanded ? DARK_THEME_TOKENS.spacing.xl : 0,
           gap: hasEverExpanded ? DARK_THEME_TOKENS.spacing.xl : 0,
           boxSizing: 'border-box',
-          alignItems: 'center', justifyContent: 'center',
-          transition: `padding ${smoothTransition}, gap ${smoothTransition}`,
-          position: 'relative', zIndex: 1,
+          alignItems: 'center',
+          // THE FIX IS HERE: Apply justify-content conditionally
+          justifyContent: hasEverExpanded ? 'flex-start' : 'center',
+          transition: `all ${smoothTransition}`, // Use 'all' to transition justifyContent
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {/* Left Column - Chat */}
         <div
           style={{
-            // KEY CHANGE: Animate flex-basis, width, and height for smooth growth
-            flex: hasEverExpanded ? (isChatMinimized ? '0 0 124px' : '0 0 550px') : 'none',
-            width: hasEverExpanded ? (isChatMinimized ? '124px' : '550px') : '450px',
-            height: hasEverExpanded ? '100%' : 'auto', // KEY: Start small, grow to full height
+            flex: '0 0 auto',
+            width: hasEverExpanded
+              ? (isChatMinimized ? '124px' : '550px') // Changed this to a more reasonable default
+              : '450px',
+            height: hasEverExpanded ? '100%' : 'auto',
             display: 'flex',
             transition: smoothTransition,
           }}
         >
           <ExpandableChatBox
-            width="100%"
-            height="100%" // Fills its parent container
-            size={hasEverExpanded ? 'lg' : 'default'} // KEY: Switch to large mode on expansion
+            width="550px"
+            height="100%"
+            size={hasEverExpanded ? 'lg' : 'default'}
             position="relative"
             showCollapseButton={false}
             darkMode={true}
@@ -363,7 +369,7 @@ const DarkThemeChatDemo = () => {
           style={{
             flex: hasEverExpanded ? 1 : 0,
             width: hasEverExpanded ? 'auto' : '0px',
-            height: hasEverExpanded ? '100%' : '0px', // Match height transition
+            height: hasEverExpanded ? '100%' : '0px',
             overflow: 'hidden',
             transition: smoothTransition,
             minWidth: 0,
@@ -375,7 +381,7 @@ const DarkThemeChatDemo = () => {
               borderRadius: DARK_THEME_TOKENS.borderRadius.xl,
               overflow: 'hidden',
               boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
-              height: '100%', // Fills its parent container
+              height: '100%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

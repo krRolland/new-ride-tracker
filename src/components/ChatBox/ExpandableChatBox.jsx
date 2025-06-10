@@ -270,7 +270,7 @@ const ExpandableChatBox = ({
       containerWidth = width;
       containerHeight = height;
     } else {
-      containerWidth = '380px';
+      containerWidth = width;
       containerHeight = '100px';
     }
     
@@ -317,7 +317,7 @@ const ExpandableChatBox = ({
       border: 'none',
       borderRadius: BASE_TOKENS.borderRadius.lg,
       overflow: 'hidden',
-      boxShadow: darkMode ? darkTheme.shadow : BASE_TOKENS.shadows.sm,
+      boxShadow: 'none',
       width: '100%',
       margin: `0 ${BASE_TOKENS.spacing.xs}`
     },
@@ -555,7 +555,7 @@ const ExpandableChatBox = ({
             height: '100%',
             padding: BASE_TOKENS.spacing.sm,
             cursor: 'pointer',
-            transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`
+            transition: `all ${BASE_TOKENS.animation.duration.normal} ${BASE_TOKENS.animation.easing.easeOut}`,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = BASE_TOKENS.colors.gray[800];
@@ -584,7 +584,8 @@ const ExpandableChatBox = ({
         // Collapsed State - Input Box Only
         <div style={{
           ...styles.collapsedContainer,
-          justifyContent: 'center'
+          justifyContent: 'center',
+          backgroundColor: darkMode ? 'rgba(42,42,42)' : BASE_TOKENS.colors.white,
         }}>
           <div style={{...styles.collapsedInput, justifyContent:'center'}}>
             <textarea
