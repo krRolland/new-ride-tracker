@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
+import EmbeddedTimeline from '../EmbeddedTimeline';
 
 // Main App component
 const CallFraudDashboard = () => {
@@ -21,10 +22,10 @@ const CallFraudDashboard = () => {
         resolution: 'Resolved',
         notes: "Customer was very worried about their lost phone. Provided immediate tracking steps and reassured them. Driver confirmed finding the phone.",
         events: [
-          { time: '14:30', description: 'Call Started', icon: '📞' },
-          { time: '14:32', description: 'Customer initiated inbound call.', icon: '👤' },
-          { time: '14:35', description: 'Agent provided tracking next steps.', icon: '📝' },
-          { time: '14:40', description: 'Call Ended', icon: '🔚' },
+          { time: '14:30', description: 'Call Started', subtitle: 'Customer called regarding lost phone after recent trip.' },
+          { time: '14:32', description: 'Issue Identified', subtitle: 'Customer left phone in vehicle during ride completion.' },
+          { time: '14:35', description: 'Solution Provided', subtitle: 'Agent contacted driver and confirmed phone location in vehicle.' },
+          { time: '14:40', description: 'Call Ended', subtitle: 'Driver arranged to return phone at customer\'s convenience.' },
         ],
       },
     },
@@ -41,10 +42,10 @@ const CallFraudDashboard = () => {
         resolution: 'Escalated to Security',
         notes: "Account showed unusual login activity from a new device in a different country. Escalated to the fraud team for further investigation. Customer was frustrated but understood the security measures.",
         events: [
-          { time: '03:15', description: 'Call Started', icon: '📞' },
-          { time: '03:17', description: 'System flagged account for suspicious activity.', icon: '🚨' },
-          { time: '03:25', description: 'Agent escalated case to fraud department.', icon: '⬆️' },
-          { time: '03:33', description: 'Call Ended', icon: '🔚' },
+          { time: '03:15', description: 'Call Started', subtitle: 'Customer called about locked account and payment issues.' },
+          { time: '03:17', description: 'Issue Identified', subtitle: 'System flagged unusual login activity from foreign IP address.' },
+          { time: '03:25', description: 'Security Escalation', subtitle: 'Agent escalated case to fraud team for investigation.' },
+          { time: '03:33', description: 'Call Ended', subtitle: 'Customer advised of security measures and next steps.' },
         ],
       },
     },
@@ -60,10 +61,10 @@ const CallFraudDashboard = () => {
         sentiment: 9.1,
         resolution: 'Refund Processed',
         events: [
-          { time: '09:05', description: 'Call Started', icon: '📞' },
-          { time: '09:07', description: 'Customer reported incorrect charge.', icon: '💸' },
-          { time: '09:12', description: 'Agent processed refund.', icon: '✅' },
-          { time: '09:15', description: 'Call Ended', icon: '🔚' },
+          { time: '09:05', description: 'Call Started', subtitle: 'Customer called regarding incorrect billing charge.' },
+          { time: '09:07', description: 'Issue Identified', subtitle: 'Customer\'s credit card was charged twice for same trip.' },
+          { time: '09:12', description: 'Solution Provided', subtitle: 'Agent processed immediate refund for duplicate charge.' },
+          { time: '09:15', description: 'Call Ended', subtitle: 'Customer confirmed refund receipt and trip satisfaction.' },
         ],
       },
     },
@@ -80,10 +81,10 @@ const CallFraudDashboard = () => {
         resolution: 'Credit Issued',
         notes: "Customer felt the driver took a longer route than necessary. Reviewed GPS data and issued a partial credit for the inconvenience. Advised customer to report such issues during the trip for faster resolution.",
         events: [
-          { time: '18:25', description: 'Call Started', icon: '📞' },
-          { time: '18:27', description: 'Customer complained about longer route.', icon: '🗺️' },
-          { time: '18:35', description: 'Agent reviewed trip data and issued credit.', icon: '⭐' },
-          { time: '18:45', description: 'Call Ended', icon: '🔚' },
+          { time: '18:25', description: 'Call Started', subtitle: 'Customer called about route discrepancy and fare concerns.' },
+          { time: '18:27', description: 'Issue Identified', subtitle: 'Driver took longer route than necessary, increasing fare.' },
+          { time: '18:35', description: 'Solution Provided', subtitle: 'Agent reviewed GPS data and issued partial credit.' },
+          { time: '18:45', description: 'Call Ended', subtitle: 'Customer satisfied with resolution and credit applied.' },
         ],
       },
     },
@@ -99,10 +100,10 @@ const CallFraudDashboard = () => {
         sentiment: 6.5,
         resolution: 'Partial Refund',
         events: [
-          { time: '10:00', description: 'Call Started', icon: '📞' },
-          { time: '10:02', description: 'Customer questioned fare calculation.', icon: '🤔' },
-          { time: '10:08', description: 'Agent explained dynamic pricing.', icon: '💡' },
-          { time: '10:12', description: 'Call Ended', icon: '🔚' },
+          { time: '10:00', description: 'Call Started', subtitle: 'Customer called questioning surge pricing on recent trip.' },
+          { time: '10:02', description: 'Issue Identified', subtitle: 'Customer confused about dynamic pricing during peak hours.' },
+          { time: '10:08', description: 'Solution Provided', subtitle: 'Agent explained pricing model and offered partial refund.' },
+          { time: '10:12', description: 'Call Ended', subtitle: 'Customer understood pricing and accepted resolution.' },
         ],
       },
     },
@@ -118,10 +119,10 @@ const CallFraudDashboard = () => {
         sentiment: 3.0,
         resolution: 'Driver Warning Issued',
         events: [
-          { time: '16:45', description: 'Call Started', icon: '📞' },
-          { time: '16:48', description: 'Customer reported driver incident.', icon: '⚠️' },
-          { time: '17:00', description: 'Agent reviewed trip details and driver history.', icon: '🔍' },
-          { time: '17:10', description: 'Call Ended', icon: '🔚' },
+          { time: '16:45', description: 'Call Started', subtitle: 'Customer called to report unprofessional driver behavior.' },
+          { time: '16:48', description: 'Issue Identified', subtitle: 'Driver was rude and made inappropriate comments during trip.' },
+          { time: '17:00', description: 'Investigation Initiated', subtitle: 'Agent reviewed trip details and driver history for patterns.' },
+          { time: '17:10', description: 'Call Ended', subtitle: 'Driver warning issued and customer received service credit.' },
         ],
       },
     },
@@ -285,9 +286,6 @@ const CallFraudDashboard = () => {
           variants={containerVariants}
         >
           <motion.div variants={componentVariants}>
-            <DeviceUsage />
-          </motion.div>
-          <motion.div variants={componentVariants}>
             <RecentRefunds />
           </motion.div>
           <motion.div variants={componentVariants}>
@@ -348,88 +346,245 @@ const CallFraudDashboard = () => {
 };
 
 // UserProfile Component
-const UserProfile = () => (
-  <div style={{
-    backgroundColor: BASE_TOKENS.colors.white,
-    borderRadius: BASE_TOKENS.borderRadius.lg,
-    border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-    padding: BASE_TOKENS.spacing['2xl'],
-    boxShadow: BASE_TOKENS.shadows.md,
-    display: 'flex',
-    alignItems: 'center',
-    gap: BASE_TOKENS.spacing.lg
-  }}>
-    {/* Avatar */}
+const UserProfile = () => {
+  const [showDeviceTooltip, setShowDeviceTooltip] = useState(false);
+
+  return (
     <div style={{
-      width: '64px',
-      height: '64px',
-      borderRadius: BASE_TOKENS.borderRadius.full,
-      backgroundColor: BASE_TOKENS.colors.gray[200],
-      border: `2px solid ${BASE_TOKENS.colors.white}`,
+      backgroundColor: BASE_TOKENS.colors.white,
+      borderRadius: BASE_TOKENS.borderRadius.lg,
+      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+      padding: BASE_TOKENS.spacing['2xl'],
       boxShadow: BASE_TOKENS.shadows.md,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0
+      gap: BASE_TOKENS.spacing.lg,
+      position: 'relative'
     }}>
-      <img 
-        src="/headshot-2.png" 
-        alt="Customer avatar"
-        style={{
-          width: '100%',
-          height: '100%',
-          borderRadius: BASE_TOKENS.borderRadius.full,
-          objectFit: 'cover'
-        }}
-      />
-    </div>
-    
-    {/* Customer Info */}
-    <div style={{ flexGrow: 1 }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: BASE_TOKENS.spacing.sm }}>
-        <h2 style={{
-          fontSize: BASE_TOKENS.typography.fontSize['2xl'],
-          fontWeight: BASE_TOKENS.typography.fontWeight.bold,
-          color: BASE_TOKENS.colors.gray[800],
-          margin: 0
-        }}>
-          Sarah Johnson
-        </h2>
-        <span style={{
-          marginLeft: BASE_TOKENS.spacing.lg,
-          padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-          backgroundColor: BASE_TOKENS.colors.yellow[400],
-          color: BASE_TOKENS.colors.yellow[900],
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-          borderRadius: BASE_TOKENS.borderRadius.full
-        }}>
-          Gold Member
-        </span>
-      </div>
-      <p style={{
-        color: BASE_TOKENS.colors.gray[600],
-        fontSize: BASE_TOKENS.typography.fontSize.sm,
-        marginBottom: BASE_TOKENS.spacing.sm,
-        margin: 0
-      }}>
-        sarah.j@email.com • CUST_789456
-      </p>
+      {/* Avatar */}
       <div style={{
+        width: '64px',
+        height: '64px',
+        borderRadius: BASE_TOKENS.borderRadius.full,
+        backgroundColor: BASE_TOKENS.colors.gray[200],
+        border: `2px solid ${BASE_TOKENS.colors.white}`,
+        boxShadow: BASE_TOKENS.shadows.md,
         display: 'flex',
-        flexWrap: 'wrap',
-        color: BASE_TOKENS.colors.gray[700],
-        fontSize: BASE_TOKENS.typography.fontSize.sm,
-        gap: BASE_TOKENS.spacing.lg
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0
       }}>
-        <span>Member since March 2023</span>
-        <span>• 247 rides</span>
-        <span>• $3,847 lifetime value</span>
-        <span>• 4.8 rating</span>
+        <img 
+          src="/headshot-8.png" 
+          alt="Customer avatar"
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+      
+      {/* Customer Info */}
+      <div style={{ flexGrow: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: BASE_TOKENS.spacing.xs }}>
+          <h2 style={{
+            fontSize: BASE_TOKENS.typography.fontSize.base,
+            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            color: BASE_TOKENS.colors.gray[900],
+            lineHeight: BASE_TOKENS.typography.lineHeight.base,
+            margin: 0
+          }}>
+            Sarah Johnson
+          </h2>
+          <span style={{
+            marginLeft: BASE_TOKENS.spacing.lg,
+            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+            backgroundColor: BASE_TOKENS.colors.yellow[400],
+            color: BASE_TOKENS.colors.yellow[900],
+            fontSize: BASE_TOKENS.typography.fontSize.xs,
+            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            borderRadius: BASE_TOKENS.borderRadius.full
+          }}>
+            Gold Member
+          </span>
+        </div>
+        <div style={{
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          color: BASE_TOKENS.colors.gray[500],
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+          marginBottom: BASE_TOKENS.spacing.xs,
+          lineHeight: BASE_TOKENS.typography.lineHeight.xs
+        }}>
+          sarah.j@email.com
+        </div>
+        <div style={{
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          color: BASE_TOKENS.colors.gray[500],
+          lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+          marginBottom: '2px'
+        }}>
+          Member since March 2023 • 247 rides
+        </div>
+        <div style={{
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          color: BASE_TOKENS.colors.gray[400],
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+          lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+          display: 'flex',
+          alignItems: 'center',
+          gap: BASE_TOKENS.spacing.xs
+        }}>
+          <span>$3,847 lifetime value</span>
+          <span>•</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: BASE_TOKENS.spacing.xs
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: BASE_TOKENS.colors.yellow[500] }}>
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span>4.8</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Device Mockup */}
+      <div 
+        style={{
+          position: 'relative',
+          flexShrink: 0,
+          cursor: 'pointer'
+        }}
+        onMouseEnter={() => setShowDeviceTooltip(true)}
+        onMouseLeave={() => setShowDeviceTooltip(false)}
+      >
+        {/* Device Icon/Mockup */}
+        <div style={{
+          width: '48px',
+          height: '48px',
+          backgroundColor: BASE_TOKENS.colors.gray[100],
+          borderRadius: BASE_TOKENS.borderRadius.lg,
+          border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.2s ease'
+        }}>
+          {/* Phone Icon */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BASE_TOKENS.colors.gray[600]} strokeWidth="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+
+        {/* Tooltip */}
+        {showDeviceTooltip && (
+          <div style={{
+            position: 'absolute',
+            top: '-10px',
+            right: '60px',
+            backgroundColor: BASE_TOKENS.colors.gray[900],
+            color: BASE_TOKENS.colors.white,
+            padding: BASE_TOKENS.spacing.lg,
+            borderRadius: BASE_TOKENS.borderRadius.lg,
+            boxShadow: BASE_TOKENS.shadows.xl,
+            zIndex: 1000,
+            width: '160px',
+            fontSize: BASE_TOKENS.typography.fontSize.xs,
+            lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: BASE_TOKENS.spacing.sm
+          }}>
+            {/* Tooltip Arrow */}
+            <div style={{
+              position: 'absolute',
+              top: '20px',
+              right: '-6px',
+              width: 0,
+              height: 0,
+              borderLeft: `6px solid ${BASE_TOKENS.colors.gray[900]}`,
+              borderTop: '6px solid transparent',
+              borderBottom: '6px solid transparent'
+            }}></div>
+
+            {/* Title */}
+            <div style={{
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              color: BASE_TOKENS.colors.white,
+              textAlign: 'center',
+              fontSize: BASE_TOKENS.typography.fontSize.sm
+            }}>
+              Device Details
+            </div>
+
+            {/* Device Image */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <img 
+                src="/iphone-13-mockup.png" 
+                alt="iPhone 13 mockup"
+                style={{
+                  width: '110px',
+                  height: 'auto',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
+
+            {/* Device Information - Vertical Layout */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: BASE_TOKENS.spacing.md
+            }}>
+              <div>
+                <div style={{
+                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                  color: BASE_TOKENS.colors.white,
+                  marginBottom: '2px',
+                  fontSize: BASE_TOKENS.typography.fontSize.xs
+                }}>
+                  Current:
+                </div>
+                <div style={{
+                  color: BASE_TOKENS.colors.gray[300],
+                  fontSize: BASE_TOKENS.typography.fontSize.xs
+                }}>
+                  iPhone 13 (iOS 16.3)<br/>
+                  MacBook Pro (Web)
+                </div>
+              </div>
+
+              <div>
+                <div style={{
+                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                  color: BASE_TOKENS.colors.white,
+                  marginBottom: '2px',
+                  fontSize: BASE_TOKENS.typography.fontSize.xs
+                }}>
+                  Signup:
+                </div>
+                <div style={{
+                  color: BASE_TOKENS.colors.gray[300],
+                  fontSize: BASE_TOKENS.typography.fontSize.xs
+                }}>
+                  iPhone 11 (iOS 15.6)
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // DeviceUsage Component
 const DeviceUsage = () => (
@@ -1044,20 +1199,20 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
   );
 };
 
-// CallDetails Component
-const CallDetails = ({ call }) => {
+// AudioPreview Component
+const AudioPreview = ({ duration }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0); // 0 to 100 for percentage
   const intervalRef = useRef(null);
 
-  // Reset progress and stop playback when call changes
+  // Reset progress and stop playback when duration changes
   useEffect(() => {
     setProgress(0);
     setIsPlaying(false);
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-  }, [call]);
+  }, [duration]);
 
   // Handle play/pause
   const togglePlay = () => {
@@ -1082,23 +1237,149 @@ const CallDetails = ({ call }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const getSentimentBackgroundColor = (sentiment) => {
-    if (sentiment >= 8) return BASE_TOKENS.colors.green[500];
-    if (sentiment >= 6) return BASE_TOKENS.colors.yellow[500];
-    return BASE_TOKENS.colors.red[500];
-  };
-
   // Generate a dummy waveform data (array of heights)
-  const generateWaveform = (numBars = 50) => {
+  const generateWaveform = (numBars = 60) => {
     const waveform = [];
     for (let i = 0; i < numBars; i++) {
       // Create some variation for a more realistic look
-      waveform.push(Math.random() * 0.8 + 0.2); // Heights between 20% and 100%
+      waveform.push(Math.random() * 0.7 + 0.3); // Heights between 30% and 100%
     }
     return waveform;
   };
 
   const waveformData = generateWaveform();
+
+  return (
+    <div style={{ marginBottom: BASE_TOKENS.spacing['2xl'] }}>
+      <p style={{
+        color: BASE_TOKENS.colors.gray[800],
+        fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+        marginBottom: BASE_TOKENS.spacing.md,
+        margin: 0,
+        fontSize: BASE_TOKENS.typography.fontSize.sm
+      }}>
+        Call Audio Preview
+      </p>
+      <div style={{
+        backgroundColor: BASE_TOKENS.colors.white,
+        border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+        borderRadius: BASE_TOKENS.borderRadius.lg,
+        padding: BASE_TOKENS.spacing.lg,
+        display: 'flex',
+        alignItems: 'center',
+        gap: BASE_TOKENS.spacing.lg,
+        boxShadow: BASE_TOKENS.shadows.sm
+      }}>
+        <button
+          onClick={togglePlay}
+          style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            backgroundColor: BASE_TOKENS.colors.gray[900],
+            color: BASE_TOKENS.colors.white,
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            outline: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            boxShadow: BASE_TOKENS.shadows.sm
+          }}
+          onMouseOver={(e) => {
+            e.target.style.backgroundColor = BASE_TOKENS.colors.gray[800];
+            e.target.style.transform = 'scale(1.05)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.backgroundColor = BASE_TOKENS.colors.gray[900];
+            e.target.style.transform = 'scale(1)';
+          }}
+        >
+          {isPlaying ? (
+            <svg style={{ width: '16px', height: '16px' }} fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          ) : (
+            <svg style={{ width: '16px', height: '16px', marginLeft: '2px' }} fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          )}
+        </button>
+        
+        <div style={{
+          position: 'relative',
+          flex: 1,
+          height: '32px',
+          backgroundColor: BASE_TOKENS.colors.gray[100],
+          borderRadius: BASE_TOKENS.borderRadius.md,
+          overflow: 'hidden',
+          border: `1px solid ${BASE_TOKENS.colors.gray[200]}`
+        }}>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'end',
+            justifyContent: 'center',
+            padding: `0 ${BASE_TOKENS.spacing.xs}`,
+            gap: '1px'
+          }}>
+            {waveformData.map((height, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: index <= (progress / 100) * waveformData.length 
+                    ? BASE_TOKENS.colors.gray[900] 
+                    : BASE_TOKENS.colors.gray[300],
+                  borderRadius: '1px',
+                  height: `${height * 100}%`,
+                  width: '2px',
+                  transition: 'background-color 0.1s ease'
+                }}
+              ></div>
+            ))}
+          </div>
+        </div>
+        
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: BASE_TOKENS.spacing.xs,
+          flexShrink: 0
+        }}>
+          <span style={{
+            color: BASE_TOKENS.colors.gray[700],
+            fontSize: BASE_TOKENS.typography.fontSize.sm,
+            fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+            fontFamily: 'monospace'
+          }}>
+            {duration}
+          </span>
+          <span style={{
+            color: BASE_TOKENS.colors.gray[500],
+            fontSize: BASE_TOKENS.typography.fontSize.xs,
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            fontWeight: BASE_TOKENS.typography.fontWeight.medium
+          }}>
+            Duration
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// CallDetails Component
+const CallDetails = ({ call }) => {
+  const getSentimentBackgroundColor = (sentiment) => {
+    if (sentiment >= 8) return BASE_TOKENS.colors.green[500];
+    if (sentiment >= 6) return BASE_TOKENS.colors.yellow[500];
+    return BASE_TOKENS.colors.red[500];
+  };
 
   return (
     <div style={{
@@ -1160,100 +1441,7 @@ const CallDetails = ({ call }) => {
         </div>
       </div>
 
-      {/* Audio Waveform and Controls */}
-      <div style={{ marginBottom: BASE_TOKENS.spacing['2xl'] }}>
-        <p style={{
-          color: BASE_TOKENS.colors.gray[700],
-          fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-          marginBottom: BASE_TOKENS.spacing.sm,
-          margin: 0
-        }}>
-          Call Audio Preview
-        </p>
-        <div style={{
-          backgroundColor: BASE_TOKENS.colors.gray[100],
-          borderRadius: BASE_TOKENS.borderRadius.lg,
-          padding: BASE_TOKENS.spacing.md,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          <button
-            onClick={togglePlay}
-            style={{
-              padding: BASE_TOKENS.spacing.sm,
-              borderRadius: BASE_TOKENS.borderRadius.full,
-              backgroundColor: BASE_TOKENS.colors.blue[500],
-              color: BASE_TOKENS.colors.white,
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s ease',
-              outline: 'none'
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = BASE_TOKENS.colors.blue[600]}
-            onMouseOut={(e) => e.target.style.backgroundColor = BASE_TOKENS.colors.blue[500]}
-          >
-            {isPlaying ? (
-              <svg style={{ width: '20px', height: '20px' }} fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.5 7H8a.5.5 0 00-.5.5v5a.5.5 0 00.5.5h1.5a.5.5 0 00.5-.5v-5a.5.5 0 00-.5-.5zm4 0H12a.5.5 0 00-.5.5v5a.5.5 0 00.5.5h1.5a.5.5 0 00.5-.5v-5a.5.5 0 00-.5-.5z"></path>
-              </svg>
-            ) : (
-              <svg style={{ width: '20px', height: '20px' }} fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.5 7.5L14 10l-4.5 2.5V7.5z"></path>
-              </svg>
-            )}
-          </button>
-          <div style={{
-            position: 'relative',
-            flex: 1,
-            height: '48px',
-            backgroundColor: BASE_TOKENS.colors.gray[200],
-            borderRadius: BASE_TOKENS.borderRadius.md,
-            margin: `0 ${BASE_TOKENS.spacing.lg}`,
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: `0 ${BASE_TOKENS.spacing.xs}`
-            }}>
-              {waveformData.map((height, index) => (
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: BASE_TOKENS.colors.blue[400],
-                    borderRadius: BASE_TOKENS.borderRadius.sm,
-                    height: `${height * 100}%`,
-                    width: `${100 / waveformData.length - 1}%`
-                  }}
-                ></div>
-              ))}
-            </div>
-            {/* Playhead */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                width: '4px',
-                backgroundColor: BASE_TOKENS.colors.red[500],
-                borderRadius: BASE_TOKENS.borderRadius.full,
-                left: `${progress}%`,
-                transform: 'translateX(-50%)'
-              }}
-            ></div>
-          </div>
-          <span style={{
-            color: BASE_TOKENS.colors.gray[600],
-            fontSize: BASE_TOKENS.typography.fontSize.sm
-          }}>
-            {call.duration}
-          </span>
-        </div>
-      </div>
+      <AudioPreview duration={call.duration} />
 
       <div style={{
         display: 'grid',
@@ -1375,52 +1563,17 @@ const CallDetails = ({ call }) => {
         }}>
           Call Events Timeline
         </p>
-        <div style={{
-          position: 'relative',
-          borderLeft: `2px solid ${BASE_TOKENS.colors.gray[200]}`,
-          paddingLeft: BASE_TOKENS.spacing.lg
-        }}>
-          {call.details.events.map((event, index) => (
-            <div key={index} style={{
-              marginBottom: BASE_TOKENS.spacing.lg,
-              display: 'flex',
-              alignItems: 'flex-start'
-            }}>
-              <div style={{
-                position: 'absolute',
-                width: '12px',
-                height: '12px',
-                backgroundColor: BASE_TOKENS.colors.blue[500],
-                borderRadius: '50%',
-                left: '-6px',
-                marginTop: '6px',
-                border: `2px solid ${BASE_TOKENS.colors.white}`
-              }}></div>
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}>
-                  <p style={{
-                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                    color: BASE_TOKENS.colors.gray[800],
-                    fontSize: BASE_TOKENS.typography.fontSize.sm,
-                    margin: 0
-                  }}>
-                    {event.icon} {event.description}
-                  </p>
-                  <span style={{
-                    color: BASE_TOKENS.colors.gray[500],
-                    fontSize: BASE_TOKENS.typography.fontSize.xs
-                  }}>
-                    {event.time}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <EmbeddedTimeline 
+          items={call.details.events.map((event, index) => ({
+            id: `event-${index}`,
+            title: event.description,
+            time: event.time,
+            subtitle: event.subtitle,
+            status: 'completed'
+          }))}
+          maxWidth="600px"
+          complete={true}
+        />
       </div>
     </div>
   );
