@@ -6,6 +6,7 @@ import { ChatBox, ExpandableChatBox } from './components/ChatBox';
 import ChatDemo from './components/ChatDemo';
 import DarkThemeChatDemo from './components/DarkThemeChatDemo';
 import CallbackDemo from './components/ChatDemo/CallbackDemo';
+import ChatDemo2 from './components/ChatDemo/ChatDemo2';
 
 function App() {
   return (
@@ -18,14 +19,15 @@ function App() {
       // felexWrap: 'wrap',
       // alignItems: 'flex-start'
     }}>
-      {/* <RideTrackingDashboard 
+      <RideTrackingDashboard 
         tripInfo={mockRideData.tripInfo}
         timelineData={mockRideData.timelineData}
         callLogs={mockRideData.callLogs}
         messages={mockRideData.messages}
         driver={mockRideData.driver}
         rider={mockRideData.rider}
-      /> */}
+        showCommunicationLog={false}
+      />
       {/* <QueryVisualizer /> */}
       
       {/* Regular ChatBox Demo */}
@@ -45,7 +47,8 @@ function App() {
         width="350px" 
         height="500px" 
       /> */}
-      <ChatDemo />
+      {/* <ChatDemo /> */}
+      {/* <ChatDemo2 /> */}
       {/* <CallbackDemo /> */}
       {/* < DarkThemeChatDemo /> */}
       {/* <QueryVisualizer /> */}

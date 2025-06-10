@@ -12,7 +12,8 @@ const RideTrackingDashboard = ({
   callLogs, 
   messages, 
   driver, 
-  rider 
+  rider,
+  showCommunicationLog = false
 }) => {
   // Animation variants
   const containerVariants = {
@@ -189,12 +190,14 @@ const RideTrackingDashboard = ({
             <motion.div variants={componentVariants}>
               <Timeline items={timelineData} />
             </motion.div>
-            <motion.div variants={componentVariants}>
-              <CommunicationLog 
-                callLogs={callLogs} 
-                messages={messages} 
-              />
-            </motion.div>
+            {showCommunicationLog && (
+              <motion.div variants={componentVariants}>
+                <CommunicationLog 
+                  callLogs={callLogs} 
+                  messages={messages} 
+                />
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Right Column */}
