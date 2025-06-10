@@ -8,6 +8,9 @@ import DarkThemeChatDemo from './components/DarkThemeChatDemo';
 import CallbackDemo from './components/ChatDemo/CallbackDemo';
 import ChatDemo2 from './components/ChatDemo/ChatDemo2';
 import ChatDemo3 from './components/ChatDemo/ChatDemo3';
+import FraudTimelineMatrix from './components/FraudTImelineMatrix/FraudTimelineMatrix';
+import Timeline from './components/Timeline';
+import { CallFraudDashboard } from './components/CallFraudDashboard';
 
 function App() {
   return (
@@ -49,7 +52,9 @@ function App() {
         height="500px" 
       /> */}
       {/* <ChatDemo /> */}
-      <ChatDemo3 />
+      {/* <ChatDemo3 /> */}
+      <CallFraudDashboard />
+      {/* < Timeline /> */}
       {/* <CallbackDemo /> */}
       {/* < DarkThemeChatDemo /> */}
       {/* <QueryVisualizer /> */}
