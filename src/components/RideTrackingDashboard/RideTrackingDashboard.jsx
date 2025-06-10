@@ -190,11 +190,18 @@ const RideTrackingDashboard = ({
             <motion.div variants={componentVariants}>
               <Timeline items={timelineData} />
             </motion.div>
-            {showCommunicationLog && (
+            {showCommunicationLog ? (
               <motion.div variants={componentVariants}>
                 <CommunicationLog 
                   callLogs={callLogs} 
                   messages={messages} 
+                />
+              </motion.div>
+            ) : (
+              <motion.div variants={componentVariants}>
+                <PeopleSection 
+                  driver={driver}
+                  rider={rider}
                 />
               </motion.div>
             )}
@@ -216,12 +223,14 @@ const RideTrackingDashboard = ({
                 rider={rider}
               />
             </motion.div>
-            <motion.div variants={componentVariants}>
-              <PeopleSection 
-                driver={driver}
-                rider={rider}
-              />
-            </motion.div>
+            {showCommunicationLog && (
+              <motion.div variants={componentVariants}>
+                <PeopleSection 
+                  driver={driver}
+                  rider={rider}
+                />
+              </motion.div>
+            )}
           </motion.div>
         </motion.div>
       </div>
