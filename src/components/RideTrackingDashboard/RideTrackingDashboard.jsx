@@ -332,11 +332,25 @@ const RideTrackingDashboard = ({
               ) : (
                 <motion.div
                   key="people-section-left"
+                  layoutId="people-section"
                   ref={communicationLogRef}
                   variants={componentVariants}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
+                  layout
+                  transition={{
+                    layout: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                      mass: 1
+                    }
+                  }}
+                  style={{
+                    position: 'relative',
+                    zIndex: 10
+                  }}
                 >
                   <PeopleSection 
                     driver={driver}
@@ -367,10 +381,24 @@ const RideTrackingDashboard = ({
               {showCommunicationLog ? (
                 <motion.div
                   key="people-section-right"
+                  layoutId="people-section"
                   variants={componentVariants}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
+                  layout
+                  transition={{
+                    layout: {
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 20,
+                      mass: 1
+                    }
+                  }}
+                  style={{
+                    position: 'relative',
+                    zIndex: 10
+                  }}
                 >
                   <PeopleSection 
                     driver={driver}
