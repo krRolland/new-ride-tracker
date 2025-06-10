@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BASE_TOKENS } from '../../tokens';
 
 const PeopleSection = ({ driver, rider }) => {
+  const [isNarrow, setIsNarrow] = useState(false);
+  const containerRef = useRef(null);
+
+  // Check container width and update layout
+  useEffect(() => {
+    const checkWidth = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.offsetWidth;
+        // Stack vertically if container width is less than 400px
+        setIsNarrow(width < 400);
+      }
+    };
+
+    // Check on mount
+    checkWidth();
+
+    // Check on resize
+    const resizeObserver = new ResizeObserver(checkWidth);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   const profiles = [
     {
       type: 'Driver',
@@ -43,7 +70,7 @@ const PeopleSection = ({ driver, rider }) => {
     },
     profilesGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(2, 1fr)',
+      gridTemplateColumns: isNarrow ? '1fr' : 'repeat(2, 1fr)',
       gap: BASE_TOKENS.spacing.lg
     },
     profileCard: {
@@ -146,7 +173,7 @@ const PeopleSection = ({ driver, rider }) => {
   );
 
   return (
-    <div style={styles.container}>
+    <div ref={containerRef} style={styles.container}>
       {/* Header */}
       <div style={styles.header}>
         <h2 style={styles.headerTitle}>People</h2>
