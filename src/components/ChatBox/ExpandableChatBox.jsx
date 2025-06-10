@@ -536,7 +536,7 @@ const ExpandableChatBox = ({
         }
       `}</style>
       <motion.div
-        style={{ ...getContainerStyle(), ...props.style }}
+        style={{ ...getContainerStyle(), ...props }}
         className={className}
         variants={containerVariants}
         initial="collapsed"
@@ -635,7 +635,7 @@ const ExpandableChatBox = ({
       ) : (
         // Expanded State - Full Chat Interface
         <motion.div
-          style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}
+          style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0, width: width}}
           variants={contentVariants}
           initial="collapsed"
           animate="expanded"

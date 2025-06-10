@@ -335,7 +335,7 @@ const DarkThemeChatDemo = () => {
           style={{
             flex: '0 0 auto',
             width: hasEverExpanded
-              ? (isChatMinimized ? '124px' : '550px') // Changed this to a more reasonable default
+              ? (isChatMinimized ? '124px' : '750px') // Changed this to a more reasonable default
               : '450px',
             height: hasEverExpanded ? '100%' : 'auto',
             display: 'flex',
@@ -343,9 +343,9 @@ const DarkThemeChatDemo = () => {
           }}
         >
           <ExpandableChatBox
-            width="550px"
+            width="100%"
             height="100%"
-            size={hasEverExpanded ? 'lg' : 'default'}
+            size={hasEverExpanded ? 'lg' : 'lg'}
             position="relative"
             showCollapseButton={false}
             darkMode={true}

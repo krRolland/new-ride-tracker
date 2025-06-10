@@ -47,6 +47,7 @@ function App() {
       /> */}
       <ChatDemo />
       {/* < DarkThemeChatDemo /> */}
+      {/* <QueryVisualizer /> */}
     </div>
   );
 }
