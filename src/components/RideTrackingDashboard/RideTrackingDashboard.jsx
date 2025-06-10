@@ -13,7 +13,8 @@ const RideTrackingDashboard = ({
   messages, 
   driver, 
   rider,
-  showCommunicationLog = false
+  showCommunicationLog = false,
+  includeComponentSwapAnimations = true
 }) => {
   const [isLoadingCommunicationLog, setIsLoadingCommunicationLog] = useState(false);
   const [showActualCommunicationLog, setShowActualCommunicationLog] = useState(false);
@@ -23,16 +24,21 @@ const RideTrackingDashboard = ({
   // Handle communication log loading when showCommunicationLog becomes true
   useEffect(() => {
     if (showCommunicationLog && !showActualCommunicationLog) {
-      // Start loading process immediately
-      setIsLoadingCommunicationLog(true);
-      
-      // Show skeleton for 1.5 seconds, then show actual component
-      setTimeout(() => {
-        setIsLoadingCommunicationLog(false);
+      if (includeComponentSwapAnimations) {
+        // Start loading process immediately
+        setIsLoadingCommunicationLog(true);
+        
+        // Show skeleton for 1.5 seconds, then show actual component
+        setTimeout(() => {
+          setIsLoadingCommunicationLog(false);
+          setShowActualCommunicationLog(true);
+        }, 1500);
+      } else {
+        // Skip loading animation and show communication log immediately
         setShowActualCommunicationLog(true);
-      }, 1500);
+      }
     }
-  }, [showCommunicationLog, showActualCommunicationLog]);
+  }, [showCommunicationLog, showActualCommunicationLog, includeComponentSwapAnimations]);
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -304,61 +310,77 @@ const RideTrackingDashboard = ({
             <motion.div variants={componentVariants}>
               <Timeline items={timelineData} />
             </motion.div>
-            <AnimatePresence mode="wait">
-              {isLoadingCommunicationLog ? (
-                <motion.div
-                  key="communication-skeleton"
-                  ref={communicationLogRef}
-                  variants={componentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                >
-                  <CommunicationLogSkeleton />
-                </motion.div>
-              ) : showActualCommunicationLog ? (
-                <motion.div
-                  key="communication-log"
-                  variants={componentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                >
+            {includeComponentSwapAnimations ? (
+              <AnimatePresence mode="wait">
+                {isLoadingCommunicationLog ? (
+                  <motion.div
+                    key="communication-skeleton"
+                    ref={communicationLogRef}
+                    variants={componentVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                  >
+                    <CommunicationLogSkeleton />
+                  </motion.div>
+                ) : showActualCommunicationLog ? (
+                  <motion.div
+                    key="communication-log"
+                    variants={componentVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                  >
+                    <CommunicationLog 
+                      callLogs={callLogs} 
+                      messages={messages} 
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="people-section-left"
+                    layoutId="people-section"
+                    ref={communicationLogRef}
+                    variants={componentVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    layout
+                    transition={{
+                      layout: {
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 20,
+                        mass: 1
+                      }
+                    }}
+                    style={{
+                      position: 'relative',
+                      zIndex: 10
+                    }}
+                  >
+                    <PeopleSection 
+                      driver={driver}
+                      rider={rider}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            ) : (
+              <div ref={communicationLogRef}>
+                {showActualCommunicationLog ? (
                   <CommunicationLog 
                     callLogs={callLogs} 
                     messages={messages} 
                   />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="people-section-left"
-                  layoutId="people-section"
-                  ref={communicationLogRef}
-                  variants={componentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  layout
-                  transition={{
-                    layout: {
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
-                      mass: 1
-                    }
-                  }}
-                  style={{
-                    position: 'relative',
-                    zIndex: 10
-                  }}
-                >
+                ) : (
                   <PeopleSection 
                     driver={driver}
                     rider={rider}
                   />
-                </motion.div>
-              )}
-            </AnimatePresence>
+                )}
+              </div>
+            )}
           </motion.div>
 
           {/* Right Column */}
@@ -377,36 +399,45 @@ const RideTrackingDashboard = ({
                 rider={rider}
               />
             </motion.div>
-            <AnimatePresence mode="wait">
-              {showCommunicationLog ? (
-                <motion.div
-                  key="people-section-right"
-                  layoutId="people-section"
-                  variants={componentVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  layout
-                  transition={{
-                    layout: {
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 20,
-                      mass: 1
-                    }
-                  }}
-                  style={{
-                    position: 'relative',
-                    zIndex: 10
-                  }}
-                >
-                  <PeopleSection 
-                    driver={driver}
-                    rider={rider}
-                  />
-                </motion.div>
-              ) : null}
-            </AnimatePresence>
+            {includeComponentSwapAnimations ? (
+              <AnimatePresence mode="wait">
+                {showCommunicationLog ? (
+                  <motion.div
+                    key="people-section-right"
+                    layoutId="people-section"
+                    variants={componentVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    layout
+                    transition={{
+                      layout: {
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 20,
+                        mass: 1
+                      }
+                    }}
+                    style={{
+                      position: 'relative',
+                      zIndex: 10
+                    }}
+                  >
+                    <PeopleSection 
+                      driver={driver}
+                      rider={rider}
+                    />
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            ) : (
+              showCommunicationLog ? (
+                <PeopleSection 
+                  driver={driver}
+                  rider={rider}
+                />
+              ) : null
+            )}
           </motion.div>
         </motion.div>
       </div>

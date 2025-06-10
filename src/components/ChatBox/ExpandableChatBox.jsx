@@ -12,6 +12,7 @@ const ExpandableChatBox = ({
   onExpansionChange,
   onMinimizedChange,
   onUserMessage,
+  customBotResponses = {},
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -123,10 +124,18 @@ const ExpandableChatBox = ({
     }, 1000);
     
     setTimeout(() => {
+      // Determine bot response text based on message count and custom responses
+      const userMessageCount = messages.filter(msg => msg.sender === 'user').length + 1;
+      let botResponseText = "Here's your ride dashboard!";
+      
+      if (customBotResponses[userMessageCount]) {
+        botResponseText = customBotResponses[userMessageCount];
+      }
+      
       // Add the bot message first, then stop typing to create smoother transition
       const botResponse = {
         id: messages.length + 2,
-        text: "Here's your ride dashboard!",
+        text: botResponseText,
         sender: 'bot',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };

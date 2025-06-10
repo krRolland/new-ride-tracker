@@ -6,7 +6,7 @@ import DashboardSkeleton from '../DashboardSkeleton';
 import { BASE_TOKENS } from '../../tokens';
 import { mockRideData } from '../../data/mockData';
 
-const ChatDemo2 = () => {
+const ChatDemo3 = () => {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isChatMinimized, setIsChatMinimized] = useState(false);
   const [hasEverExpanded, setHasEverExpanded] = useState(false);
@@ -17,6 +17,7 @@ const ChatDemo2 = () => {
   const [userMessageCount, setUserMessageCount] = useState(0);
   const [showCommunicationLog, setShowCommunicationLog] = useState(false);
   const dashboardScrollRef = useRef(null);
+  const chatBoxRef = useRef(null);
 
   const handleExpansionChange = (expanded) => {
     setIsChatExpanded(expanded);
@@ -73,16 +74,41 @@ const ChatDemo2 = () => {
         totalMessages: newCount
       });
       
-      // Show communication log immediately when second message is sent
-      setShowCommunicationLog(true);
+      // Trigger skeleton loading effect again
+      setIsLoadingDashboard(true);
+      setShowDashboard(false);
       
-      // Scroll down 100px in the dashboard
-      if (dashboardScrollRef.current) {
-        dashboardScrollRef.current.scrollBy({
-          top: 200,
-          behavior: 'smooth'
-        });
-      }
+      // Enhanced thinking phases for a better narrative
+      const thinkingPhases = [
+        { message: "Processing request...", duration: 1500 },
+        { message: "Setting up call logs...", duration: 2000 },
+        { message: "Updating UI...", duration: 1500 }
+
+      ];
+      
+      let currentPhase = 0;
+      setThinkingPhase(0);
+      setThinkingMessage(thinkingPhases[0].message);
+      
+      const progressThroughPhases = () => {
+        if (currentPhase < thinkingPhases.length - 1) {
+          setTimeout(() => {
+            currentPhase++;
+            setThinkingPhase(currentPhase);
+            setThinkingMessage(thinkingPhases[currentPhase].message);
+            progressThroughPhases();
+          }, thinkingPhases[currentPhase].duration);
+        } else {
+          // Final phase - show dashboard with communication log
+          setTimeout(() => {
+            setIsLoadingDashboard(false);
+            setShowDashboard(true);
+            setShowCommunicationLog(true);
+          }, thinkingPhases[currentPhase].duration);
+        }
+      };
+      
+      progressThroughPhases();
       
       // You can add any additional logic here for the second message event
       // For example: analytics tracking, feature unlocks, UI changes, etc.
@@ -238,6 +264,9 @@ const ChatDemo2 = () => {
               onExpansionChange={handleExpansionChange}
               onMinimizedChange={handleMinimizedChange}
               onUserMessage={handleUserMessage}
+              customBotResponses={{
+                2: "Great, I've included a section that shows the call logs on a given trip!"
+              }}
             />
           </div>
         </div>
@@ -350,7 +379,7 @@ const ChatDemo2 = () => {
                     driver={mockRideData.driver}
                     rider={mockRideData.rider}
                     showCommunicationLog={showCommunicationLog}
-                    includeComponentSwapAnimations={true}
+                    includeComponentSwapAnimations={false}
                   />
                 </motion.div>
               ) : null}
@@ -362,4 +391,4 @@ const ChatDemo2 = () => {
   );
 };
 
-export default ChatDemo2;
+export default ChatDemo3;

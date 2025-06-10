@@ -7,6 +7,7 @@ import ChatDemo from './components/ChatDemo';
 import DarkThemeChatDemo from './components/DarkThemeChatDemo';
 import CallbackDemo from './components/ChatDemo/CallbackDemo';
 import ChatDemo2 from './components/ChatDemo/ChatDemo2';
+import ChatDemo3 from './components/ChatDemo/ChatDemo3';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
         height="500px" 
       /> */}
       {/* <ChatDemo /> */}
-      <ChatDemo2 />
+      <ChatDemo3 />
       {/* <CallbackDemo /> */}
       {/* < DarkThemeChatDemo /> */}
       {/* <QueryVisualizer /> */}
