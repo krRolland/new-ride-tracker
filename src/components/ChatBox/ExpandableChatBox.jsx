@@ -13,6 +13,7 @@ const ExpandableChatBox = ({
   onMinimizedChange,
   onUserMessage,
   customBotResponses = {},
+  fixedTime = null,
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +25,7 @@ const ExpandableChatBox = ({
       id: 1,
       text: "Hello! How can I help you today?",
       sender: 'bot',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      timestamp: fixedTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -92,7 +93,7 @@ const ExpandableChatBox = ({
       id: messages.length + 1,
       text: inputValue,
       sender: 'user',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      timestamp: fixedTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     setMessages(prev => [...prev, newMessage]);
@@ -137,7 +138,7 @@ const ExpandableChatBox = ({
         id: messages.length + 2,
         text: botResponseText,
         sender: 'bot',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        timestamp: fixedTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, botResponse]);
       

@@ -96,7 +96,7 @@ const CallFraudDashboard = () => {
       dateTime: '2024-06-01 - 10:00',
       agent: 'Agent Smith',
       details: {
-        reason: 'Fare Discrepancy',
+        reason: 'Billing Error',
         sentiment: 6.5,
         resolution: 'Partial Refund',
         events: [
@@ -115,7 +115,7 @@ const CallFraudDashboard = () => {
       dateTime: '2024-05-25 - 16:45',
       agent: 'Agent Johnson',
       details: {
-        reason: 'Unprofessional Conduct',
+        reason: 'Billing Error',
         sentiment: 3.0,
         resolution: 'Driver Warning Issued',
         events: [
@@ -480,107 +480,145 @@ const UserProfile = () => {
           </svg>
         </div>
 
-        {/* Tooltip */}
-        {showDeviceTooltip && (
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            right: '60px',
-            backgroundColor: BASE_TOKENS.colors.gray[900],
-            color: BASE_TOKENS.colors.white,
-            padding: BASE_TOKENS.spacing.lg,
-            borderRadius: BASE_TOKENS.borderRadius.lg,
-            boxShadow: BASE_TOKENS.shadows.xl,
-            zIndex: 1000,
-            width: '160px',
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: BASE_TOKENS.spacing.sm
-          }}>
-            {/* Tooltip Arrow */}
-            <div style={{
-              position: 'absolute',
-              top: '20px',
-              right: '-6px',
-              width: 0,
-              height: 0,
-              borderLeft: `6px solid ${BASE_TOKENS.colors.gray[900]}`,
-              borderTop: '6px solid transparent',
-              borderBottom: '6px solid transparent'
-            }}></div>
+        {/* Animated Tooltip */}
+        <AnimatePresence>
+          {showDeviceTooltip && (
+            <motion.div 
+              initial={{ 
+                opacity: 0, 
+                scale: 0.8,
+                y: 10
+              }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+                y: 0
+              }}
+              exit={{ 
+                opacity: 0, 
+                scale: 0.8,
+                y: 10
+              }}
+              transition={{
+                duration: 0.2,
+                ease: "easeOut"
+              }}
+              style={{
+                position: 'absolute',
+                top: '-10px',
+                right: '60px',
+                backgroundColor: BASE_TOKENS.colors.gray[900],
+                color: BASE_TOKENS.colors.white,
+                padding: BASE_TOKENS.spacing.lg,
+                borderRadius: BASE_TOKENS.borderRadius.lg,
+                boxShadow: BASE_TOKENS.shadows.xl,
+                zIndex: 1000,
+                width: '160px',
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: BASE_TOKENS.spacing.sm
+              }}
+            >
+              {/* Tooltip Arrow */}
+              <div style={{
+                position: 'absolute',
+                top: '20px',
+                right: '-6px',
+                width: 0,
+                height: 0,
+                borderLeft: `6px solid ${BASE_TOKENS.colors.gray[900]}`,
+                borderTop: '6px solid transparent',
+                borderBottom: '6px solid transparent'
+              }}></div>
 
-            {/* Title */}
-            <div style={{
-              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              color: BASE_TOKENS.colors.white,
-              textAlign: 'center',
-              fontSize: BASE_TOKENS.typography.fontSize.sm
-            }}>
-              Device Details
-            </div>
-
-            {/* Device Image */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <img 
-                src="/iphone-13-mockup.png" 
-                alt="iPhone 13 mockup"
+              {/* Title */}
+              <motion.div 
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.2 }}
                 style={{
-                  width: '110px',
-                  height: 'auto',
-                  objectFit: 'contain'
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.white,
+                  textAlign: 'center',
+                  fontSize: BASE_TOKENS.typography.fontSize.sm
                 }}
-              />
-            </div>
+              >
+                Device Details
+              </motion.div>
 
-            {/* Device Information - Vertical Layout */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: BASE_TOKENS.spacing.md
-            }}>
-              <div>
-                <div style={{
-                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  color: BASE_TOKENS.colors.white,
-                  marginBottom: '2px',
-                  fontSize: BASE_TOKENS.typography.fontSize.xs
-                }}>
-                  Current:
-                </div>
-                <div style={{
-                  color: BASE_TOKENS.colors.gray[300],
-                  fontSize: BASE_TOKENS.typography.fontSize.xs
-                }}>
-                  iPhone 13 (iOS 16.3)<br/>
-                  MacBook Pro (Web)
-                </div>
-              </div>
+              {/* Device Image */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <img 
+                  src="/iphone-13-mockup.png" 
+                  alt="iPhone 13 mockup"
+                  style={{
+                    width: '110px',
+                    height: 'auto',
+                    objectFit: 'contain'
+                  }}
+                />
+              </motion.div>
 
-              <div>
-                <div style={{
-                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  color: BASE_TOKENS.colors.white,
-                  marginBottom: '2px',
-                  fontSize: BASE_TOKENS.typography.fontSize.xs
-                }}>
-                  Signup:
+              {/* Device Information - Vertical Layout */}
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.2 }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: BASE_TOKENS.spacing.md
+                }}
+              >
+                <div>
+                  <div style={{
+                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                    color: BASE_TOKENS.colors.white,
+                    marginBottom: '2px',
+                    fontSize: BASE_TOKENS.typography.fontSize.xs
+                  }}>
+                    Current:
+                  </div>
+                  <div style={{
+                    color: BASE_TOKENS.colors.gray[300],
+                    fontSize: BASE_TOKENS.typography.fontSize.xs
+                  }}>
+                    iPhone 13 (iOS 16.3)<br/>
+                    MacBook Pro (Web)
+                  </div>
                 </div>
-                <div style={{
-                  color: BASE_TOKENS.colors.gray[300],
-                  fontSize: BASE_TOKENS.typography.fontSize.xs
-                }}>
-                  iPhone 11 (iOS 15.6)
+
+                <div>
+                  <div style={{
+                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                    color: BASE_TOKENS.colors.white,
+                    marginBottom: '2px',
+                    fontSize: BASE_TOKENS.typography.fontSize.xs
+                  }}>
+                    Signup:
+                  </div>
+                  <div style={{
+                    color: BASE_TOKENS.colors.gray[300],
+                    fontSize: BASE_TOKENS.typography.fontSize.xs
+                  }}>
+                    iPhone 11 (iOS 15.6)
+                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -733,8 +771,10 @@ const RecentRefunds = () => {
 
 // CustomerSegment Component (Updated with Call Statistics and Reasons Pie Chart)
 const CustomerSegment = ({ totalCalls, avgSentimentScore, totalCallEvents, uniqueCallReasons, callReasonsDistribution }) => {
+  const [hoveredSlice, setHoveredSlice] = useState(null);
+  
   // Define colors for the pie chart slices
-  const PIE_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+  const PIE_COLORS = ['#4d90fe', '#42d4d4', '#f9cb54', '#f27c5b', '#8fb4fc'];
 
   // Calculate angles for the conic-gradient based on data
   const calculateConicGradient = (data) => {
@@ -880,20 +920,90 @@ const CustomerSegment = ({ totalCalls, avgSentimentScore, totalCallEvents, uniqu
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '160px'
+        height: '160px',
+        position: 'relative'
       }}>
-        <div
-          style={{
-            position: 'relative',
-            width: '128px',
-            height: '128px',
-            borderRadius: '50%',
-            overflow: 'hidden',
-            background: callReasonsDistribution.length > 0 ? calculateConicGradient(callReasonsDistribution) : 'none'
-          }}
-        >
-          {/* No child divs needed for slices when using conic-gradient */}
-        </div>
+        <svg width="128" height="128" viewBox="0 0 128 128">
+          {/* Pie chart slices */}
+          {callReasonsDistribution.length > 0 && (() => {
+            let currentAngle = 0;
+            const centerX = 64;
+            const centerY = 64;
+            const radius = 62; // Slightly smaller to accommodate stroke
+            
+            return callReasonsDistribution.map((item, index) => {
+              const percentage = item.value / totalCalls;
+              const angle = percentage * 360;
+              const startAngle = currentAngle;
+              const endAngle = currentAngle + angle;
+              
+              // Convert angles to radians
+              const startRad = (startAngle - 90) * (Math.PI / 180);
+              const endRad = (endAngle - 90) * (Math.PI / 180);
+              
+              // Calculate arc coordinates
+              const x1 = centerX + radius * Math.cos(startRad);
+              const y1 = centerY + radius * Math.sin(startRad);
+              const x2 = centerX + radius * Math.cos(endRad);
+              const y2 = centerY + radius * Math.sin(endRad);
+              
+              const largeArcFlag = angle > 180 ? 1 : 0;
+              
+              const pathData = [
+                `M ${centerX} ${centerY}`,
+                `L ${x1} ${y1}`,
+                `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
+                'Z'
+              ].join(' ');
+              
+              currentAngle += angle;
+              
+              return (
+                <path
+                  key={index}
+                  d={pathData}
+                  fill={PIE_COLORS[index % PIE_COLORS.length]}
+                  stroke="white"
+                  strokeWidth="2"
+                  style={{ cursor: 'pointer' }}
+                  onMouseEnter={() => setHoveredSlice(index)}
+                  onMouseLeave={() => setHoveredSlice(null)}
+                />
+              );
+            });
+          })()}
+          
+          {/* Outer circle border */}
+          <circle
+            cx="64"
+            cy="64"
+            r="62"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+          />
+        </svg>
+        
+        {/* Tooltip */}
+        {hoveredSlice !== null && (
+          <div style={{
+            position: 'absolute',
+            top: '10px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: BASE_TOKENS.colors.gray[900],
+            color: BASE_TOKENS.colors.white,
+            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+            borderRadius: BASE_TOKENS.borderRadius.md,
+            fontSize: BASE_TOKENS.typography.fontSize.xs,
+            fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+            whiteSpace: 'nowrap',
+            zIndex: 1000,
+            pointerEvents: 'none'
+          }}>
+            {callReasonsDistribution[hoveredSlice]?.name}
+          </div>
+        )}
         <div style={{
           marginLeft: BASE_TOKENS.spacing['2xl'],
           display: 'flex',
@@ -968,7 +1078,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       if (call.details.sentiment < 6) return BASE_TOKENS.colors.yellow[100];
       if (call.details.sentiment >= 8) return BASE_TOKENS.colors.green[100];
     }
-    return BASE_TOKENS.colors.gray[50];
+    return 'transparent';
   };
 
   const getCallBorder = (call, isSelected) => {
@@ -1108,7 +1218,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: BASE_TOKENS.spacing.md,
+        gap: BASE_TOKENS.spacing.sm,
         maxHeight: '384px',
         overflowY: 'auto',
         paddingRight: BASE_TOKENS.spacing.sm
@@ -1119,11 +1229,8 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
             <div
               key={call.id}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: BASE_TOKENS.spacing.md,
-                borderRadius: BASE_TOKENS.borderRadius.lg,
+                padding: `${BASE_TOKENS.spacing.md} ${BASE_TOKENS.spacing.sm}`,
+                borderRadius: BASE_TOKENS.borderRadius.md,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 backgroundColor: getCallBackgroundColor(call, isSelected),
@@ -1132,27 +1239,35 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
               onClick={() => onSelectCall(call)}
               onMouseEnter={(e) => {
                 if (!isSelected) {
-                  e.target.style.backgroundColor = colorBy === 'Fraud Risk' && call.fraudRisk 
+                  const hoverColor = colorBy === 'Fraud Risk' && call.fraudRisk 
                     ? BASE_TOKENS.colors.red[200]
                     : colorBy === 'Sentiment' && call.details.sentiment < 6 
                     ? BASE_TOKENS.colors.orange[200]
                     : colorBy === 'Sentiment' && call.details.sentiment >= 8 
                     ? BASE_TOKENS.colors.green[200]
-                    : BASE_TOKENS.colors.gray[100];
+                    : BASE_TOKENS.colors.gray[50];
+                  e.currentTarget.style.backgroundColor = hoverColor;
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isSelected) {
-                  e.target.style.backgroundColor = getCallBackgroundColor(call, false);
+                  e.currentTarget.style.backgroundColor = getCallBackgroundColor(call, false);
                 }
               }}
             >
-              <div>
-                <p style={{
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: BASE_TOKENS.spacing.xs
+              }}>
+                <h4 style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.sm,
                   fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  color: BASE_TOKENS.colors.gray[800],
+                  color: BASE_TOKENS.colors.gray[900],
                   margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
+                  lineHeight: BASE_TOKENS.typography.lineHeight.sm,
+                  backgroundColor: 'transparent'
                 }}>
                   {call.type}
                   {call.fraudRisk && (
@@ -1160,37 +1275,30 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
                       marginLeft: BASE_TOKENS.spacing.sm,
                       color: BASE_TOKENS.colors.red[500],
                       fontSize: BASE_TOKENS.typography.fontSize.xs,
-                      fontWeight: BASE_TOKENS.typography.fontWeight.semibold
+                      fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                      backgroundColor: 'transparent'
                     }}>
                       (Fraud Risk)
                     </span>
                   )}
-                </p>
-                <p style={{
+                </h4>
+                <span style={{
                   color: BASE_TOKENS.colors.gray[500],
                   fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  margin: 0
+                  fontWeight: BASE_TOKENS.typography.fontWeight.medium
                 }}>
-                  {call.dateTime}
-                </p>
+                  {call.dateTime.split(' - ')[1]}
+                </span>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <p style={{
-                  color: BASE_TOKENS.colors.gray[700],
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
-                }}>
-                  {call.duration}
-                </p>
-                <p style={{
-                  color: BASE_TOKENS.colors.gray[600],
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  margin: 0
-                }}>
-                  by {call.agent.split(' ')[1]}
-                </p>
-              </div>
+              <p style={{
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                color: BASE_TOKENS.colors.gray[500],
+                marginTop: BASE_TOKENS.spacing.xs,
+                lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+                margin: `${BASE_TOKENS.spacing.xs} 0 0 0`
+              }}>
+                {call.dateTime.split(' - ')[0]} • {call.duration} • by {call.agent.split(' ')[1]}
+              </p>
             </div>
           );
         })}
@@ -1237,12 +1345,27 @@ const AudioPreview = ({ duration }) => {
     setIsPlaying(!isPlaying);
   };
 
-  // Generate a dummy waveform data (array of heights)
-  const generateWaveform = (numBars = 60) => {
+  // Generate a static waveform data (array of heights) - same for each duration
+  const generateWaveform = (numBars = 150) => {
     const waveform = [];
+    // Use a seed based on duration to ensure consistent waveform for same duration
+    const seed = duration.length;
     for (let i = 0; i < numBars; i++) {
-      // Create some variation for a more realistic look
-      waveform.push(Math.random() * 0.7 + 0.3); // Heights between 30% and 100%
+      // Create call audio-like patterns with more variation and spikes
+      const voiceFreq = Math.sin(i * 0.08 + seed) * 0.3;
+      const speechPattern = Math.sin(i * 0.2 + seed * 2) * 0.25;
+      const breathingPauses = Math.sin(i * 0.03 + seed * 3) * 0.15;
+      
+      // Add random spikes to simulate speech consonants and emphasis
+      const randomSpike = (Math.random() - 0.5) * 0.4;
+      const spikeChance = Math.sin(i * 0.12 + seed * 4) > 0.3 ? randomSpike : 0;
+      
+      // Create more realistic call audio with lower baseline and occasional peaks
+      const baseLevel = 0.3;
+      const value = baseLevel + voiceFreq + speechPattern + breathingPauses + spikeChance;
+      
+      // Clamp values with more realistic range for call audio
+      waveform.push(Math.max(0.05, Math.min(0.9, value))); // Heights between 5% and 90%
     }
     return waveform;
   };
@@ -1322,9 +1445,8 @@ const AudioPreview = ({ duration }) => {
             inset: 0,
             display: 'flex',
             alignItems: 'end',
-            justifyContent: 'center',
-            padding: `0 ${BASE_TOKENS.spacing.xs}`,
-            gap: '1px'
+            justifyContent: 'space-between',
+            padding: `0 1px`
           }}>
             {waveformData.map((height, index) => (
               <div
@@ -1336,7 +1458,7 @@ const AudioPreview = ({ duration }) => {
                   borderRadius: '1px',
                   height: `${height * 100}%`,
                   width: '2px',
-                  transition: 'background-color 0.1s ease'
+                  flexShrink: 0
                 }}
               ></div>
             ))}
@@ -1347,7 +1469,6 @@ const AudioPreview = ({ duration }) => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-end',
-          gap: BASE_TOKENS.spacing.xs,
           flexShrink: 0
         }}>
           <span style={{
@@ -1359,11 +1480,10 @@ const AudioPreview = ({ duration }) => {
             {duration}
           </span>
           <span style={{
-            color: BASE_TOKENS.colors.gray[500],
             fontSize: BASE_TOKENS.typography.fontSize.xs,
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-            fontWeight: BASE_TOKENS.typography.fontWeight.medium
+            color: BASE_TOKENS.colors.gray[500],
+            marginTop: BASE_TOKENS.spacing.xs,
+            lineHeight: BASE_TOKENS.typography.lineHeight.xs
           }}>
             Duration
           </span>
@@ -1423,14 +1543,48 @@ const CallDetails = ({ call }) => {
           </p>
         </div>
         <div style={{ textAlign: 'right', marginLeft: BASE_TOKENS.spacing.lg }}>
-          <p style={{
-            color: BASE_TOKENS.colors.gray[700],
-            fontSize: BASE_TOKENS.typography.fontSize.sm,
-            margin: 0,
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            gap: BASE_TOKENS.spacing.sm,
             marginBottom: BASE_TOKENS.spacing.xs
           }}>
-            Agent: <span style={{ fontWeight: BASE_TOKENS.typography.fontWeight.medium }}>{call.agent}</span>
-          </p>
+            <p style={{
+              color: BASE_TOKENS.colors.gray[700],
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              margin: 0
+            }}>
+              Agent: <span style={{ fontWeight: BASE_TOKENS.typography.fontWeight.medium }}>{call.agent}</span>
+            </p>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              backgroundColor: BASE_TOKENS.colors.gray[200],
+              border: `2px solid ${BASE_TOKENS.colors.white}`,
+              boxShadow: BASE_TOKENS.shadows.sm,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              overflow: 'hidden'
+            }}>
+              <img 
+                src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
+                     call.agent === 'Agent Davis' ? '/headshot-2.png' : 
+                     call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+                     '/headshot-6.png'} 
+                alt={`${call.agent} avatar`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: BASE_TOKENS.borderRadius.full,
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+          </div>
           <p style={{
             color: BASE_TOKENS.colors.gray[700],
             fontSize: BASE_TOKENS.typography.fontSize.sm,
@@ -1571,7 +1725,7 @@ const CallDetails = ({ call }) => {
             subtitle: event.subtitle,
             status: 'completed'
           }))}
-          maxWidth="600px"
+          maxWidth="300px"
           complete={true}
         />
       </div>
