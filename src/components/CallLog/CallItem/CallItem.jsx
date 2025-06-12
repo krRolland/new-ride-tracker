@@ -30,170 +30,144 @@ const CallItem = ({
   return (
     <div
       style={{
-        padding: BASE_TOKENS.spacing.md,
+        minHeight: '56px', // Reduced from 64px to make items more compact
+        padding: `${BASE_TOKENS.spacing.xs} 0 ${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.xs}`, // Remove left padding to align with other elements
         borderRadius: BASE_TOKENS.borderRadius.md,
         cursor: 'pointer',
         transition: 'all 0.2s ease',
-        backgroundColor: getCallBackgroundColor(call, isSelected),
-        border: getCallBorder(call, isSelected)
+        backgroundColor: 'transparent', // Background now handled by wrapper
+        border: '1px solid transparent', // Border now handled by wrapper
+        display: 'flex',
+        alignItems: 'center',
+        gap: BASE_TOKENS.spacing.sm
       }}
       onClick={() => onSelectCall(call)}
-      onMouseEnter={(e) => {
-        if (!isSelected) {
-          const hoverColor = colorBy === 'Fraud Risk' && call.fraudRisk 
-            ? BASE_TOKENS.colors.red[200]
-            : colorBy === 'Sentiment' && call.details.sentiment < 6 
-            ? BASE_TOKENS.colors.yellow[200]
-            : colorBy === 'Sentiment' && call.details.sentiment >= 8 
-            ? BASE_TOKENS.colors.green[200]
-            : BASE_TOKENS.colors.gray[50];
-          e.currentTarget.style.backgroundColor = hoverColor;
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!isSelected) {
-          e.currentTarget.style.backgroundColor = getCallBackgroundColor(call, false);
-        }
-      }}
+      // Removed hover effects to prevent white overlay over blue highlight
     >
+      {/* Overlapping Avatars Container */}
       <div style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: BASE_TOKENS.spacing.sm,
-        marginBottom: BASE_TOKENS.spacing.xs
+        position: 'relative',
+        width: '68px', // Increased by 5px more to accommodate additional offset
+        height: '42px', // Reduced from 47px to 42px
+        flexShrink: 0
       }}>
-        {/* Overlapping Avatars Container */}
+        {/* Customer Avatar (Foreground - In front of agent) */}
         <div style={{
-          position: 'relative',
-          width: '48px',
-          height: '32px',
-          flexShrink: 0
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          width: '42px', // Reduced by 5px from 47px to 42px
+          height: '42px', // Reduced by 5px from 47px to 42px
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          backgroundColor: BASE_TOKENS.colors.gray[200],
+          border: `2px solid ${BASE_TOKENS.colors.white}`,
+          boxShadow: BASE_TOKENS.shadows.md,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          zIndex: 2
         }}>
-          {/* Customer Avatar (Background) */}
-          <div style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '32px',
-            height: '32px',
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: BASE_TOKENS.colors.gray[200],
-            border: `2px solid ${BASE_TOKENS.colors.white}`,
-            boxShadow: BASE_TOKENS.shadows.sm,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            zIndex: 1
-          }}>
-            <img 
-              src={call.customer?.avatar || '/headshot-8.png'} 
-              alt={`${call.customer?.name || 'Customer'} avatar`}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: BASE_TOKENS.borderRadius.full,
-                objectFit: 'cover'
-              }}
-            />
-          </div>
-          
-          {/* Agent Avatar (Foreground - Overlapping) */}
-          <div style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            width: '32px',
-            height: '32px',
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: BASE_TOKENS.colors.gray[200],
-            border: `2px solid ${BASE_TOKENS.colors.white}`,
-            boxShadow: BASE_TOKENS.shadows.md,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            zIndex: 2
-          }}>
-            <img 
-              src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
-                   call.agent === 'Agent Davis' ? '/headshot-2.png' : 
-                   call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
-                   '/headshot-6.png'} 
-              alt={`${call.agent} avatar`}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: BASE_TOKENS.borderRadius.full,
-                objectFit: 'cover'
-              }}
-            />
-          </div>
+          <img 
+            src="/headshot-8.png"
+            alt="Customer avatar"
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              objectFit: 'cover'
+            }}
+          />
         </div>
         
-        {/* Content */}
+        {/* Agent Avatar (Background - Behind customer) */}
         <div style={{
-          flex: 1,
-          minWidth: 0,
+          position: 'absolute',
+          left: '0px', // Align leftmost avatar to the very left edge
+          top: 0,
+          width: '42px', // Reduced by 5px from 47px to 42px
+          height: '42px', // Reduced by 5px from 47px to 42px
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          backgroundColor: BASE_TOKENS.colors.gray[200],
+          border: `2px solid ${BASE_TOKENS.colors.white}`,
+          boxShadow: BASE_TOKENS.shadows.sm,
           display: 'flex',
-          flexDirection: 'column'
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          zIndex: 1
         }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: BASE_TOKENS.spacing.xs
-          }}>
-            <h4 style={{
-              fontSize: BASE_TOKENS.typography.fontSize.md,
-              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              color: BASE_TOKENS.colors.gray[900],
-              margin: 0,
-              lineHeight: BASE_TOKENS.typography.lineHeight.sm,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              flex: 1
-            }}>
-              {call.type}
-              {call.fraudRisk && (
-                <span style={{
-                  marginLeft: BASE_TOKENS.spacing.sm,
-                  color: BASE_TOKENS.colors.red[500],
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold
-                }}>
-                  (Fraud Risk)
-                </span>
-              )}
-            </h4>
-            <span style={{
-              color: BASE_TOKENS.colors.gray[500],
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-              backgroundColor: BASE_TOKENS.colors.gray[100],
-              padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+          <img 
+            src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
+                 call.agent === 'Agent Davis' ? '/headshot-2.png' : 
+                 call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+                 '/headshot-6.png'} 
+            alt={`${call.agent} avatar`}
+            style={{
+              width: '100%',
+              height: '100%',
               borderRadius: BASE_TOKENS.borderRadius.full,
-              marginLeft: BASE_TOKENS.spacing.sm,
-              flexShrink: 0
-            }}>
-              {call.dateTime.split(' - ')[1]}
-            </span>
-          </div>
+              objectFit: 'cover'
+            }}
+          />
         </div>
       </div>
-      <p style={{
-        color: BASE_TOKENS.colors.gray[600],
-        fontWeight: BASE_TOKENS.typography.fontWeight.normal,
-        margin: 0,
-        fontSize: BASE_TOKENS.typography.fontSize.xs,
-        marginBottom: BASE_TOKENS.spacing.md,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+      
+      {/* Center Content - Title and Subtitle */}
+      <div style={{
+        flex: 1,
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
       }}>
-        {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • by {call.agent.split(' ')[1]}
-      </p>
+        {/* Title */}
+        <h4 style={{
+          fontSize: BASE_TOKENS.typography.fontSize.md,
+          fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+          color: BASE_TOKENS.colors.gray[900],
+          margin: 0,
+          marginBottom: '4px', // Increased from 2px to 4px for more spacing
+          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {call.type}
+        </h4>
+        
+        {/* Subtitle - Single Line */}
+        <p style={{
+          color: BASE_TOKENS.colors.gray[500],
+          fontWeight: BASE_TOKENS.typography.fontWeight.light,
+          margin: 0,
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]}
+        </p>
+      </div>
+      
+      {/* Right Side - Timestamp */}
+      <div style={{
+        flexShrink: 0,
+        alignSelf: 'center'
+      }}>
+        <span style={{
+          color: BASE_TOKENS.colors.gray[600],
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          fontWeight: BASE_TOKENS.typography.fontWeight.light,
+          backgroundColor: BASE_TOKENS.colors.gray[100],
+          padding: `6px 10px`, // Increased from 4px 8px (xs/sm) to 6px 10px for more padding
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          display: 'inline-block'
+        }}>
+          {call.dateTime.split(' - ')[1]}
+        </span>
+      </div>
     </div>
   );
 };

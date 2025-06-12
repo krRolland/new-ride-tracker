@@ -77,13 +77,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
     if (isSelected) {
       return BASE_TOKENS.colors.blue[100];
     }
-    if (colorBy === 'Fraud Risk' && call.fraudRisk) {
-      return BASE_TOKENS.colors.red[100];
-    }
-    if (colorBy === 'Sentiment') {
-      if (call.details.sentiment < 6) return BASE_TOKENS.colors.yellow[100];
-      if (call.details.sentiment >= 8) return BASE_TOKENS.colors.green[100];
-    }
+    // Remove special background colors for consistent appearance
     return 'transparent';
   };
 
@@ -96,7 +90,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
 
   return (
     <div style={{
-      flex: '0 0 300px',
+      flex: '0 0 380px', // Increased by 30px from 350px
       padding: BASE_TOKENS.spacing['2xl'], // Changed from lg to 2xl for proper alignment
       borderRight: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
@@ -243,23 +237,50 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: BASE_TOKENS.spacing.sm,
         flex: 1,
         overflowY: 'auto',
-        paddingRight: BASE_TOKENS.spacing.xs
+        paddingRight: BASE_TOKENS.spacing.xs,
+        position: 'relative'
       }}>
-        {filteredCalls.map((call) => {
+        {filteredCalls.map((call, index) => {
           const isSelected = selectedCallId === call.id;
+          const isLastItem = index === filteredCalls.length - 1;
           return (
-            <CallItem
-              key={call.id}
-              call={call}
-              isSelected={isSelected}
-              onSelectCall={onSelectCall}
-              colorBy={colorBy}
-              getCallBackgroundColor={getCallBackgroundColor}
-              getCallBorder={getCallBorder}
-            />
+            <div key={call.id} style={{ position: 'relative' }}>
+              <CallItem
+                call={call}
+                isSelected={false} // Never pass selected state to CallItem
+                onSelectCall={onSelectCall}
+                colorBy={colorBy}
+                getCallBackgroundColor={getCallBackgroundColor}
+                getCallBorder={getCallBorder}
+              />
+              
+              {/* Single separator line between items */}
+              {!isLastItem && (
+                <div style={{
+                  height: '1px',
+                  backgroundColor: BASE_TOKENS.colors.gray[200],
+                  marginLeft: BASE_TOKENS.spacing.md,
+                  marginRight: BASE_TOKENS.spacing.md
+                }} />
+              )}
+              
+              {/* Highlight overlay that appears over selected items */}
+              {isSelected && (
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: `-${BASE_TOKENS.spacing.md}`,
+                  right: `-${BASE_TOKENS.spacing.md}`,
+                  bottom: isLastItem ? 0 : '1px', // Don't cover the separator line
+                  border: `1px solid ${BASE_TOKENS.colors.blue[500]}`,
+                  borderRadius: BASE_TOKENS.borderRadius.md,
+                  pointerEvents: 'none', // Allow clicks to pass through to the CallItem
+                  zIndex: 1
+                }} />
+              )}
+            </div>
           );
         })}
       </div>
@@ -309,51 +330,104 @@ const CallDetails = ({ call }) => {
       <div style={{
         flexShrink: 0,
         backgroundColor: BASE_TOKENS.colors.gray[50],
-        // Removed negative margins and redundant properties
-        padding: `${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing['2xl']}`,
-        boxShadow: '1px 1px 6px rgba(0,0,0,.1)'
+        padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
+        boxShadow: '1px 1px 6px rgba(0,0,0,.1)',
+        borderBottom: `1px solid ${BASE_TOKENS.colors.gray[200]}`
       }}>
-        {/* Title Section - matching "Calls" header style and position */}
+        {/* Single Row - Title and Metrics */}
         <div style={{
-          paddingBottom: BASE_TOKENS.spacing.lg,
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'flex-start'
+          alignItems: 'center'
         }}>
+          {/* Left Side - Title and Description */}
           <div>
             <h2 style={{
-              fontSize: BASE_TOKENS.typography.fontSize.xl,
+              fontSize: BASE_TOKENS.typography.fontSize['2xl'],
               fontWeight: BASE_TOKENS.typography.fontWeight.bold,
               color: BASE_TOKENS.colors.gray[800],
               margin: 0,
-              marginBottom: BASE_TOKENS.spacing.md
+              marginBottom: BASE_TOKENS.spacing.xs
             }}>
-              {call.type}
+              Support for Lost Phone
             </h2>
             <p style={{
-              color: BASE_TOKENS.colors.gray[600],
+              color: BASE_TOKENS.colors.gray[500],
               fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontWeight: BASE_TOKENS.typography.fontWeight.normal,
               margin: 0
             }}>
-              Customer called about {call.details.reason.toLowerCase()} from recent trip.
+              {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]} • Case #8742
             </p>
           </div>
-          
-          {/* Status Badge on the right */}
+
+          {/* Right Side - Metrics */}
           <div style={{
-            padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
-            backgroundColor: BASE_TOKENS.colors.green[500],
-            color: BASE_TOKENS.colors.white,
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            fontSize: BASE_TOKENS.typography.fontSize.sm,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-            boxShadow: BASE_TOKENS.shadows.md,
-            flexShrink: 0
+            display: 'flex',
+            alignItems: 'center',
+            gap: BASE_TOKENS.spacing.lg
           }}>
-            {call.details.resolution}
+            {/* Customer Satisfaction */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: BASE_TOKENS.spacing.xs
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#FFD700"/>
+              </svg>
+              <span style={{
+                fontSize: BASE_TOKENS.typography.fontSize.sm,
+                fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                color: BASE_TOKENS.colors.gray[800]
+              }}>
+                8.5
+              </span>
+              <span style={{
+                fontSize: BASE_TOKENS.typography.fontSize.sm,
+                color: BASE_TOKENS.colors.gray[500]
+              }}>
+                /10
+              </span>
+            </div>
+
+            {/* Fraud Risk */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: BASE_TOKENS.spacing.xs
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L22 8.5V15.5C22 16.61 21.35 17.61 20.35 18.04L12 22L3.65 18.04C2.65 17.61 2 16.61 2 15.5V8.5L12 2ZM12 7C10.9 7 10 7.9 10 9S10.9 11 12 11 14 10.1 14 9 13.1 7 12 7ZM12 13C10.9 13 10 13.9 10 15S10.9 17 12 17 14 16.1 14 15 13.1 13 12 13Z" fill="#EF4444"/>
+              </svg>
+              <span style={{
+                fontSize: BASE_TOKENS.typography.fontSize.sm,
+                fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                color: BASE_TOKENS.colors.gray[800]
+              }}>
+                7
+              </span>
+              <span style={{
+                fontSize: BASE_TOKENS.typography.fontSize.sm,
+                color: BASE_TOKENS.colors.gray[500]
+              }}>
+                /10
+              </span>
+            </div>
+
+            {/* Status Badge */}
+            <div style={{
+              padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.md}`,
+              backgroundColor: BASE_TOKENS.colors.green[500],
+              color: BASE_TOKENS.colors.white,
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontWeight: BASE_TOKENS.typography.fontWeight.medium
+            }}>
+              Resolved
+            </div>
           </div>
         </div>
-        
       </div>
 
       {/* Scrollable Content Area */}
@@ -366,135 +440,7 @@ const CallDetails = ({ call }) => {
         padding: `0 ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
         marginTop:'20px',
       }}>
-        {/* Call Details Grid - 3 columns */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          backgroundColor: BASE_TOKENS.colors.white,
-          borderRadius: BASE_TOKENS.borderRadius.lg,
-          padding: BASE_TOKENS.spacing.lg,
-          boxShadow: BASE_TOKENS.shadows.sm
-        }}>
-          {/* Date & Time */}
-          <div style={{
-            flex: 1,
-            textAlign: 'left',
-            paddingRight: BASE_TOKENS.spacing.lg,
-            borderRight: `1px solid ${BASE_TOKENS.colors.gray[200]}`
-          }}>
-            <p style={{
-              color: BASE_TOKENS.colors.gray[800],
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
-              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-              margin: 0,
-              marginBottom: BASE_TOKENS.spacing.sm,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {formatDate(call.dateTime.split(' - ')[0])}
-            </p>
-            <p style={{
-              color: BASE_TOKENS.colors.gray[600],
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              margin: 0,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {call.dateTime.split(' - ')[1]}
-            </p>
-          </div>
-
-          {/* Issue Type */}
-          <div style={{
-            flex: 1,
-            textAlign: 'left',
-            paddingLeft: BASE_TOKENS.spacing.lg,
-            paddingRight: BASE_TOKENS.spacing.lg,
-            borderRight: `1px solid ${BASE_TOKENS.colors.gray[200]}`
-          }}>
-            <p style={{
-              color: BASE_TOKENS.colors.gray[800],
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
-              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-              margin: 0,
-              marginBottom: BASE_TOKENS.spacing.sm,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {call.type}
-            </p>
-            <p style={{
-              color: BASE_TOKENS.colors.gray[600],
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              margin: 0,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {call.details.reason}
-            </p>
-          </div>
-
-          {/* Customer Sentiment */}
-          <div style={{
-            flex: 1,
-            textAlign: 'left',
-            paddingLeft: BASE_TOKENS.spacing.lg
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              gap: BASE_TOKENS.spacing.sm
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '48px',
-                height: '48px',
-                borderRadius: BASE_TOKENS.borderRadius.full,
-                backgroundColor: getSentimentBackgroundColor(call.details.sentiment),
-                boxShadow: BASE_TOKENS.shadows.sm,
-                border: `2px solid ${BASE_TOKENS.colors.white}`
-              }}>
-                <span style={{
-                  color: BASE_TOKENS.colors.white,
-                  fontSize: BASE_TOKENS.typography.fontSize.md,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.bold,
-                  lineHeight: 1
-                }}>
-                  {call.details.sentiment}
-                </span>
-              </div>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                <span style={{
-                  color: BASE_TOKENS.colors.gray[400],
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  lineHeight: 1.2
-                }}>
-                  out of
-                </span>
-                <span style={{
-                  color: BASE_TOKENS.colors.gray[600],
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  lineHeight: 1.2
-                }}>
-                  10
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Audio Preview - Full Width Row */}
         <div style={{

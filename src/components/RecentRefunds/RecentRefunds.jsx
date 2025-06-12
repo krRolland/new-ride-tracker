@@ -19,16 +19,16 @@ const RecentRefunds = () => {
       border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       padding: BASE_TOKENS.spacing['2xl'],
       boxShadow: BASE_TOKENS.shadows.md,
+      height: '100%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      gap: BASE_TOKENS.spacing['2xl']
+      gap: BASE_TOKENS.spacing['2xl'],
+      boxSizing: 'border-box'
     }}>
       {/* Recent Refunds Section */}
       <div>
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           marginBottom: BASE_TOKENS.spacing['2xl']
         }}>
           <h3 style={{
@@ -37,138 +37,82 @@ const RecentRefunds = () => {
             color: BASE_TOKENS.colors.gray[800],
             margin: 0
           }}>
-            Recent Refunds
+            Refund Pattern Analysis
           </h3>
-          
-          {/* Device Info Button */}
-          <button
-            onClick={() => setShowDeviceDetails(!showDeviceDetails)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: BASE_TOKENS.spacing.xs,
-              padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-              backgroundColor: BASE_TOKENS.colors.gray[100],
-              border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
-              borderRadius: BASE_TOKENS.borderRadius.md,
-              cursor: 'pointer',
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              color: BASE_TOKENS.colors.gray[600],
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[200];
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[100];
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-              <line x1="12" y1="18" x2="12.01" y2="18"/>
-            </svg>
-            Device Info
-          </button>
         </div>
         
-        {/* Device Details Expandable Section */}
-        {showDeviceDetails && (
+        {/* Warning Banner */}
+        <div style={{
+          backgroundColor: BASE_TOKENS.colors.red[50],
+          border: `1px solid ${BASE_TOKENS.colors.red[200]}`,
+          borderRadius: BASE_TOKENS.borderRadius.md,
+          padding: BASE_TOKENS.spacing.lg,
+          marginBottom: BASE_TOKENS.spacing.lg,
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: BASE_TOKENS.spacing.sm
+        }}>
+          {/* Warning Icon */}
           <div style={{
-            backgroundColor: BASE_TOKENS.colors.gray[50],
-            border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-            borderRadius: BASE_TOKENS.borderRadius.md,
-            padding: BASE_TOKENS.spacing.lg,
-            marginBottom: BASE_TOKENS.spacing.lg
+            flexShrink: 0,
+            marginTop: '2px'
           }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={BASE_TOKENS.colors.red[600]} strokeWidth="2">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="m12 17 .01 0"/>
+            </svg>
+          </div>
+          
+          {/* Warning Content */}
+          <div style={{ flex: 1 }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: BASE_TOKENS.spacing.lg,
-              marginBottom: BASE_TOKENS.spacing.md
+              gap: BASE_TOKENS.spacing.sm,
+              marginBottom: BASE_TOKENS.spacing.xs
             }}>
-              <img 
-                src="/iphone-13-mockup.png" 
-                alt="iPhone 13 mockup"
-                style={{
-                  width: '60px',
-                  height: 'auto',
-                  objectFit: 'contain'
-                }}
-              />
-              <div>
-                <h4 style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.gray[800],
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
-                }}>
-                  Device Information
-                </h4>
-                <p style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  color: BASE_TOKENS.colors.gray[600],
-                  margin: 0
-                }}>
-                  Customer device usage and history
-                </p>
-              </div>
+              <h4 style={{
+                fontSize: BASE_TOKENS.typography.fontSize.sm,
+                fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                color: BASE_TOKENS.colors.red[800],
+                margin: 0
+              }}>
+                Suspicious Pattern Detected
+              </h4>
+              <span style={{
+                padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+                backgroundColor: BASE_TOKENS.colors.red[100],
+                color: BASE_TOKENS.colors.red[800],
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                borderRadius: BASE_TOKENS.borderRadius.full
+              }}>
+                HIGH RISK
+              </span>
             </div>
-            
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: BASE_TOKENS.spacing.lg
+            <p style={{
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              color: BASE_TOKENS.colors.red[700],
+              margin: 0,
+              lineHeight: BASE_TOKENS.typography.lineHeight.sm
             }}>
-              <div>
-                <p style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.gray[700],
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
-                }}>
-                  Current Devices:
-                </p>
-                <p style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  color: BASE_TOKENS.colors.gray[600],
-                  margin: 0,
-                  lineHeight: 1.4
-                }}>
-                  iPhone 13 (iOS 16.3)<br/>
-                  MacBook Pro (Web)
-                </p>
-              </div>
-              
-              <div>
-                <p style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.gray[700],
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
-                }}>
-                  Signup Device:
-                </p>
-                <p style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  color: BASE_TOKENS.colors.gray[600],
-                  margin: 0
-                }}>
-                  iPhone 11 (iOS 15.6)
-                </p>
-              </div>
-            </div>
+              <strong>$74.45</strong> claimed across <strong>9 days</strong> - This is <strong>3x the normal frequency</strong> and involves similar complaint types. Pattern suggests potential fraudulent activity requiring immediate review.
+            </p>
           </div>
-        )}
+        </div>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: BASE_TOKENS.spacing.lg }}>
           {refunds.map((refund) => (
             <div key={refund.id} style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              backgroundColor: BASE_TOKENS.colors.gray[50],
+              borderRadius: BASE_TOKENS.borderRadius.md,
+              padding: BASE_TOKENS.spacing.md,
+              border: `1px solid ${BASE_TOKENS.colors.gray[100]}`,
+              transition: 'all 0.2s ease'
             }}>
               <div>
                 <p style={{

@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
 import RecentRefunds from '../RecentRefunds';
-import CallAnalytics from '../CallAnalytics';
 import CallLog from '../CallLog';
+import CustomerInfoCard from '../CustomerInfoCard';
+import FraudRiskCard from '../FraudRiskCard';
+import FraudSignals from '../FraudSignals';
+import DevicesSecurity from '../DevicesSecurity';
 
 // Main App component
 const CallFraudDashboard = () => {
@@ -291,13 +294,12 @@ const CallFraudDashboard = () => {
         style={{
           position: 'sticky',
           top: 0,
-          backgroundColor: BASE_TOKENS.colors.white,
-          color: BASE_TOKENS.colors.gray[800],
-          padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
+          backgroundColor: '#000000',
+          color: BASE_TOKENS.colors.white,
+          padding: `${BASE_TOKENS.spacing.xl} ${BASE_TOKENS.spacing['2xl']}`,
           marginBottom: BASE_TOKENS.spacing['2xl'],
           zIndex: 1000,
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          border: `1px solid ${BASE_TOKENS.colors.gray[200]}`
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
         }}
         variants={headerVariants}
       >
@@ -305,16 +307,15 @@ const CallFraudDashboard = () => {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: BASE_TOKENS.spacing.lg
+            justifyContent: 'flex-start'
           }}>
-            {/* Left side - Dashboard title and customer ID */}
-            <div>
+            {/* Left aligned Dashboard title */}
+            <div style={{ textAlign: 'left' }}>
               <motion.h1 
                 style={{
                   fontSize: BASE_TOKENS.typography.fontSize['2xl'],
                   fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.gray[800],
+                  color: BASE_TOKENS.colors.white,
                   lineHeight: BASE_TOKENS.typography.lineHeight.xl,
                   margin: 0,
                   marginBottom: BASE_TOKENS.spacing.xs
@@ -326,7 +327,7 @@ const CallFraudDashboard = () => {
               <motion.p 
                 style={{
                   fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  color: BASE_TOKENS.colors.gray[600],
+                  color: BASE_TOKENS.colors.gray[300],
                   fontWeight: BASE_TOKENS.typography.fontWeight.medium,
                   margin: 0
                 }}
@@ -335,14 +336,6 @@ const CallFraudDashboard = () => {
                 Customer ID: CUST_789456
               </motion.p>
             </div>
-
-            {/* Right side - Customer Info */}
-            <NavbarCustomerInfo 
-              isScrolled={isScrolled}
-              isHovered={isHovered}
-              setIsHovered={setIsHovered}
-            />
-
           </div>
         </div>
       </motion.div>
@@ -350,27 +343,53 @@ const CallFraudDashboard = () => {
       {/* Main Content */}
       <div style={styles.content}>
 
-        {/* Main Dashboard Grid - Two Components */}
+        {/* Top Row - Two Card Components with proper grid layout */}
         <motion.div 
           style={{
             display: 'grid',
-            gridTemplateColumns: '3fr 2fr',
+            gridTemplateColumns: '3fr 2fr', // Match second row proportions: ~60% for customer card, ~40% for fraud risk card
             gap: BASE_TOKENS.spacing['2xl'],
-            marginTop: BASE_TOKENS.spacing['2xl']
+            marginBottom: BASE_TOKENS.spacing['2xl'],
+            alignItems: 'stretch',
+            justifyItems: 'stretch' // Ensures components stretch to fill grid cells horizontally
           }}
           variants={containerVariants}
         >
-          <motion.div variants={componentVariants}>
+          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+            <CustomerInfoCard />
+          </motion.div>
+          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+            <FraudRiskCard />
+          </motion.div>
+        </motion.div>
+
+        {/* Devices & Security Row - Full Width */}
+        <motion.div 
+          style={{
+            marginBottom: BASE_TOKENS.spacing['2xl']
+          }}
+          variants={componentVariants}
+        >
+          <DevicesSecurity />
+        </motion.div>
+
+        {/* Third Row - Refund List and Fraud Signals with proper grid layout */}
+        <motion.div 
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '3fr 2fr', // Refund list matches customer card width (60%), Fraud Signals takes remaining (40%)
+            gap: BASE_TOKENS.spacing['2xl'],
+            marginBottom: BASE_TOKENS.spacing['2xl'],
+            alignItems: 'stretch',
+            justifyItems: 'stretch' // Ensures components stretch to fill grid cells horizontally
+          }}
+          variants={containerVariants}
+        >
+          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
             <RecentRefunds />
           </motion.div>
-          <motion.div variants={componentVariants}>
-            <CallAnalytics
-              totalCalls={totalCalls}
-              avgSentimentScore={avgSentimentScore}
-              totalCallEvents={totalCallEvents}
-              uniqueCallReasons={uniqueCallReasons}
-              callReasonsDistribution={callReasonsDistributionData}
-            />
+          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+            <FraudSignals />
           </motion.div>
         </motion.div>
 
@@ -683,11 +702,38 @@ const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
         backgroundColor: isHovered ? BASE_TOKENS.colors.gray[50] : 'rgba(0,0,0,0)'
       }}
     >
-      {/* Customer Info - Always show name and status, hide additional details on scroll */}
+      {/* Avatar - Positioned on the left */}
+      <div 
+        style={{
+          width: '60px',
+          height: '60px',
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          backgroundColor: BASE_TOKENS.colors.gray[200],
+          border: `2px solid ${BASE_TOKENS.colors.white}`,
+          boxShadow: BASE_TOKENS.shadows.md,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0
+        }}
+      >
+        <img 
+          src="/headshot-8.png" 
+          alt="Customer avatar"
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+
+      {/* Customer Info - Left aligned */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         position: 'relative'
       }}>
         {/* Name and Gold Member - Always visible */}
@@ -716,7 +762,7 @@ const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
           </span>
         </div>
         
-        {/* Additional info - Hidden on scroll, shown on hover - matches original layout */}
+        {/* Additional info - Hidden on scroll, shown on hover - left aligned */}
         <AnimatePresence>
           {(!isScrolled || isHovered) && (
             <motion.div
@@ -727,7 +773,7 @@ const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'flex-end',
+                alignItems: 'flex-start',
                 marginTop: BASE_TOKENS.spacing.xs
               }}
             >
@@ -764,36 +810,10 @@ const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
           )}
         </AnimatePresence>
       </div>
-
-      {/* Avatar - Always visible, positioned on the right, larger size */}
-      <div 
-        style={{
-          width: '60px',
-          height: '60px',
-          borderRadius: BASE_TOKENS.borderRadius.full,
-          backgroundColor: BASE_TOKENS.colors.gray[200],
-          border: `2px solid ${BASE_TOKENS.colors.white}`,
-          boxShadow: BASE_TOKENS.shadows.md,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0
-        }}
-      >
-        <img 
-          src="/headshot-8.png" 
-          alt="Customer avatar"
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            objectFit: 'cover'
-          }}
-        />
-      </div>
     </motion.div>
   );
 };
+
 
 // DeviceUsage Component
 const DeviceUsage = () => (
