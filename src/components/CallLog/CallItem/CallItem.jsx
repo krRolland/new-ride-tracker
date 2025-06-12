@@ -58,43 +58,89 @@ const CallItem = ({
     >
       <div style={{
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: BASE_TOKENS.spacing.sm,
         marginBottom: BASE_TOKENS.spacing.xs
       }}>
-        <h4 style={{
-          fontSize: BASE_TOKENS.typography.fontSize.md,
-          fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-          color: BASE_TOKENS.colors.gray[900],
-          margin: 0,
-          lineHeight: BASE_TOKENS.typography.lineHeight.sm,
+        {/* Agent Avatar */}
+        <div style={{
+          width: '32px',
+          height: '32px',
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          backgroundColor: BASE_TOKENS.colors.gray[200],
+          border: `2px solid ${BASE_TOKENS.colors.white}`,
+          boxShadow: BASE_TOKENS.shadows.sm,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          flex: 1
+          flexShrink: 0
         }}>
-          {call.type}
-          {call.fraudRisk && (
-            <span style={{
-              marginLeft: BASE_TOKENS.spacing.sm,
-              color: BASE_TOKENS.colors.red[500],
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              fontWeight: BASE_TOKENS.typography.fontWeight.semibold
+          <img 
+            src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
+                 call.agent === 'Agent Davis' ? '/headshot-2.png' : 
+                 call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+                 '/headshot-6.png'} 
+            alt={`${call.agent} avatar`}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              objectFit: 'cover'
+            }}
+          />
+        </div>
+        
+        {/* Content */}
+        <div style={{
+          flex: 1,
+          minWidth: 0,
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: BASE_TOKENS.spacing.xs
+          }}>
+            <h4 style={{
+              fontSize: BASE_TOKENS.typography.fontSize.md,
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              color: BASE_TOKENS.colors.gray[900],
+              margin: 0,
+              lineHeight: BASE_TOKENS.typography.lineHeight.sm,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              flex: 1
             }}>
-              (Fraud Risk)
+              {call.type}
+              {call.fraudRisk && (
+                <span style={{
+                  marginLeft: BASE_TOKENS.spacing.sm,
+                  color: BASE_TOKENS.colors.red[500],
+                  fontSize: BASE_TOKENS.typography.fontSize.xs,
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold
+                }}>
+                  (Fraud Risk)
+                </span>
+              )}
+            </h4>
+            <span style={{
+              color: BASE_TOKENS.colors.gray[500],
+              fontSize: BASE_TOKENS.typography.fontSize.xs,
+              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+              backgroundColor: BASE_TOKENS.colors.gray[100],
+              padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+              borderRadius: BASE_TOKENS.borderRadius.full,
+              marginLeft: BASE_TOKENS.spacing.sm,
+              flexShrink: 0
+            }}>
+              {call.dateTime.split(' - ')[1]}
             </span>
-          )}
-        </h4>
-        <span style={{
-          color: BASE_TOKENS.colors.gray[500],
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          backgroundColor: BASE_TOKENS.colors.gray[100],
-          padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-          borderRadius: BASE_TOKENS.borderRadius.full
-        }}>
-          {call.dateTime.split(' - ')[1]}
-        </span>
+          </div>
+        </div>
       </div>
       <p style={{
         color: BASE_TOKENS.colors.gray[600],

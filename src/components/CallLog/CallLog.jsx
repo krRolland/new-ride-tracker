@@ -24,7 +24,7 @@ const CallLog = ({ callsData }) => {
       display: 'flex',
       flexDirection: 'row', // Changed to row to handle columns directly
       position: 'relative',
-      height: '600px',
+      height: '500px',
       overflow: 'hidden'
     }}>
       {/* The component now directly lays out its two main children */}
@@ -116,46 +116,50 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       </h2>
 
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: BASE_TOKENS.spacing.md,
         marginBottom: BASE_TOKENS.spacing.lg
       }}>
-        {/* Search bar taking up remaining space */}
-        <input
-          type="text"
-          placeholder="Search..."
-          style={{
-            flex: 1,
-            minWidth: '180px',
-            padding: BASE_TOKENS.spacing.sm,
-            border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
-            borderRadius: BASE_TOKENS.borderRadius.md,
-            fontSize: BASE_TOKENS.typography.fontSize.sm,
-            outline: 'none'
-          }}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        
-        {/* Sort dropdown - made to match search bar height */}
-        <select
-          style={{
-            padding: BASE_TOKENS.spacing.sm,
-            border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
-            borderRadius: BASE_TOKENS.borderRadius.md,
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            width: '70px',
-            outline: 'none'
-          }}
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="Newest First">Newest</option>
-          <option value="Oldest First">Oldest</option>
-          <option value="Duration (Shortest)">Shortest</option>
-          <option value="Duration (Longest)">Longest</option>
-        </select>
+        {/* Search bar with icon */}
+        <div style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <svg 
+            style={{
+              position: 'absolute',
+              left: BASE_TOKENS.spacing.sm,
+              width: '16px',
+              height: '16px',
+              color: BASE_TOKENS.colors.gray[400],
+              pointerEvents: 'none',
+              zIndex: 1
+            }}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+            />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search..."
+            style={{
+              width: '100%',
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing['2xl']}`,
+              border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
+              borderRadius: BASE_TOKENS.borderRadius.md,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              outline: 'none'
+            }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
       
       <div style={{

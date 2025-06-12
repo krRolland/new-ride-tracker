@@ -19,25 +19,24 @@ const CallAnalytics = ({
       label: 'Total Calls',
       value: totalCalls,
       color: BASE_TOKENS.colors.blue[500],
-      bgColor: BASE_TOKENS.colors.blue[50]
+      bgColor: BASE_TOKENS.colors.blue[50],
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      )
     },
     {
       label: 'Avg Sentiment',
       value: avgSentimentScore,
       color: BASE_TOKENS.colors.green[500],
-      bgColor: BASE_TOKENS.colors.green[50]
-    },
-    {
-      label: 'Call Events',
-      value: totalCallEvents,
-      color: BASE_TOKENS.colors.blue[600],
-      bgColor: BASE_TOKENS.colors.blue[50]
-    },
-    {
-      label: 'Unique Reasons',
-      value: uniqueCallReasons,
-      color: BASE_TOKENS.colors.yellow[600],
-      bgColor: BASE_TOKENS.colors.yellow[50]
+      bgColor: BASE_TOKENS.colors.green[50],
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="m9 12 2 2 4-4" fill="white" stroke="white" strokeWidth="2"/>
+        </svg>
+      )
     }
   ];
 
@@ -59,44 +58,51 @@ const CallAnalytics = ({
         Call Analytics
       </h3>
       
-      {/* Call Statistics Grid */}
+      {/* Call Statistics - Vertical Stack */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: BASE_TOKENS.spacing.lg,
-        marginBottom: BASE_TOKENS.spacing['3xl']
+        display: 'flex',
+        flexDirection: 'column',
+        gap: BASE_TOKENS.spacing.sm,
+        marginBottom: BASE_TOKENS.spacing['2xl']
       }}>
         {stats.map((stat, index) => (
           <div
             key={index}
             style={{
-              padding: BASE_TOKENS.spacing.lg,
+              padding: BASE_TOKENS.spacing.md,
               backgroundColor: stat.bgColor,
-              borderRadius: BASE_TOKENS.borderRadius.lg,
+              borderRadius: BASE_TOKENS.borderRadius.md,
               border: `1px solid ${stat.color}20`,
-              textAlign: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              gap: BASE_TOKENS.spacing.sm,
               transition: 'all 0.2s ease'
             }}
           >
             <div style={{
-              fontSize: BASE_TOKENS.typography.fontSize['2xl'],
-              fontWeight: BASE_TOKENS.typography.fontWeight.bold,
               color: stat.color,
-              lineHeight: BASE_TOKENS.typography.lineHeight.none,
-              marginBottom: BASE_TOKENS.spacing.xs
+              flexShrink: 0
             }}>
-              {stat.value}
+              {stat.icon}
             </div>
-            <div style={{
-              fontSize: BASE_TOKENS.typography.fontSize.xs,
-              color: BASE_TOKENS.colors.gray[600],
-              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-              lineHeight: BASE_TOKENS.typography.lineHeight.sm,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              {stat.label}
+            <div style={{ flex: 1 }}>
+              <div style={{
+                fontSize: BASE_TOKENS.typography.fontSize.lg,
+                fontWeight: BASE_TOKENS.typography.fontWeight.bold,
+                color: stat.color,
+                lineHeight: BASE_TOKENS.typography.lineHeight.none,
+                marginBottom: '2px'
+              }}>
+                {stat.value}
+              </div>
+              <div style={{
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                color: BASE_TOKENS.colors.gray[600],
+                fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                lineHeight: BASE_TOKENS.typography.lineHeight.sm
+              }}>
+                {stat.label}
+              </div>
             </div>
           </div>
         ))}

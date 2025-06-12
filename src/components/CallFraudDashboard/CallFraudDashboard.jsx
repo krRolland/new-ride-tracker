@@ -249,44 +249,76 @@ const CallFraudDashboard = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Sticky Header */}
+      {/* Sticky Header with User Profile */}
       <motion.div 
-        style={styles.header}
+        style={{
+          position: 'sticky',
+          top: 0,
+          backgroundColor: BASE_TOKENS.colors.white,
+          color: BASE_TOKENS.colors.gray[800],
+          padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
+          marginBottom: BASE_TOKENS.spacing['2xl'],
+          zIndex: 1000,
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          border: `1px solid ${BASE_TOKENS.colors.gray[200]}`
+        }}
         variants={headerVariants}
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <motion.h1 
-            style={styles.pageTitle}
-            variants={componentVariants}
-          >
-            Call Fraud Dashboard
-          </motion.h1>
-          <motion.p 
-            style={styles.customerId}
-            variants={componentVariants}
-          >
-            Customer ID: CUST_789456
-          </motion.p>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: BASE_TOKENS.spacing.lg
+          }}>
+            {/* Left side - Dashboard title and customer ID */}
+            <div>
+              <motion.h1 
+                style={{
+                  fontSize: BASE_TOKENS.typography.fontSize['2xl'],
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[800],
+                  lineHeight: BASE_TOKENS.typography.lineHeight.xl,
+                  margin: 0,
+                  marginBottom: BASE_TOKENS.spacing.xs
+                }}
+                variants={componentVariants}
+              >
+                Call Fraud Dashboard
+              </motion.h1>
+              <motion.p 
+                style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.sm,
+                  color: BASE_TOKENS.colors.gray[600],
+                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                  margin: 0
+                }}
+                variants={componentVariants}
+              >
+                Customer ID: CUST_789456
+              </motion.p>
+            </div>
+
+          </div>
         </div>
       </motion.div>
 
       {/* Main Content */}
       <div style={styles.content}>
-        {/* User Profile Section */}
-        <motion.div variants={componentVariants}>
-          <UserProfile />
-        </motion.div>
 
         {/* Main Dashboard Grid - Two Components */}
         <motion.div 
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '3fr 2fr',
             gap: BASE_TOKENS.spacing['2xl'],
             marginTop: BASE_TOKENS.spacing['2xl']
           }}
           variants={containerVariants}
         >
+          <motion.div variants={componentVariants}>
+            <RecentRefunds userProfile={<UserProfile />} />
+          </motion.div>
           <motion.div variants={componentVariants}>
             <CallAnalytics
               totalCalls={totalCalls}
@@ -295,9 +327,6 @@ const CallFraudDashboard = () => {
               uniqueCallReasons={uniqueCallReasons}
               callReasonsDistribution={callReasonsDistributionData}
             />
-          </motion.div>
-          <motion.div variants={componentVariants}>
-            <RecentRefunds />
           </motion.div>
         </motion.div>
 
@@ -321,11 +350,6 @@ const UserProfile = () => {
 
   return (
     <div style={{
-      backgroundColor: BASE_TOKENS.colors.white,
-      borderRadius: BASE_TOKENS.borderRadius.lg,
-      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      padding: BASE_TOKENS.spacing['2xl'],
-      boxShadow: BASE_TOKENS.shadows.md,
       display: 'flex',
       alignItems: 'center',
       gap: BASE_TOKENS.spacing.lg,
