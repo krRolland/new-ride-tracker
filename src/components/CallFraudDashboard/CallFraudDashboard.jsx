@@ -8,6 +8,8 @@ import CallLog from '../CallLog';
 // Main App component
 const CallFraudDashboard = () => {
   const [selectedCall, setSelectedCall] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Dummy data for the dashboard
   const callsData = [
@@ -18,6 +20,10 @@ const CallFraudDashboard = () => {
       duration: '15min',
       dateTime: '2024-06-08 - 14:30',
       agent: 'Agent Smith',
+      customer: {
+        name: 'Sarah Johnson',
+        avatar: '/headshot-8.png'
+      },
       details: {
         reason: 'Lost Item',
         sentiment: 8.5,
@@ -38,6 +44,10 @@ const CallFraudDashboard = () => {
       duration: '18min',
       dateTime: '2024-05-28 - 03:15',
       agent: 'Agent Davis',
+      customer: {
+        name: 'Michael Chen',
+        avatar: '/headshot-3.png'
+      },
       details: {
         reason: 'Potential Fraud',
         sentiment: 5.2,
@@ -58,6 +68,10 @@ const CallFraudDashboard = () => {
       duration: '10min',
       dateTime: '2024-05-15 - 09:05',
       agent: 'Agent Johnson',
+      customer: {
+        name: 'Emma Rodriguez',
+        avatar: '/headshot-4.png'
+      },
       details: {
         reason: 'Billing Error',
         sentiment: 9.1,
@@ -77,6 +91,10 @@ const CallFraudDashboard = () => {
       duration: '20min',
       dateTime: '2024-04-20 - 18:25',
       agent: 'Agent Lee',
+      customer: {
+        name: 'David Kim',
+        avatar: '/headshot-7.png'
+      },
       details: {
         reason: 'Route Error',
         sentiment: 7.8,
@@ -97,6 +115,10 @@ const CallFraudDashboard = () => {
       duration: '12min',
       dateTime: '2024-06-01 - 10:00',
       agent: 'Agent Smith',
+      customer: {
+        name: 'Lisa Thompson',
+        avatar: '/headshot-2.png'
+      },
       details: {
         reason: 'Billing Error',
         sentiment: 6.5,
@@ -116,6 +138,10 @@ const CallFraudDashboard = () => {
       duration: '25min',
       dateTime: '2024-05-25 - 16:45',
       agent: 'Agent Johnson',
+      customer: {
+        name: 'Robert Wilson',
+        avatar: '/headshot-6.png'
+      },
       details: {
         reason: 'Billing Error',
         sentiment: 3.0,
@@ -153,6 +179,17 @@ const CallFraudDashboard = () => {
       setSelectedCall(callsData[0]);
     }
   }, [callsData, selectedCall]); // Depend on callsData and selectedCall
+
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Animation variants
   const containerVariants = {
@@ -299,6 +336,13 @@ const CallFraudDashboard = () => {
               </motion.p>
             </div>
 
+            {/* Right side - Customer Info */}
+            <NavbarCustomerInfo 
+              isScrolled={isScrolled}
+              isHovered={isHovered}
+              setIsHovered={setIsHovered}
+            />
+
           </div>
         </div>
       </motion.div>
@@ -317,7 +361,7 @@ const CallFraudDashboard = () => {
           variants={containerVariants}
         >
           <motion.div variants={componentVariants}>
-            <RecentRefunds userProfile={<UserProfile />} />
+            <RecentRefunds />
           </motion.div>
           <motion.div variants={componentVariants}>
             <CallAnalytics
@@ -615,6 +659,139 @@ const UserProfile = () => {
         </AnimatePresence>
       </div>
     </div>
+  );
+};
+
+// NavbarCustomerInfo Component
+const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
+  return (
+    <motion.div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: BASE_TOKENS.spacing.md,
+        cursor: 'pointer',
+        padding: BASE_TOKENS.spacing.sm,
+        borderRadius: BASE_TOKENS.borderRadius.lg,
+        transition: 'all 0.2s ease',
+        position: 'relative'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ scale: 1.02 }}
+      animate={{
+        backgroundColor: isHovered ? BASE_TOKENS.colors.gray[50] : 'rgba(0,0,0,0)'
+      }}
+    >
+      {/* Customer Info - Always show name and status, hide additional details on scroll */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        position: 'relative'
+      }}>
+        {/* Name and Gold Member - Always visible */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: BASE_TOKENS.spacing.sm,
+          whiteSpace: 'nowrap'
+        }}>
+          <span style={{
+            fontSize: BASE_TOKENS.typography.fontSize.sm,
+            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            color: BASE_TOKENS.colors.gray[900]
+          }}>
+            Sarah Johnson
+          </span>
+          <span style={{
+            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+            backgroundColor: BASE_TOKENS.colors.yellow[400],
+            color: BASE_TOKENS.colors.yellow[900],
+            fontSize: BASE_TOKENS.typography.fontSize.xs,
+            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            borderRadius: BASE_TOKENS.borderRadius.full
+          }}>
+            Gold Member
+          </span>
+        </div>
+        
+        {/* Additional info - Hidden on scroll, shown on hover - matches original layout */}
+        <AnimatePresence>
+          {(!isScrolled || isHovered) && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                marginTop: BASE_TOKENS.spacing.xs
+              }}
+            >
+              <div style={{
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                color: BASE_TOKENS.colors.gray[500],
+                whiteSpace: 'nowrap'
+              }}>
+                sarah.j@email.com
+              </div>
+              <div style={{
+                fontSize: BASE_TOKENS.typography.fontSize.xs,
+                color: BASE_TOKENS.colors.gray[400],
+                whiteSpace: 'nowrap',
+                display: 'flex',
+                alignItems: 'center',
+                gap: BASE_TOKENS.spacing.xs,
+                marginTop: '2px'
+              }}>
+                <span>$3,847 lifetime value</span>
+                <span>•</span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: BASE_TOKENS.spacing.xs
+                }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{ color: BASE_TOKENS.colors.yellow[500] }}>
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span>4.8</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Avatar - Always visible, positioned on the right, larger size */}
+      <div 
+        style={{
+          width: '60px',
+          height: '60px',
+          borderRadius: BASE_TOKENS.borderRadius.full,
+          backgroundColor: BASE_TOKENS.colors.gray[200],
+          border: `2px solid ${BASE_TOKENS.colors.white}`,
+          boxShadow: BASE_TOKENS.shadows.md,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0
+        }}
+      >
+        <img 
+          src="/headshot-8.png" 
+          alt="Customer avatar"
+          style={{
+            width: '100%',
+            height: '100%',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+    </motion.div>
   );
 };
 

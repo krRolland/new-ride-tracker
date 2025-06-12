@@ -62,33 +62,73 @@ const CallItem = ({
         gap: BASE_TOKENS.spacing.sm,
         marginBottom: BASE_TOKENS.spacing.xs
       }}>
-        {/* Agent Avatar */}
+        {/* Overlapping Avatars Container */}
         <div style={{
-          width: '32px',
+          position: 'relative',
+          width: '48px',
           height: '32px',
-          borderRadius: BASE_TOKENS.borderRadius.full,
-          backgroundColor: BASE_TOKENS.colors.gray[200],
-          border: `2px solid ${BASE_TOKENS.colors.white}`,
-          boxShadow: BASE_TOKENS.shadows.sm,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
           flexShrink: 0
         }}>
-          <img 
-            src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
-                 call.agent === 'Agent Davis' ? '/headshot-2.png' : 
-                 call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
-                 '/headshot-6.png'} 
-            alt={`${call.agent} avatar`}
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: BASE_TOKENS.borderRadius.full,
-              objectFit: 'cover'
-            }}
-          />
+          {/* Customer Avatar (Background) */}
+          <div style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '32px',
+            height: '32px',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            backgroundColor: BASE_TOKENS.colors.gray[200],
+            border: `2px solid ${BASE_TOKENS.colors.white}`,
+            boxShadow: BASE_TOKENS.shadows.sm,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            zIndex: 1
+          }}>
+            <img 
+              src={call.customer?.avatar || '/headshot-8.png'} 
+              alt={`${call.customer?.name || 'Customer'} avatar`}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: BASE_TOKENS.borderRadius.full,
+                objectFit: 'cover'
+              }}
+            />
+          </div>
+          
+          {/* Agent Avatar (Foreground - Overlapping) */}
+          <div style={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            width: '32px',
+            height: '32px',
+            borderRadius: BASE_TOKENS.borderRadius.full,
+            backgroundColor: BASE_TOKENS.colors.gray[200],
+            border: `2px solid ${BASE_TOKENS.colors.white}`,
+            boxShadow: BASE_TOKENS.shadows.md,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            zIndex: 2
+          }}>
+            <img 
+              src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
+                   call.agent === 'Agent Davis' ? '/headshot-2.png' : 
+                   call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+                   '/headshot-6.png'} 
+              alt={`${call.agent} avatar`}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: BASE_TOKENS.borderRadius.full,
+                objectFit: 'cover'
+              }}
+            />
+          </div>
         </div>
         
         {/* Content */}
