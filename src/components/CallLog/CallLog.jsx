@@ -524,7 +524,7 @@ const CallDetails = ({ call }) => {
                 color: BASE_TOKENS.colors.gray[900],
                 margin: 0
               }}>
-                Support for Lost Phone
+                {call.type}
               </h2>
             </div>
             <p style={{
@@ -534,7 +534,12 @@ const CallDetails = ({ call }) => {
               margin: 0,
               marginTop: '-20px'
             }}>
-              {formatDate(call.dateTime.split(' - ')[0])} • Case #8742
+              {formatDate(call.dateTime.split(' - ')[0])} • Case #{call.id === 'call-1' ? '8742' : 
+                                                                    call.id === 'call-2' ? '9156' : 
+                                                                    call.id === 'call-3' ? '7834' : 
+                                                                    call.id === 'call-4' ? '6521' : 
+                                                                    call.id === 'call-5' ? '9403' : 
+                                                                    call.id === 'call-6' ? '5678' : '8742'}
             </p>
           </div>
 
