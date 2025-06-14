@@ -4,6 +4,7 @@ import { BASE_TOKENS } from '../../tokens';
 // Recent Refunds Component
 const RecentRefunds = () => {
   const [showDeviceDetails, setShowDeviceDetails] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState(null);
   
   const refunds = [
     { id: 'R-7891', amount: 24.5, reason: 'Driver arrived late', date: '2025-06-08', status: 'Approved' },
@@ -41,7 +42,8 @@ const RecentRefunds = () => {
   return (
     <div style={{
       backgroundColor: 'transparent',
-      padding: '16px',
+      paddingTop: '16px',
+      paddingBottom: '16px',
       height: '100%',
       width: '100%',
       display: 'flex',
@@ -85,18 +87,29 @@ const RecentRefunds = () => {
         </div>
         
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {refunds.map((refund, index) => (
-            <div key={refund.id} style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: 'transparent',
-              borderRadius: BASE_TOKENS.borderRadius.md,
-              paddingTop: '17px',
-              paddingBottom: '17px',
-              transition: 'all 0.2s ease',
-              borderBottom: index < refunds.length - 1 ? `1px solid ${BASE_TOKENS.colors.gray[200]}` : 'none'
-            }}>
+          {refunds.map((refund, index) => {
+            const isHovered = hoveredItem === refund.id;
+            
+            return (
+              <div 
+                key={refund.id} 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  backgroundColor: isHovered ? BASE_TOKENS.colors.gray[50] : 'transparent',
+                  borderRadius: BASE_TOKENS.borderRadius.md,
+                  paddingTop: '17px',
+                  paddingBottom: '17px',
+                  paddingLeft: '8px',
+                  paddingRight: '8px',
+                  transition: 'all 0.2s ease',
+                  borderBottom: index < refunds.length - 1 ? `1px solid ${BASE_TOKENS.colors.gray[200]}` : 'none',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={() => setHoveredItem(refund.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+              >
               <div>
                 <p style={{
                   color: BASE_TOKENS.colors.gray[800],
@@ -142,7 +155,8 @@ const RecentRefunds = () => {
                 {refund.status}
               </span> */}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

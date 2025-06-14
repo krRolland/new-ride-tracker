@@ -39,7 +39,7 @@ const CallLog = ({ callsData }) => {
 // AllCalls Component
 const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
   const [sortBy, setSortBy] = useState('Newest First');
-  const [colorBy, setColorBy] = useState('Fraud Risk');
+  const [colorBy, setColorBy] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   // Filter and sort calls (incorporating search term)
@@ -131,7 +131,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
             placeholder="Search..."
             style={{
               width: '100%',
-              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing['2xl']}`,
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} calc(${BASE_TOKENS.spacing['2xl']} + 2px)`,
               border: '1px solid #E1E1E1',
               backgroundColor: '#F9FAFB',
               borderRadius: BASE_TOKENS.borderRadius.md,
@@ -235,40 +235,51 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           const isLastItem = index === filteredCalls.length - 1;
           return (
             <div key={call.id} style={{ position: 'relative' }}>
-              <CallItem
-                call={call}
-                isSelected={false} // Never pass selected state to CallItem
-                onSelectCall={onSelectCall}
-                colorBy={colorBy}
-                getCallBackgroundColor={getCallBackgroundColor}
-                getCallBorder={getCallBorder}
-              />
+              {/* Super light gray overlay for selected items - extends to pane edges */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: `-${BASE_TOKENS.spacing['2xl']}`,
+                right: `-${BASE_TOKENS.spacing['2xl']}`,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.02)',
+                opacity: isSelected ? 1 : 0,
+                transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }} />
               
-              {/* Single separator line between items */}
-              {!isLastItem && (
-                <div style={{
-                  height: '1px',
-                  backgroundColor: BASE_TOKENS.colors.gray[200],
-                  marginLeft: BASE_TOKENS.spacing.md,
-                  marginRight: BASE_TOKENS.spacing.md
-                }} />
-              )}
+              <div style={{
+                transform: isSelected ? 'translateX(5px)' : 'translateX(0)',
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <CallItem
+                  call={call}
+                  isSelected={false} // Never pass selected state to CallItem
+                  onSelectCall={onSelectCall}
+                  colorBy={colorBy}
+                  getCallBackgroundColor={getCallBackgroundColor}
+                  getCallBorder={getCallBorder}
+                />
+              </div>
               
-              {/* Highlight overlay that appears over selected items */}
-              {isSelected && (
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: `-${BASE_TOKENS.spacing.md}`,
-                  right: `-${BASE_TOKENS.spacing.md}`,
-                  bottom: isLastItem ? 0 : '1px', // Don't cover the separator line
-                  border: `1px solid ${BASE_TOKENS.colors.black}`,
-                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                  borderRadius: BASE_TOKENS.borderRadius.md,
-                  pointerEvents: 'none', // Allow clicks to pass through to the CallItem
-                  zIndex: 1
-                }} />
-              )}
+              {/* Thick left border indicator for selected items */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                width: '5px',
+                backgroundColor: BASE_TOKENS.colors.black,
+                opacity: isSelected ? 1 : 0,
+                transform: isSelected ? 'scaleX(1)' : 'scaleX(0)',
+                transformOrigin: 'left center',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                pointerEvents: 'none',
+                zIndex: 2
+              }} />
             </div>
           );
         })}

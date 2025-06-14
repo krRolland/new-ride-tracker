@@ -196,14 +196,14 @@ const CallFraudDashboard = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Animation variants
+  // Animation variants - toned down for subtlety
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
+        staggerChildren: 0.05,
+        delayChildren: 0.02
       }
     }
   };
@@ -211,13 +211,13 @@ const CallFraudDashboard = () => {
   const headerVariants = {
     hidden: { 
       opacity: 0, 
-      y: -20 
+      y: -5 
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.3,
         ease: "easeOut"
       }
     }
@@ -226,15 +226,13 @@ const CallFraudDashboard = () => {
   const componentVariants = {
     hidden: { 
       opacity: 0, 
-      y: 20,
-      scale: 0.95
+      y: 5
     },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.3,
         ease: "easeOut"
       }
     }
@@ -260,7 +258,7 @@ const CallFraudDashboard = () => {
     content: {
       maxWidth: '1200px',
       margin: '0 auto',
-      padding: `20px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
+      padding: '0'
     },
     pageTitle: {
       fontSize: BASE_TOKENS.typography.fontSize['2xl'],
@@ -302,15 +300,14 @@ const CallFraudDashboard = () => {
           backgroundColor: '#000000',
           borderBottom: `0.5px solid ${BASE_TOKENS.colors.gray[700]}`,
           zIndex: 1000,
-          width: '100vw',
-          marginLeft: 'calc(-50vw + 50%)'
+          width: '100%',
+          marginLeft: 0,
+          marginRight: 0
         }}
       >
         {/* Tab Navigation */}
         <motion.div 
           style={{
-            maxWidth: '1200px',
-            margin: '0 auto',
             paddingTop: BASE_TOKENS.spacing.md,
             paddingBottom: BASE_TOKENS.spacing.md,
             paddingLeft: BASE_TOKENS.spacing['2xl'],
@@ -407,17 +404,40 @@ const CallFraudDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={styles.content}>
+      <div>
         {/* Tab Content */}
         <div>
           {activeTab === 'overview' && (
-            <div>
+            <div style={{...styles.content, padding: BASE_TOKENS.spacing['2xl']}}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.03,
+                    delayChildren: 0.01
+                  }
+                }
+              }}
+            >
               {/* User Title */}
-              <div 
+              <motion.div 
                 style={{
-                  padding: '16px',
+                  paddingTop: '16px',
+                  paddingBottom: '16px',
                   marginTop: '0px',
                   marginBottom: '15px'
+                }}
+                variants={{
+                  hidden: { opacity: 0, y: -2 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.2, ease: "easeOut" }
+                  }
                 }}
               >
                 <h2 style={{
@@ -428,22 +448,39 @@ const CallFraudDashboard = () => {
                 }}>
                   User
                 </h2>
-              </div>
+              </motion.div>
 
               {/* Customer Info Card - Full Width */}
-              <div 
+              <motion.div 
                 style={{
                   marginBottom: '30px'
                 }}
+                variants={{
+                  hidden: { opacity: 0, y: 3 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.2, ease: "easeOut" }
+                  }
+                }}
               >
                 <CustomerInfoCard />
-              </div>
+              </motion.div>
 
               {/* Fraud Signals Title */}
-              <div 
+              <motion.div 
                 style={{
-                  padding: '16px',
+                  paddingTop: '16px',
+                  paddingBottom: '16px',
                   marginBottom: '15px'
+                }}
+                variants={{
+                  hidden: { opacity: 0, y: -2 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { duration: 0.2, ease: "easeOut" }
+                  }
                 }}
               >
                 <h2 style={{
@@ -454,10 +491,10 @@ const CallFraudDashboard = () => {
                 }}>
                   Fraud Signals
                 </h2>
-              </div>
+              </motion.div>
 
               {/* Three UberCard Components */}
-              <div 
+              <motion.div 
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
@@ -466,8 +503,28 @@ const CallFraudDashboard = () => {
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.02,
+                      delayChildren: 0.05
+                    }
+                  }
+                }}
               >
-                <div style={{ width: '100%', boxSizing: 'border-box' }}>
+                <motion.div 
+                  style={{ width: '100%', boxSizing: 'border-box' }}
+                  variants={{
+                    hidden: { opacity: 0, y: 3 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                >
                   <UberCard 
                     title="50%"
                     subtitle="Billing Disputes"
@@ -476,8 +533,18 @@ const CallFraudDashboard = () => {
                     backgroundColor="#FFF6F6"
                     titleColor="#DE1135"
                   />
-                </div>
-                <div style={{ width: '100%', boxSizing: 'border-box' }}>
+                </motion.div>
+                <motion.div 
+                  style={{ width: '100%', boxSizing: 'border-box' }}
+                  variants={{
+                    hidden: { opacity: 0, y: 3 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                >
                   <UberCard 
                     title="$74"
                     subtitle="Monthly Refunds"
@@ -486,8 +553,18 @@ const CallFraudDashboard = () => {
                     backgroundColor="#FFF6F6"
                     titleColor="#DE1135"
                   />
-                </div>
-                <div style={{ width: '100%', boxSizing: 'border-box' }}>
+                </motion.div>
+                <motion.div 
+                  style={{ width: '100%', boxSizing: 'border-box' }}
+                  variants={{
+                    hidden: { opacity: 0, y: 3 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                >
                   <UberCard 
                     title="2.5 yrs"
                     subtitle="Account Age"
@@ -496,39 +573,70 @@ const CallFraudDashboard = () => {
                     backgroundColor="#F1F9F4"
                     titleColor="#0D8345"
                   />
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Activity Timeline and Recent Refunds */}
-              <div 
+              <motion.div 
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: BASE_TOKENS.spacing['2xl'],
+                  gap: '44px',
                   marginBottom: BASE_TOKENS.spacing['2xl'],
                   marginTop: '35px',
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.02,
+                      delayChildren: 0.05
+                    }
+                  }
+                }}
               >
-                <div style={{ width: '100%', boxSizing: 'border-box' }}>
+                <motion.div 
+                  style={{ width: '100%', boxSizing: 'border-box' }}
+                  variants={{
+                    hidden: { opacity: 0, y: 3 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                >
                   <ActivityTimeline />
-                </div>
-                <div style={{ width: '100%', boxSizing: 'border-box' }}>
+                </motion.div>
+                <motion.div 
+                  style={{ width: '100%', boxSizing: 'border-box' }}
+                  variants={{
+                    hidden: { opacity: 0, y: 3 },
+                    visible: { 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                >
                   <RecentRefunds />
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
             </div>
           )}
 
           {activeTab === 'calls' && (
-            <div>
+            <div style={styles.content}>
               <CallLog callsData={callsData} />
             </div>
           )}
 
           {activeTab === 'security' && (
-            <div>
+            <div style={styles.content}>
               <DevicesSecurity />
             </div>
           )}

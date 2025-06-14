@@ -31,7 +31,7 @@ const CallItem = ({
     <div
       style={{
         minHeight: '56px', // Reduced from 64px to make items more compact
-        padding: `9px 0 9px ${BASE_TOKENS.spacing.xs}`, // Increased top/bottom from 4px to 9px (4px + 5px)
+        padding: `11px 0 11px ${BASE_TOKENS.spacing.xs}`, // Increased top/bottom from 9px to 11px (additional 2px)
         borderRadius: BASE_TOKENS.borderRadius.md,
         cursor: 'pointer',
         transition: 'all 0.2s ease',

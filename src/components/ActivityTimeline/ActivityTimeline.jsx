@@ -120,7 +120,8 @@ const ActivityTimeline = ({ items = [] }) => {
   const styles = {
     container: {
       backgroundColor: 'transparent',
-      padding: '16px',
+      paddingTop: '16px',
+      paddingBottom: '16px',
       height: '100%',
       display: 'flex',
       flexDirection: 'column'
@@ -151,7 +152,7 @@ const ActivityTimeline = ({ items = [] }) => {
     },
     timelineItem: {
       position: 'relative',
-      paddingLeft: '65px', // 69px - 4px = 65px
+      paddingLeft: '55px', // Decreased by 10px from 65px
       paddingBottom: BASE_TOKENS.spacing.lg,
       paddingRight: BASE_TOKENS.spacing.sm,
       paddingTop: BASE_TOKENS.spacing.sm,
