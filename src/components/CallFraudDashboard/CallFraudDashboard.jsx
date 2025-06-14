@@ -259,7 +259,7 @@ const CallFraudDashboard = () => {
     content: {
       maxWidth: '1200px',
       margin: '0 auto',
-      padding: `60px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
+      padding: `45px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
     },
     pageTitle: {
       fontSize: BASE_TOKENS.typography.fontSize['2xl'],
@@ -407,12 +407,12 @@ const CallFraudDashboard = () => {
               zIndex: 0
             }}
             animate={{
-              x: activeTab === 'overview' ? 0 : 
-                 activeTab === 'calls' ? 120 : 
-                 activeTab === 'security' ? 200 : 0,
-              width: activeTab === 'overview' ? 90 : 
-                     activeTab === 'calls' ? 60 : 
-                     activeTab === 'security' ? 160 : 90
+              x: activeTab === 'overview' ? 16 : 
+                 activeTab === 'calls' ? 131 : 
+                 activeTab === 'security' ? 211 : 16,
+              width: activeTab === 'overview' ? 74 : 
+                     activeTab === 'calls' ? 44 : 
+                     activeTab === 'security' ? 144 : 74
             }}
             transition={{
               type: "spring",
@@ -504,7 +504,7 @@ const CallFraudDashboard = () => {
                   gridTemplateColumns: '1fr 1fr',
                   gap: BASE_TOKENS.spacing['2xl'],
                   marginBottom: BASE_TOKENS.spacing['2xl'],
-                  marginTop: '5px',
+                  marginTop: '25px',
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}

@@ -8,9 +8,35 @@ const RecentRefunds = () => {
   const refunds = [
     { id: 'R-7891', amount: 24.5, reason: 'Driver arrived late', date: '2025-06-08', status: 'Approved' },
     { id: 'R-7823', amount: 18.75, reason: 'Wrong route taken', date: '2025-06-02', status: 'Approved' },
-    { id: 'R-7756', amount: 31.2, reason: 'Vehicle not as described', date: '2025-05-28', status: 'Under Review' },
+    { id: 'R-7756', amount: 31.2, reason: 'Vehicle not as described', date: '2025-05-28', status: 'Pending' },
     { id: 'R-7689', amount: 15.8, reason: 'App malfunction', date: '2025-05-16', status: 'Approved' },
   ];
+
+  // Function to get badge colors based on status
+  const getBadgeColors = (status) => {
+    switch (status) {
+      case 'Approved':
+        return {
+          backgroundColor: '#0E8345',
+          color: '#FFFFFF'
+        };
+      case 'Pending':
+        return {
+          backgroundColor: '#F6BC2F',
+          color: '#FFFFFF'
+        };
+      case 'Rejected':
+        return {
+          backgroundColor: '#DE1135',
+          color: '#FFFFFF'
+        };
+      default:
+        return {
+          backgroundColor: '#6B7280',
+          color: '#FFFFFF'
+        };
+    }
+  };
 
   return (
     <div style={{
@@ -101,8 +127,7 @@ const RecentRefunds = () => {
                 fontSize: BASE_TOKENS.typography.fontSize.xs,
                 fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
                 borderRadius: BASE_TOKENS.borderRadius.full,
-                backgroundColor: refund.status === 'Approved' ? BASE_TOKENS.colors.green[100] : BASE_TOKENS.colors.yellow[100],
-                color: refund.status === 'Approved' ? BASE_TOKENS.colors.green[800] : BASE_TOKENS.colors.yellow[800]
+                ...getBadgeColors(refund.status)
               }}>
                 {refund.status}
               </span>

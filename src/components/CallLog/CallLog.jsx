@@ -20,7 +20,7 @@ const CallLog = ({ callsData }) => {
       display: 'flex',
       flexDirection: 'row', // Changed to row to handle columns directly
       position: 'relative',
-      height: '500px',
+      height: '100vh',
       overflow: 'hidden'
     }}>
       {/* The component now directly lays out its two main children */}
