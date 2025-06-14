@@ -119,11 +119,8 @@ const ActivityTimeline = ({ items = [] }) => {
 
   const styles = {
     container: {
-      backgroundColor: BASE_TOKENS.colors.white,
-      borderRadius: BASE_TOKENS.borderRadius.lg,
-      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      padding: BASE_TOKENS.spacing['2xl'],
-      boxShadow: BASE_TOKENS.shadows.md,
+      backgroundColor: 'transparent',
+      padding: '16px',
       height: '100%',
       display: 'flex',
       flexDirection: 'column'
@@ -153,7 +150,7 @@ const ActivityTimeline = ({ items = [] }) => {
     },
     timelineItem: {
       position: 'relative',
-      paddingLeft: BASE_TOKENS.spacing['3xl'],
+      paddingLeft: '69px', // 73px - 4px = 69px
       paddingBottom: BASE_TOKENS.spacing.lg,
       paddingRight: BASE_TOKENS.spacing.sm,
       paddingTop: BASE_TOKENS.spacing.sm,

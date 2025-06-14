@@ -291,68 +291,40 @@ const CallFraudDashboard = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Sticky Header with User Profile */}
-      <motion.div 
-        style={{
-          position: 'sticky',
-          top: 0,
-          backgroundColor: '#000000',
-          color: BASE_TOKENS.colors.white,
-          padding: `${BASE_TOKENS.spacing.xl} ${BASE_TOKENS.spacing['2xl']}`,
-          marginBottom: BASE_TOKENS.spacing['2xl'],
-          zIndex: 1000,
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-        }}
-        variants={headerVariants}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}>
-            {/* Left aligned Dashboard title */}
-            <div style={{ textAlign: 'left' }}>
-              <motion.h1 
-                style={{
-                  fontSize: BASE_TOKENS.typography.fontSize['2xl'],
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.white,
-                  lineHeight: BASE_TOKENS.typography.lineHeight.xl,
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
-                }}
-                variants={componentVariants}
-              >
-                Call Fraud Dashboard
-              </motion.h1>
-              <motion.p 
-                style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  color: BASE_TOKENS.colors.gray[300],
-                  fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  margin: 0
-                }}
-                variants={componentVariants}
-              >
-                Customer ID: CUST_789456
-              </motion.p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
       {/* Main Content */}
       <div style={styles.content}>
 
-        {/* Customer Info Card - Full Width */}
+        {/* Page Title */}
         <motion.div 
           style={{
             marginBottom: BASE_TOKENS.spacing['2xl']
           }}
           variants={componentVariants}
         >
-          <CustomerInfoCard />
+          <motion.h1 
+            style={{
+              fontSize: BASE_TOKENS.typography.fontSize['2xl'],
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              color: BASE_TOKENS.colors.gray[900],
+              lineHeight: BASE_TOKENS.typography.lineHeight.xl,
+              margin: 0,
+              marginBottom: BASE_TOKENS.spacing.xs
+            }}
+            variants={componentVariants}
+          >
+            Call Fraud Dashboard
+          </motion.h1>
+          <motion.p 
+            style={{
+              fontSize: '14px',
+              color: '#848484',
+              fontWeight: BASE_TOKENS.typography.fontWeight.light,
+              margin: 0
+            }}
+            variants={componentVariants}
+          >
+            Customer ID: CUST_789456
+          </motion.p>
         </motion.div>
 
         {/* Tab Navigation */}
@@ -370,10 +342,10 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'overview' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-              color: activeTab === 'overview' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              borderBottom: activeTab === 'overview' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              color: activeTab === 'overview' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontSize: '16px',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               outline: 'none'
@@ -387,10 +359,10 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'calls' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-              color: activeTab === 'calls' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              borderBottom: activeTab === 'calls' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              color: activeTab === 'calls' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontSize: '16px',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               outline: 'none'
@@ -404,10 +376,10 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'security' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-              color: activeTab === 'security' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              borderBottom: activeTab === 'security' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              color: activeTab === 'security' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontSize: '16px',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               outline: 'none'
@@ -428,6 +400,34 @@ const CallFraudDashboard = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
+              {/* Customer Info Card - Full Width */}
+              <motion.div 
+                style={{
+                  marginBottom: BASE_TOKENS.spacing['2xl']
+                }}
+                variants={componentVariants}
+              >
+                <CustomerInfoCard />
+              </motion.div>
+
+              {/* Fraud Signals Title */}
+              <motion.div 
+                style={{
+                  padding: '16px',
+                  marginBottom: BASE_TOKENS.spacing.lg
+                }}
+                variants={componentVariants}
+              >
+                <h2 style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.lg,
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[800],
+                  margin: 0
+                }}>
+                  Fraud Signals
+                </h2>
+              </motion.div>
+
               {/* Three UberCard Components */}
               <motion.div 
                 style={{

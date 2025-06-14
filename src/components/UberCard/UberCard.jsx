@@ -34,7 +34,7 @@ const UberCard = ({
         display: 'flex',
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
-        height: '140px'
+        height: '144px'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
