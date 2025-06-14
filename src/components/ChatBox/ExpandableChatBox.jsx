@@ -127,7 +127,7 @@ const ExpandableChatBox = ({
     setTimeout(() => {
       // Determine bot response text based on message count and custom responses
       const userMessageCount = messages.filter(msg => msg.sender === 'user').length + 1;
-      let botResponseText = "Here's your ride dashboard!";
+      let botResponseText = "Here's your fraud dashboard!";
       
       if (customBotResponses[userMessageCount]) {
         botResponseText = customBotResponses[userMessageCount];

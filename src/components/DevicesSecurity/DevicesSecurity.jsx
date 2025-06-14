@@ -14,7 +14,7 @@ const DevicesSecurity = () => {
         delayChildren: 0.01
       }
     }
-  };
+  }
 
   const headerVariants = {
     hidden: { 
@@ -226,7 +226,7 @@ const DevicesSecurity = () => {
         {/* Devices Title */}
         <motion.div 
           style={{
-            paddingTop: '16px',
+            paddingTop: '6px',
             paddingBottom: '16px',
             marginBottom: '15px'
           }}
@@ -390,14 +390,15 @@ const DevicesSecurity = () => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%'
+          height: '100%',
+          paddingRight: '15px'
         }}
         variants={componentVariants}
       >
         {/* Login History Title */}
         <motion.div 
           style={{
-            paddingTop: '16px',
+            paddingTop: '6px',
             paddingBottom: '16px',
             marginBottom: '15px'
           }}

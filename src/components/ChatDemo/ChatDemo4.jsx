@@ -267,7 +267,7 @@ const ChatDemo4 = () => {
               onUserMessage={handleUserMessage}
               fixedTime="2:38 PM"
               customBotResponses={{
-                2: "Here's your call dashboard!"
+                1: "Here's your call fraud dashboard!"
               }}
             />
           </div>
