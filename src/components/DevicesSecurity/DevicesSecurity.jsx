@@ -1,8 +1,76 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
 
 // DevicesSecurity Component
 const DevicesSecurity = () => {
+  // Animation variants - matching Overview tab style
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.01
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: -2 
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const componentVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 3
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.02,
+        delayChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 2
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.15,
+        ease: "easeOut"
+      }
+    }
+  };
 
   const devicesData = [
     {
@@ -132,27 +200,38 @@ const DevicesSecurity = () => {
   };
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '80px',
-      height: '100%',
-      padding: BASE_TOKENS.spacing['2xl'],
-      boxSizing: 'border-box'
-    }}>
+    <motion.div 
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '80px',
+        height: '100%',
+        padding: BASE_TOKENS.spacing['2xl'],
+        boxSizing: 'border-box'
+      }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       
       {/* Devices Column */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%'
-      }}>
+      <motion.div 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+        variants={componentVariants}
+      >
         {/* Devices Title */}
-        <div style={{
-          paddingTop: '16px',
-          paddingBottom: '16px',
-          marginBottom: '15px'
-        }}>
+        <motion.div 
+          style={{
+            paddingTop: '16px',
+            paddingBottom: '16px',
+            marginBottom: '15px'
+          }}
+          variants={headerVariants}
+        >
           <h2 style={{
             fontSize: '19px',
             fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
@@ -161,20 +240,23 @@ const DevicesSecurity = () => {
           }}>
             Devices
           </h2>
-        </div>
+        </motion.div>
 
         {/* Devices List */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2px',
-          flex: 1,
-          overflow: 'auto'
-        }}>
+        <motion.div 
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+            flex: 1,
+            overflow: 'auto'
+          }}
+          variants={listVariants}
+        >
           {devicesData.map((device) => {
             const colors = getStatusColor(device.status);
             return (
-              <div
+              <motion.div
                 key={device.id}
                 style={{
                   minHeight: '56px',
@@ -188,6 +270,7 @@ const DevicesSecurity = () => {
                   alignItems: 'center',
                   gap: BASE_TOKENS.spacing.sm
                 }}
+                variants={itemVariants}
               >
                 {/* Left Column - Device Image/Icon */}
                 <div style={{
@@ -296,24 +379,30 @@ const DevicesSecurity = () => {
                     {device.time}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Login History Column */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%'
-      }}>
+      <motion.div 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+        variants={componentVariants}
+      >
         {/* Login History Title */}
-        <div style={{
-          paddingTop: '16px',
-          paddingBottom: '16px',
-          marginBottom: '15px'
-        }}>
+        <motion.div 
+          style={{
+            paddingTop: '16px',
+            paddingBottom: '16px',
+            marginBottom: '15px'
+          }}
+          variants={headerVariants}
+        >
           <h2 style={{
             fontSize: '19px',
             fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
@@ -322,18 +411,21 @@ const DevicesSecurity = () => {
           }}>
             Login History
           </h2>
-        </div>
+        </motion.div>
 
         {/* Login History List */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '2px',
-          flex: 1,
-          overflow: 'auto'
-        }}>
+        <motion.div 
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2px',
+            flex: 1,
+            overflow: 'auto'
+          }}
+          variants={listVariants}
+        >
           {loginHistoryData.map((login) => (
-            <div
+            <motion.div
               key={login.id}
               style={{
                 minHeight: '56px',
@@ -347,6 +439,7 @@ const DevicesSecurity = () => {
                 alignItems: 'center',
                 gap: BASE_TOKENS.spacing.sm
               }}
+              variants={itemVariants}
             >
               {/* Left Column - Status Icon (styled like avatar) */}
               <div style={{
@@ -437,11 +530,11 @@ const DevicesSecurity = () => {
                   {formatDate(login.timestamp)}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

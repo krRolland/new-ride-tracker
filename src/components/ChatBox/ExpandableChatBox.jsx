@@ -120,7 +120,7 @@ const ExpandableChatBox = ({
     
     // Change header title after "thinking" (during typing)
     setTimeout(() => {
-      setHeaderTitle("Ride Tracking Dashboard");
+      setHeaderTitle("Call Fraud Dashboard");
       setHeaderSubtitle("Building your custom dashboard");
     }, 1000);
     

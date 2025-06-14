@@ -81,6 +81,7 @@ const CallFraudDashboard = () => {
         reason: 'Billing Error',
         sentiment: 9.1,
         resolution: 'Refund Processed',
+        notes: "Customer noticed duplicate charge on her credit card statement. Very polite and understanding throughout the call. Quickly verified the duplicate transaction and processed immediate refund. Customer expressed gratitude for the quick resolution.",
         events: [
           { time: '09:05', description: 'Call Started', subtitle: 'Customer called regarding incorrect billing charge.' },
           { time: '09:07', description: 'Issue Identified', subtitle: 'Customer\'s credit card was charged twice for same trip.' },
@@ -128,6 +129,7 @@ const CallFraudDashboard = () => {
         reason: 'Billing Error',
         sentiment: 6.5,
         resolution: 'Partial Refund',
+        notes: "Customer was confused about surge pricing during peak hours and felt the fare was too high. Took time to explain our dynamic pricing model and how it works during high-demand periods. Offered a partial refund as a goodwill gesture. Customer appreciated the explanation and accepted the resolution.",
         events: [
           { time: '10:00', description: 'Call Started', subtitle: 'Customer called questioning surge pricing on recent trip.' },
           { time: '10:02', description: 'Issue Identified', subtitle: 'Customer confused about dynamic pricing during peak hours.' },
@@ -151,6 +153,7 @@ const CallFraudDashboard = () => {
         reason: 'Billing Error',
         sentiment: 3.0,
         resolution: 'Driver Warning Issued',
+        notes: "Customer was very upset about driver's unprofessional behavior and inappropriate comments during the trip. Took detailed notes of the incident and reviewed driver's history. Found similar complaints from other passengers. Issued formal warning to driver and provided service credit to customer. Escalated to driver management team for additional training.",
         events: [
           { time: '16:45', description: 'Call Started', subtitle: 'Customer called to report unprofessional driver behavior.' },
           { time: '16:48', description: 'Issue Identified', subtitle: 'Driver was rude and made inappropriate comments during trip.' },

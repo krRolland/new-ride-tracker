@@ -1,48 +1,99 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { BASE_TOKENS } from '../../tokens';
 import EmbeddedTimeline from '../EmbeddedTimeline';
 import CallItem from './CallItem';
-import AudioPreview from '../AudioPreview';
+import CompactAudioPreview from '../AudioPreview/CompactAudioPreview';
 
 // CallLog Component
 const CallLog = ({ callsData }) => {
   const [selectedCall, setSelectedCall] = useState(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Set the first call as selected by default for initial display
   useEffect(() => {
     if (callsData.length > 0 && !selectedCall) {
       setSelectedCall(callsData[0]);
+      // Set a timeout to mark initial load as complete after animations would finish
+      setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 100);
     }
   }, [callsData, selectedCall]);
 
+  // Animation variants - matching Overview tab style
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.01
+      }
+    }
+  };
+
+  const componentVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 3
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row', // Changed to row to handle columns directly
-      position: 'relative',
-      height: '100vh',
-      overflow: 'hidden'
-    }}>
+    <motion.div 
+      style={{
+        display: 'flex',
+        flexDirection: 'row', // Changed to row to handle columns directly
+        position: 'relative',
+        height: '100vh',
+        overflow: 'hidden'
+      }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {/* The component now directly lays out its two main children */}
-      <AllCalls
-        calls={callsData}
-        onSelectCall={setSelectedCall}
-        selectedCallId={selectedCall?.id}
-      />
+      <motion.div variants={componentVariants}>
+        <AllCalls
+          calls={callsData}
+          onSelectCall={setSelectedCall}
+          selectedCallId={selectedCall?.id}
+          isInitialLoad={isInitialLoad}
+        />
+      </motion.div>
       {selectedCall && (
-        <CallDetails call={selectedCall} />
+        <motion.div variants={componentVariants}>
+          <CallDetails call={selectedCall} />
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
 // AllCalls Component
-const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
+const AllCalls = ({ calls, onSelectCall, selectedCallId, isInitialLoad }) => {
   const [sortBy, setSortBy] = useState('Newest First');
   const [colorBy, setColorBy] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
+  const [hasInitialSelection, setHasInitialSelection] = useState(false);
   const filtersDropdownRef = useRef(null);
+
+  // Track when initial selection happens
+  useEffect(() => {
+    if (selectedCallId && !hasInitialSelection) {
+      setHasInitialSelection(true);
+    }
+  }, [selectedCallId, hasInitialSelection]);
 
   // Close filters dropdown when clicking outside
   useEffect(() => {
@@ -341,6 +392,9 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       }}>
         {filteredCalls.map((call, index) => {
           const isSelected = selectedCallId === call.id;
+          const isFirstCall = index === 0;
+          // Don't animate if this is initial load OR if this is the first call and we haven't had user interaction yet
+          const shouldAnimate = !isInitialLoad && hasInitialSelection && !(isFirstCall && !hasInitialSelection);
           const isLastItem = index === filteredCalls.length - 1;
           return (
             <div key={call.id} style={{ position: 'relative' }}>
@@ -353,14 +407,14 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
                 bottom: 0,
                 backgroundColor: 'rgba(0, 0, 0, 0.02)',
                 opacity: isSelected ? 1 : 0,
-                transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: shouldAnimate ? 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
                 pointerEvents: 'none',
                 zIndex: 0
               }} />
               
               <div style={{
                 transform: isSelected ? 'translateX(5px)' : 'translateX(0)',
-                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: shouldAnimate ? 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
                 position: 'relative',
                 zIndex: 1
               }}>
@@ -385,7 +439,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
                 opacity: isSelected ? 1 : 0,
                 transform: isSelected ? 'scaleX(1)' : 'scaleX(0)',
                 transformOrigin: 'left center',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: shouldAnimate ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
                 pointerEvents: 'none',
                 zIndex: 2
               }} />
@@ -399,7 +453,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
 
 // CallDetails Component
 const CallDetails = ({ call }) => {
-  const [activeTab, setActiveTab] = useState('agent');
+  const [activeTab, setActiveTab] = useState('summary');
   
   const getSentimentBackgroundColor = (sentiment) => {
     if (sentiment >= 8) return BASE_TOKENS.colors.green[500];
@@ -427,8 +481,10 @@ const CallDetails = ({ call }) => {
 
   return (
     <div style={{
-      flex: 1,
-      minWidth: 0, // Added for robust flex behavior
+      flex: '1 1 0',
+      minWidth: '600px', // Fixed minimum width to prevent shrinking
+      maxWidth: 'none',
+      width: 'auto',
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
@@ -440,8 +496,7 @@ const CallDetails = ({ call }) => {
       <div style={{
         flexShrink: 0,
         backgroundColor: BASE_TOKENS.colors.gray[50],
-        padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
-        borderBottom: `1px solid ${BASE_TOKENS.colors.gray[200]}`
+        padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`
       }}>
         {/* Single Row - Title and Metrics */}
         <div style={{
@@ -459,7 +514,7 @@ const CallDetails = ({ call }) => {
             }}>
               <h2 style={{
                 fontSize: '19px',
-                fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                fontWeight: BASE_TOKENS.typography.fontWeight.bold,
                 color: BASE_TOKENS.colors.gray[900],
                 margin: 0
               }}>
@@ -473,7 +528,7 @@ const CallDetails = ({ call }) => {
               margin: 0,
               marginTop: '-20px'
             }}>
-              {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]} • Case #8742
+              {formatDate(call.dateTime.split(' - ')[0])} • Case #8742
             </p>
           </div>
 
@@ -509,11 +564,11 @@ const CallDetails = ({ call }) => {
       }}>
         
 
-        {/* Audio Preview - Full Width Row */}
+        {/* Compact Audio Preview - Full Width Row */}
         <div style={{
           width: '100%'
         }}>
-          <AudioPreview duration={call.duration} />
+          <CompactAudioPreview duration={call.duration} />
         </div>
 
         {/* Tabbed Content Section - Full Width */}
@@ -522,7 +577,7 @@ const CallDetails = ({ call }) => {
         }}>
           <div style={{
             borderBottom: `2px solid ${BASE_TOKENS.colors.gray[200]}`,
-            marginBottom: BASE_TOKENS.spacing.lg,
+            marginBottom: BASE_TOKENS.spacing.md,
             display: 'flex',
             gap: BASE_TOKENS.spacing.md
           }}>
@@ -531,25 +586,25 @@ const CallDetails = ({ call }) => {
                 padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
                 backgroundColor: 'transparent',
                 border: 'none',
-                borderBottom: activeTab === 'agent' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-                color: activeTab === 'agent' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+                borderBottom: activeTab === 'summary' ? `2px solid ${BASE_TOKENS.colors.black}` : '2px solid transparent',
+                color: activeTab === 'summary' ? BASE_TOKENS.colors.black : BASE_TOKENS.colors.gray[600],
                 fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
                 fontSize: BASE_TOKENS.typography.fontSize.sm,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 outline: 'none'
               }}
-              onClick={() => setActiveTab('agent')}
+              onClick={() => setActiveTab('summary')}
             >
-              Agent Information
+              Summary
             </button>
             <button 
               style={{
                 padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
                 backgroundColor: 'transparent',
                 border: 'none',
-                borderBottom: activeTab === 'timeline' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-                color: activeTab === 'timeline' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+                borderBottom: activeTab === 'timeline' ? `2px solid ${BASE_TOKENS.colors.black}` : '2px solid transparent',
+                color: activeTab === 'timeline' ? BASE_TOKENS.colors.black : BASE_TOKENS.colors.gray[600],
                 fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
                 fontSize: BASE_TOKENS.typography.fontSize.sm,
                 cursor: 'pointer',
@@ -565,8 +620,8 @@ const CallDetails = ({ call }) => {
                 padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
                 backgroundColor: 'transparent',
                 border: 'none',
-                borderBottom: activeTab === 'transcript' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
-                color: activeTab === 'transcript' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+                borderBottom: activeTab === 'transcript' ? `2px solid ${BASE_TOKENS.colors.black}` : '2px solid transparent',
+                color: activeTab === 'transcript' ? BASE_TOKENS.colors.black : BASE_TOKENS.colors.gray[600],
                 fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
                 fontSize: BASE_TOKENS.typography.fontSize.sm,
                 cursor: 'pointer',
@@ -579,28 +634,30 @@ const CallDetails = ({ call }) => {
             </button>
           </div>
           
-          {activeTab === 'agent' && (
+          {activeTab === 'summary' && (
             <div style={{
-              backgroundColor: BASE_TOKENS.colors.gray[50],
-              border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+              padding: BASE_TOKENS.spacing['2xl'],
+              backgroundColor: 'transparent',
+              border: 'none',
               borderRadius: BASE_TOKENS.borderRadius.lg,
-              padding: BASE_TOKENS.spacing.lg,
-              boxShadow: BASE_TOKENS.shadows.sm
+              boxShadow: 'none'
             }}>
-              {/* Agent Header */}
+              {/* Agent Profile Grid */}
               <div style={{
-                display: 'flex',
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                gap: BASE_TOKENS.spacing.lg,
                 alignItems: 'center',
-                gap: BASE_TOKENS.spacing.md,
                 marginBottom: BASE_TOKENS.spacing.lg
               }}>
+                {/* Profile Photo */}
                 <div style={{
-                  width: '48px',
-                  height: '48px',
+                  width: '80px',
+                  height: '80px',
                   borderRadius: BASE_TOKENS.borderRadius.full,
                   backgroundColor: BASE_TOKENS.colors.gray[200],
-                  border: `2px solid ${BASE_TOKENS.colors.white}`,
-                  boxShadow: BASE_TOKENS.shadows.sm,
+                  border: `3px solid ${BASE_TOKENS.colors.white}`,
+                  boxShadow: BASE_TOKENS.shadows.md,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -621,42 +678,65 @@ const CallDetails = ({ call }) => {
                     }}
                   />
                 </div>
-                <div>
-                  <p style={{
-                    color: BASE_TOKENS.colors.gray[800],
-                    fontSize: BASE_TOKENS.typography.fontSize.lg,
+                
+                {/* Agent Name and Role */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center'
+                }}>
+                  <h3 style={{
+                    color: BASE_TOKENS.colors.gray[900],
+                    fontSize: '15px',
                     fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
                     margin: 0,
-                    marginBottom: '4px'
+                    marginBottom: BASE_TOKENS.spacing.xs,
+                    lineHeight: BASE_TOKENS.typography.lineHeight.sm
                   }}>
-                    {call.agent}
-                  </p>
+                    {call.agent.split(' ')[1]} {/* Extract just the name part */}
+                  </h3>
                   <p style={{
                     color: BASE_TOKENS.colors.gray[600],
-                    fontSize: BASE_TOKENS.typography.fontSize.sm,
-                    margin: 0
+                    fontSize: '13px',
+                    fontWeight: BASE_TOKENS.typography.fontWeight.normal,
+                    margin: 0,
+                    lineHeight: BASE_TOKENS.typography.lineHeight.xs
                   }}>
-                    Duration: {call.duration}
+                    Customer Service Representative
                   </p>
                 </div>
               </div>
               
-              {/* Agent Notes */}
+              {/* Grey Divider Line */}
+              <div style={{
+                width: '100%',
+                height: '1px',
+                backgroundColor: BASE_TOKENS.colors.gray[200],
+                marginBottom: BASE_TOKENS.spacing.lg
+              }} />
+              
+              {/* Agent Notes Section */}
               {call.details.notes && (
-                <div>
-                  <p style={{
-                    color: BASE_TOKENS.colors.gray[700],
-                    fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                    marginBottom: BASE_TOKENS.spacing.md,
-                    margin: 0,
-                    fontSize: BASE_TOKENS.typography.fontSize.md
-                  }}>
-                    Agent Notes
-                  </p>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '80px 1fr',
+                  gap: BASE_TOKENS.spacing.lg,
+                  alignItems: 'flex-start'
+                }}>
                   <p style={{
                     color: BASE_TOKENS.colors.gray[600],
-                    fontSize: BASE_TOKENS.typography.fontSize.sm,
-                    lineHeight: BASE_TOKENS.typography.lineHeight.relaxed,
+                    fontWeight: BASE_TOKENS.typography.fontWeight.normal,
+                    fontSize: '13px',
+                    lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+                    margin: 0,
+                    whiteSpace: 'nowrap'
+                  }}>
+                    Notes
+                  </p>
+                  <p style={{
+                    color: BASE_TOKENS.colors.black,
+                    fontSize: '13px',
+                    lineHeight: BASE_TOKENS.typography.lineHeight.xs,
                     margin: 0
                   }}>
                     {call.details.notes}
