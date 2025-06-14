@@ -94,16 +94,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       height: '100%',
       overflow: 'hidden'
     }}>
-      {/* Header for the entire Calls section */}
-      <h2 style={{
-        fontSize: BASE_TOKENS.typography.fontSize.xl,
-        fontWeight: BASE_TOKENS.typography.fontWeight.bold,
-        color: BASE_TOKENS.colors.gray[800],
-        margin: 0,
-        marginBottom: BASE_TOKENS.spacing.lg
-      }}>
-        Calls
-      </h2>
+      
 
       <div style={{
         marginBottom: BASE_TOKENS.spacing.lg
@@ -174,8 +165,8 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           {/* Fraud Risk Pill */}
           <button
           style={{
-            padding: `calc(${BASE_TOKENS.spacing.xs} + 2px) calc(${BASE_TOKENS.spacing.sm} + 2px)`,
-            border: `1px solid ${colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[500] : '#E1E1E1'}`,
+            padding: `calc(${BASE_TOKENS.spacing.xs} + 4px) calc(${BASE_TOKENS.spacing.sm} + 4px)`,
+            border: `0.5px solid ${colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[500] : '#E1E1E1'}`,
             borderRadius: BASE_TOKENS.borderRadius.full,
             backgroundColor: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[100] : '#F9FAFB',
             color: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[700] : BASE_TOKENS.colors.gray[700],
@@ -203,8 +194,8 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
         {/* Sentiment Pill */}
         <button
           style={{
-            padding: `calc(${BASE_TOKENS.spacing.xs} + 2px) calc(${BASE_TOKENS.spacing.sm} + 2px)`,
-            border: `1px solid ${colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[500] : '#E1E1E1'}`,
+            padding: `calc(${BASE_TOKENS.spacing.xs} + 4px) calc(${BASE_TOKENS.spacing.sm} + 4px)`,
+            border: `0.5px solid ${colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[500] : '#E1E1E1'}`,
             borderRadius: BASE_TOKENS.borderRadius.full,
             backgroundColor: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[100] : '#F9FAFB',
             color: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[700] : BASE_TOKENS.colors.gray[700],
@@ -354,7 +345,7 @@ const CallDetails = ({ call }) => {
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               fontWeight: BASE_TOKENS.typography.fontWeight.normal,
               margin: 0,
-              marginTop: '20px'
+              marginTop: '10px'
             }}>
               {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]} • Case #8742
             </p>

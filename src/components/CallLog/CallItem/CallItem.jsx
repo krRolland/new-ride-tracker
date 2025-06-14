@@ -136,8 +136,23 @@ const CallItem = ({
           {call.type}
         </h4>
         
-        {/* Subtitle - Single Line */}
+        {/* Subtitle - Date and Duration */}
         <p style={{
+          color: BASE_TOKENS.colors.gray[500],
+          fontWeight: BASE_TOKENS.typography.fontWeight.light,
+          margin: 0,
+          marginBottom: '3px',
+          fontSize: BASE_TOKENS.typography.fontSize.xs,
+          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {formatDate(call.dateTime.split(' - ')[0])} • {call.duration}
+        </p>
+        
+        {/* Agent Name - Separate Line */}
+        <div style={{
           color: BASE_TOKENS.colors.gray[500],
           fontWeight: BASE_TOKENS.typography.fontWeight.light,
           margin: 0,
@@ -147,8 +162,8 @@ const CallItem = ({
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap'
         }}>
-          {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]}
-        </p>
+          Agent: {call.agent.split(' ')[1]}
+        </div>
       </div>
       
       {/* Right Side - Timestamp */}

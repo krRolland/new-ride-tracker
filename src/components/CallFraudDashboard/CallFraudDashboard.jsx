@@ -330,11 +330,12 @@ const CallFraudDashboard = () => {
         {/* Tab Navigation */}
         <motion.div 
           style={{
-            borderBottom: `2px solid ${BASE_TOKENS.colors.gray[200]}`,
+            borderBottom: `0.5px solid ${BASE_TOKENS.colors.gray[200]}`,
             marginBottom: activeTab === 'calls' ? '0px' : '34px',
             marginTop: '34px',
             display: 'flex',
-            gap: BASE_TOKENS.spacing.md
+            gap: BASE_TOKENS.spacing.md,
+            position: 'relative'
           }}
           variants={componentVariants}
         >
@@ -343,13 +344,15 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'overview' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              borderBottom: '2px solid transparent',
               color: activeTab === 'overview' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              outline: 'none'
+              transition: 'color 0.2s ease',
+              outline: 'none',
+              position: 'relative',
+              zIndex: 1
             }}
             onClick={() => setActiveTab('overview')}
           >
@@ -360,13 +363,15 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'calls' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              borderBottom: '2px solid transparent',
               color: activeTab === 'calls' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              outline: 'none'
+              transition: 'color 0.2s ease',
+              outline: 'none',
+              position: 'relative',
+              zIndex: 1
             }}
             onClick={() => setActiveTab('calls')}
           >
@@ -377,18 +382,45 @@ const CallFraudDashboard = () => {
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
               backgroundColor: 'transparent',
               border: 'none',
-              borderBottom: activeTab === 'security' ? `2px solid ${BASE_TOKENS.colors.gray[900]}` : '2px solid transparent',
+              borderBottom: '2px solid transparent',
               color: activeTab === 'security' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              outline: 'none'
+              transition: 'color 0.2s ease',
+              outline: 'none',
+              position: 'relative',
+              zIndex: 1
             }}
             onClick={() => setActiveTab('security')}
           >
             Security & Devices
           </button>
+          
+          {/* Animated Tab Highlight */}
+          <motion.div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              height: '2px',
+              backgroundColor: BASE_TOKENS.colors.gray[900],
+              zIndex: 0
+            }}
+            animate={{
+              x: activeTab === 'overview' ? 0 : 
+                 activeTab === 'calls' ? 120 : 
+                 activeTab === 'security' ? 200 : 0,
+              width: activeTab === 'overview' ? 90 : 
+                     activeTab === 'calls' ? 60 : 
+                     activeTab === 'security' ? 160 : 90
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+              duration: 0.3
+            }}
+          />
         </motion.div>
 
         {/* Tab Content */}
@@ -472,6 +504,7 @@ const CallFraudDashboard = () => {
                   gridTemplateColumns: '1fr 1fr',
                   gap: BASE_TOKENS.spacing['2xl'],
                   marginBottom: BASE_TOKENS.spacing['2xl'],
+                  marginTop: '5px',
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}

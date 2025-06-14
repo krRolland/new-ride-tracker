@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const UberCard = ({ 
   title = "Sample Title", 
@@ -8,8 +9,6 @@ const UberCard = ({
   backgroundColor = "#FFFFFF",
   titleColor = "#EE0004"
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   // Function to lighten a hex color
   const lightenColor = (color, amount = 0.1) => {
     const hex = color.replace('#', '');
@@ -25,19 +24,34 @@ const UberCard = ({
   };
 
   return (
-    <div 
+    <motion.div 
       className="uber-card"
       style={{
         borderRadius: '12px',
-        backgroundColor: isHovered ? lightenColor(backgroundColor, 0.25) : backgroundColor,
+        backgroundColor: backgroundColor,
         position: 'relative',
         display: 'flex',
         cursor: 'pointer',
-        transition: 'background-color 0.2s ease',
         height: '144px'
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      initial={{
+        y: 0,
+        rotateY: 0,
+        backgroundColor: backgroundColor,
+        boxShadow: '0 0px 0px rgba(0, 0, 0, 0)'
+      }}
+      whileHover={{
+        y: -4,
+        rotateY: 2,
+        backgroundColor: lightenColor(backgroundColor, 0.15),
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.06)'
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+        duration: 0.3
+      }}
     >
       {/* Left side - Text content with padding */}
       <div 
@@ -134,7 +148,7 @@ const UberCard = ({
           }}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
