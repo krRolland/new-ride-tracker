@@ -54,7 +54,8 @@ const CallLog = ({ callsData }) => {
         display: 'flex',
         flexDirection: 'row', // Changed to row to handle columns directly
         position: 'relative',
-        height: '100vh',
+        height: '100%',
+        minHeight: '100vh',
         overflow: 'hidden'
       }}
       variants={containerVariants}
@@ -71,7 +72,10 @@ const CallLog = ({ callsData }) => {
         />
       </motion.div>
       {selectedCall && (
-        <motion.div variants={componentVariants}>
+        <motion.div 
+          variants={componentVariants}
+          style={{ height: '100%', display: 'flex' }}
+        >
           <CallDetails call={selectedCall} />
         </motion.div>
       )}
@@ -157,6 +161,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId, isInitialLoad }) => {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
+      minHeight: '100%',
       overflow: 'hidden'
     }}>
       
@@ -482,12 +487,13 @@ const CallDetails = ({ call }) => {
   return (
     <div style={{
       flex: '1 1 0',
-      minWidth: '600px', // Fixed minimum width to prevent shrinking
+      minWidth: '400px', // Reduced minimum width to allow more flexibility
       maxWidth: 'none',
       width: 'auto',
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
+      minHeight: '100vh',
       overflow: 'hidden',
       backgroundColor: '#FAFAFA'
     }}>

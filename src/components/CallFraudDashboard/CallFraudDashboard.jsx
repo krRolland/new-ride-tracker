@@ -429,7 +429,7 @@ const CallFraudDashboard = () => {
               {/* User Title */}
               <motion.div 
                 style={{
-                  paddingTop: '16px',
+                  paddingTop: '6px',
                   paddingBottom: '16px',
                   marginTop: '0px',
                   marginBottom: '15px'
@@ -588,7 +588,9 @@ const CallFraudDashboard = () => {
                   marginBottom: BASE_TOKENS.spacing['2xl'],
                   marginTop: '35px',
                   alignItems: 'stretch',
-                  justifyItems: 'stretch'
+                  justifyItems: 'stretch',
+                  paddingLeft: '15px',
+                  paddingRight: '15px'
                 }}
                 variants={{
                   hidden: { opacity: 0 },
