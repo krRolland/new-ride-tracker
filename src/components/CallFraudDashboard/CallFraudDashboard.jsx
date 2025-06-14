@@ -244,7 +244,8 @@ const CallFraudDashboard = () => {
     container: {
       backgroundColor: BASE_TOKENS.colors.white,
       minHeight: '100vh',
-      fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+      fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+      position: 'relative'
     },
     header: {
       position: 'sticky',
@@ -259,7 +260,7 @@ const CallFraudDashboard = () => {
     content: {
       maxWidth: '1200px',
       margin: '0 auto',
-      padding: `45px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
+      padding: `20px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
     },
     pageTitle: {
       fontSize: BASE_TOKENS.typography.fontSize['2xl'],
@@ -291,48 +292,29 @@ const CallFraudDashboard = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Main Content */}
-      <div style={styles.content}>
-
-        {/* Page Title */}
-        <motion.div 
-          style={{
-            marginBottom: BASE_TOKENS.spacing['2xl']
-          }}
-          variants={componentVariants}
-        >
-          <motion.h1 
-            style={{
-              fontSize: BASE_TOKENS.typography.fontSize['2xl'],
-              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              color: BASE_TOKENS.colors.gray[900],
-              lineHeight: BASE_TOKENS.typography.lineHeight.xl,
-              margin: 0,
-              marginBottom: BASE_TOKENS.spacing.xs
-            }}
-            variants={componentVariants}
-          >
-            Call Fraud Dashboard
-          </motion.h1>
-          <motion.p 
-            style={{
-              fontSize: '14px',
-              color: '#848484',
-              fontWeight: BASE_TOKENS.typography.fontWeight.light,
-              margin: 0
-            }}
-            variants={componentVariants}
-          >
-            Customer ID: CUST_789456
-          </motion.p>
-        </motion.div>
-
+      {/* Full-width black background for tabs */}
+      <div 
+        style={{
+          position: 'sticky',
+          top: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: '#000000',
+          borderBottom: `0.5px solid ${BASE_TOKENS.colors.gray[700]}`,
+          zIndex: 1000,
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)'
+        }}
+      >
         {/* Tab Navigation */}
         <motion.div 
           style={{
-            borderBottom: `0.5px solid ${BASE_TOKENS.colors.gray[200]}`,
-            marginBottom: activeTab === 'calls' ? '0px' : '34px',
-            marginTop: '34px',
+            maxWidth: '1200px',
+            margin: '0 auto',
+            paddingTop: BASE_TOKENS.spacing.md,
+            paddingBottom: BASE_TOKENS.spacing.md,
+            paddingLeft: BASE_TOKENS.spacing['2xl'],
+            paddingRight: BASE_TOKENS.spacing['2xl'],
             display: 'flex',
             gap: BASE_TOKENS.spacing.md,
             position: 'relative'
@@ -345,7 +327,7 @@ const CallFraudDashboard = () => {
               backgroundColor: 'transparent',
               border: 'none',
               borderBottom: '2px solid transparent',
-              color: activeTab === 'overview' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
+              color: activeTab === 'overview' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
@@ -364,7 +346,7 @@ const CallFraudDashboard = () => {
               backgroundColor: 'transparent',
               border: 'none',
               borderBottom: '2px solid transparent',
-              color: activeTab === 'calls' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
+              color: activeTab === 'calls' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
@@ -383,7 +365,7 @@ const CallFraudDashboard = () => {
               backgroundColor: 'transparent',
               border: 'none',
               borderBottom: '2px solid transparent',
-              color: activeTab === 'security' ? BASE_TOKENS.colors.gray[900] : BASE_TOKENS.colors.gray[600],
+              color: activeTab === 'security' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               fontSize: '16px',
               cursor: 'pointer',
@@ -403,7 +385,7 @@ const CallFraudDashboard = () => {
               position: 'absolute',
               bottom: 0,
               height: '2px',
-              backgroundColor: BASE_TOKENS.colors.gray[900],
+              backgroundColor: '#ffffff',
               zIndex: 0
             }}
             animate={{
@@ -422,15 +404,35 @@ const CallFraudDashboard = () => {
             }}
           />
         </motion.div>
+      </div>
 
+      {/* Main Content */}
+      <div style={styles.content}>
         {/* Tab Content */}
         <div>
           {activeTab === 'overview' && (
             <div>
+              {/* User Title */}
+              <div 
+                style={{
+                  padding: '16px',
+                  marginTop: '0px',
+                  marginBottom: '15px'
+                }}
+              >
+                <h2 style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.lg,
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[800],
+                  margin: 0
+                }}>
+                  User
+                </h2>
+              </div>
+
               {/* Customer Info Card - Full Width */}
               <div 
                 style={{
-                  marginTop: '20px',
                   marginBottom: '30px'
                 }}
               >
@@ -504,7 +506,7 @@ const CallFraudDashboard = () => {
                   gridTemplateColumns: '1fr 1fr',
                   gap: BASE_TOKENS.spacing['2xl'],
                   marginBottom: BASE_TOKENS.spacing['2xl'],
-                  marginTop: '25px',
+                  marginTop: '35px',
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}

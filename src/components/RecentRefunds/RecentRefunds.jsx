@@ -92,8 +92,8 @@ const RecentRefunds = () => {
               justifyContent: 'space-between',
               backgroundColor: 'transparent',
               borderRadius: BASE_TOKENS.borderRadius.md,
-              paddingTop: BASE_TOKENS.spacing.md,
-              paddingBottom: BASE_TOKENS.spacing.md,
+              paddingTop: '17px',
+              paddingBottom: '17px',
               transition: 'all 0.2s ease',
               borderBottom: index < refunds.length - 1 ? `1px solid ${BASE_TOKENS.colors.gray[200]}` : 'none'
             }}>
@@ -101,28 +101,38 @@ const RecentRefunds = () => {
                 <p style={{
                   color: BASE_TOKENS.colors.gray[800],
                   fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  margin: 0,
-                  marginBottom: BASE_TOKENS.spacing.xs
+                  margin: 0
                 }}>
                   ${refund.amount.toFixed(2)}
                 </p>
-                <p style={{
+                {/* <p style={{
                   color: BASE_TOKENS.colors.gray[600],
                   fontSize: BASE_TOKENS.typography.fontSize.sm,
                   margin: 0,
                   marginBottom: BASE_TOKENS.spacing.xs
                 }}>
                   {refund.reason}
-                </p>
-                <p style={{
+                </p> */}
+                {/* <p style={{
                   color: BASE_TOKENS.colors.gray[500],
                   fontSize: '10px', // Made even smaller - custom size
                   margin: 0
                 }}>
                   {refund.date}
+                </p> */}
+              </div>
+              <div style={{
+                textAlign: 'right'
+              }}>
+                <p style={{
+                  color: BASE_TOKENS.colors.gray[600],
+                  fontSize: BASE_TOKENS.typography.fontSize.sm,
+                  margin: 0
+                }}>
+                  {refund.reason}
                 </p>
               </div>
-              <span style={{
+              {/* <span style={{
                 padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
                 fontSize: BASE_TOKENS.typography.fontSize.xs,
                 fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
@@ -130,7 +140,7 @@ const RecentRefunds = () => {
                 ...getBadgeColors(refund.status)
               }}>
                 {refund.status}
-              </span>
+              </span> */}
             </div>
           ))}
         </div>

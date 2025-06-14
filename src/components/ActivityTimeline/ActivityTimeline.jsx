@@ -165,10 +165,10 @@ const ActivityTimeline = ({ items = [] }) => {
     },
     timelineIcon: {
       position: 'absolute',
-      left: '8px',
-      top: '16px',
-      width: '24px',
-      height: '24px',
+      left: '14px',
+      top: '22px',
+      width: '12px',
+      height: '12px',
       borderRadius: BASE_TOKENS.borderRadius.full,
       backgroundColor: BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
@@ -181,16 +181,16 @@ const ActivityTimeline = ({ items = [] }) => {
     timelineLine: {
       position: 'absolute',
       left: '19px',
-      top: '40px',
+      top: '34px',
       width: '2px',
-      height: 'calc(100% - 16px)',
+      height: 'calc(100% - 35px)',
       backgroundColor: BASE_TOKENS.colors.gray[200],
       zIndex: 5
     },
     animatedLine: {
       position: 'absolute',
       left: '19px',
-      top: '40px',
+      top: '34px',
       width: '2px',
       backgroundColor: BASE_TOKENS.colors.gray[900],
       zIndex: 6,
@@ -251,7 +251,7 @@ const ActivityTimeline = ({ items = [] }) => {
           <div
             style={{
               ...styles.animatedLine,
-              height: `${(activityItems.length - 1) * 66 * animationProgress}px`
+              height: `${((activityItems.length - 1) * 66 * animationProgress) - 10}px`
             }}
           />
           
@@ -270,14 +270,9 @@ const ActivityTimeline = ({ items = [] }) => {
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
-                {/* Timeline line for each item except the last */}
-                {!isLast && (
-                  <div style={styles.timelineLine}></div>
-                )}
                 
                 {/* Timeline icon */}
                 <div style={styles.timelineIcon}>
-                  {getActivityIcon(item.type)}
                 </div>
                 
                 <div>
