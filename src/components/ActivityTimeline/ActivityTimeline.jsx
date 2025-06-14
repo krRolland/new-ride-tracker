@@ -128,7 +128,8 @@ const ActivityTimeline = ({ items = [] }) => {
     header: {
       display: 'flex',
       alignItems: 'center',
-      marginBottom: BASE_TOKENS.spacing.lg,
+      justifyContent: 'space-between',
+      marginBottom: '26px',
       flexShrink: 0
     },
     headerTitle: {
@@ -150,7 +151,7 @@ const ActivityTimeline = ({ items = [] }) => {
     },
     timelineItem: {
       position: 'relative',
-      paddingLeft: '69px', // 73px - 4px = 69px
+      paddingLeft: '65px', // 69px - 4px = 65px
       paddingBottom: BASE_TOKENS.spacing.lg,
       paddingRight: BASE_TOKENS.spacing.sm,
       paddingTop: BASE_TOKENS.spacing.sm,
@@ -202,7 +203,7 @@ const ActivityTimeline = ({ items = [] }) => {
       marginBottom: BASE_TOKENS.spacing.xs
     },
     itemTitle: {
-      fontSize: BASE_TOKENS.typography.fontSize.sm,
+      fontSize: '16px',
       fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
       color: BASE_TOKENS.colors.gray[900],
       lineHeight: BASE_TOKENS.typography.lineHeight.sm,
@@ -214,7 +215,7 @@ const ActivityTimeline = ({ items = [] }) => {
       fontWeight: BASE_TOKENS.typography.fontWeight.medium
     },
     itemSubtitle: {
-      fontSize: BASE_TOKENS.typography.fontSize.xs,
+      fontSize: '14px',
       color: BASE_TOKENS.colors.gray[600],
       lineHeight: BASE_TOKENS.typography.lineHeight.xs,
       margin: 0
@@ -226,6 +227,22 @@ const ActivityTimeline = ({ items = [] }) => {
       {/* Header */}
       <div style={styles.header}>
         <h3 style={styles.headerTitle}>Recent Activity</h3>
+        <button style={{
+          backgroundColor: 'transparent',
+          border: 'none',
+          color: BASE_TOKENS.colors.gray[500],
+          fontSize: BASE_TOKENS.typography.fontSize.sm,
+          cursor: 'pointer',
+          padding: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px'
+        }}>
+          View All
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
       </div>
       
       <div style={styles.timelineContainer}>

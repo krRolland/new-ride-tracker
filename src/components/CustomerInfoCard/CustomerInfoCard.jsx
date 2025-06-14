@@ -44,10 +44,10 @@ const CustomerInfoCard = () => {
         
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            marginBottom: '13px'
+            marginBottom: '9px'
           }}>
             <h4 style={{
-              fontSize: '26px',
+              fontSize: '24px',
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               color: BASE_TOKENS.colors.gray[900],
               margin: 0
@@ -134,7 +134,7 @@ const CustomerInfoCard = () => {
             backgroundColor: '#000000',
             borderRadius: '50px',
             padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            paddingLeft: `calc(${BASE_TOKENS.spacing.sm} + 5px)`,
+            paddingLeft: `calc(${BASE_TOKENS.spacing.sm} - 1px)`,
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center'

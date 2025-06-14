@@ -259,7 +259,7 @@ const CallFraudDashboard = () => {
     content: {
       maxWidth: '1200px',
       margin: '0 auto',
-      padding: `0 ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
+      padding: `60px ${BASE_TOKENS.spacing['2xl']} ${BASE_TOKENS.spacing['2xl']}`
     },
     pageTitle: {
       fontSize: BASE_TOKENS.typography.fontSize['2xl'],
@@ -331,7 +331,8 @@ const CallFraudDashboard = () => {
         <motion.div 
           style={{
             borderBottom: `2px solid ${BASE_TOKENS.colors.gray[200]}`,
-            marginBottom: BASE_TOKENS.spacing['2xl'],
+            marginBottom: activeTab === 'calls' ? '0px' : '34px',
+            marginTop: '34px',
             display: 'flex',
             gap: BASE_TOKENS.spacing.md
           }}
@@ -391,32 +392,25 @@ const CallFraudDashboard = () => {
         </motion.div>
 
         {/* Tab Content */}
-        <AnimatePresence mode="wait">
+        <div>
           {activeTab === 'overview' && (
-            <motion.div
-              key="overview"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div>
               {/* Customer Info Card - Full Width */}
-              <motion.div 
+              <div 
                 style={{
-                  marginBottom: BASE_TOKENS.spacing['2xl']
+                  marginTop: '20px',
+                  marginBottom: '30px'
                 }}
-                variants={componentVariants}
               >
                 <CustomerInfoCard />
-              </motion.div>
+              </div>
 
               {/* Fraud Signals Title */}
-              <motion.div 
+              <div 
                 style={{
                   padding: '16px',
-                  marginBottom: BASE_TOKENS.spacing.lg
+                  marginBottom: '15px'
                 }}
-                variants={componentVariants}
               >
                 <h2 style={{
                   fontSize: BASE_TOKENS.typography.fontSize.lg,
@@ -426,10 +420,10 @@ const CallFraudDashboard = () => {
                 }}>
                   Fraud Signals
                 </h2>
-              </motion.div>
+              </div>
 
               {/* Three UberCard Components */}
-              <motion.div 
+              <div 
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
@@ -438,9 +432,8 @@ const CallFraudDashboard = () => {
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}
-                variants={containerVariants}
               >
-                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                <div style={{ width: '100%', boxSizing: 'border-box' }}>
                   <UberCard 
                     title="50%"
                     subtitle="Billing Disputes"
@@ -449,8 +442,8 @@ const CallFraudDashboard = () => {
                     backgroundColor="#FFF6F6"
                     titleColor="#DE1135"
                   />
-                </motion.div>
-                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                </div>
+                <div style={{ width: '100%', boxSizing: 'border-box' }}>
                   <UberCard 
                     title="$74"
                     subtitle="Monthly Refunds"
@@ -459,21 +452,21 @@ const CallFraudDashboard = () => {
                     backgroundColor="#FFF6F6"
                     titleColor="#DE1135"
                   />
-                </motion.div>
-                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                </div>
+                <div style={{ width: '100%', boxSizing: 'border-box' }}>
                   <UberCard 
                     title="2.5 yrs"
                     subtitle="Account Age"
                     description="Established"
                     imageUrl="/time.png"
                     backgroundColor="#F1F9F4"
-                    titleColor="#1BAA5F"
+                    titleColor="#0D8345"
                   />
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* Activity Timeline and Recent Refunds */}
-              <motion.div 
+              <div 
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
@@ -482,42 +475,29 @@ const CallFraudDashboard = () => {
                   alignItems: 'stretch',
                   justifyItems: 'stretch'
                 }}
-                variants={containerVariants}
               >
-                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                <div style={{ width: '100%', boxSizing: 'border-box' }}>
                   <ActivityTimeline />
-                </motion.div>
-                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                </div>
+                <div style={{ width: '100%', boxSizing: 'border-box' }}>
                   <RecentRefunds />
-                </motion.div>
-              </motion.div>
-            </motion.div>
+                </div>
+              </div>
+            </div>
           )}
 
           {activeTab === 'calls' && (
-            <motion.div
-              key="calls"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div>
               <CallLog callsData={callsData} />
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'security' && (
-            <motion.div
-              key="security"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div>
               <DevicesSecurity />
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
       </div>
     </motion.div>
   );

@@ -17,10 +17,6 @@ const CallLog = ({ callsData }) => {
 
   return (
     <div style={{
-      backgroundColor: BASE_TOKENS.colors.white,
-      borderRadius: BASE_TOKENS.borderRadius.lg,
-      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      boxShadow: BASE_TOKENS.shadows.md,
       display: 'flex',
       flexDirection: 'row', // Changed to row to handle columns directly
       position: 'relative',
@@ -145,7 +141,8 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
             style={{
               width: '100%',
               padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing['2xl']}`,
-              border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
+              border: '1px solid #E1E1E1',
+              backgroundColor: '#F9FAFB',
               borderRadius: BASE_TOKENS.borderRadius.md,
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               outline: 'none'
@@ -177,10 +174,10 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           {/* Fraud Risk Pill */}
           <button
           style={{
-            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            border: `1px solid ${colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[500] : BASE_TOKENS.colors.gray[300]}`,
+            padding: `calc(${BASE_TOKENS.spacing.xs} + 2px) calc(${BASE_TOKENS.spacing.sm} + 2px)`,
+            border: `1px solid ${colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[500] : '#E1E1E1'}`,
             borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[100] : BASE_TOKENS.colors.white,
+            backgroundColor: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[100] : '#F9FAFB',
             color: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[700] : BASE_TOKENS.colors.gray[700],
             fontSize: BASE_TOKENS.typography.fontSize.xs,
             fontWeight: BASE_TOKENS.typography.fontWeight.medium,
@@ -196,7 +193,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           }}
           onMouseLeave={(e) => {
             if (colorBy !== 'Fraud Risk') {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.white;
+              e.target.style.backgroundColor = '#F9FAFB';
             }
           }}
         >
@@ -206,10 +203,10 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
         {/* Sentiment Pill */}
         <button
           style={{
-            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            border: `1px solid ${colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[500] : BASE_TOKENS.colors.gray[300]}`,
+            padding: `calc(${BASE_TOKENS.spacing.xs} + 2px) calc(${BASE_TOKENS.spacing.sm} + 2px)`,
+            border: `1px solid ${colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[500] : '#E1E1E1'}`,
             borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[100] : BASE_TOKENS.colors.white,
+            backgroundColor: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[100] : '#F9FAFB',
             color: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[700] : BASE_TOKENS.colors.gray[700],
             fontSize: BASE_TOKENS.typography.fontSize.xs,
             fontWeight: BASE_TOKENS.typography.fontWeight.medium,
@@ -225,7 +222,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           }}
           onMouseLeave={(e) => {
             if (colorBy !== 'Sentiment') {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.white;
+              e.target.style.backgroundColor = '#F9FAFB';
             }
           }}
         >
@@ -324,7 +321,8 @@ const CallDetails = ({ call }) => {
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      backgroundColor: '#FAFAFA'
     }}>
       
       {/* Fixed Header Section with Grey Background */}
@@ -332,7 +330,6 @@ const CallDetails = ({ call }) => {
         flexShrink: 0,
         backgroundColor: BASE_TOKENS.colors.gray[50],
         padding: `${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing['2xl']}`,
-        boxShadow: '1px 1px 6px rgba(0,0,0,.1)',
         borderBottom: `1px solid ${BASE_TOKENS.colors.gray[200]}`
       }}>
         {/* Single Row - Title and Metrics */}
@@ -356,7 +353,8 @@ const CallDetails = ({ call }) => {
               color: BASE_TOKENS.colors.gray[500],
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               fontWeight: BASE_TOKENS.typography.fontWeight.normal,
-              margin: 0
+              margin: 0,
+              marginTop: '20px'
             }}>
               {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]} • Case #8742
             </p>
