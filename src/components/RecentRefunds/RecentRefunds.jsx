@@ -60,10 +60,11 @@ const RecentRefunds = () => {
           marginBottom: '24px'
         }}>
           <h3 style={{
-            fontSize: BASE_TOKENS.typography.fontSize.lg,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            fontSize: '17px', // Decreased by 1px from lg (18px)
+            fontWeight: 800, // One step lower from maximum font weight
             color: BASE_TOKENS.colors.gray[800],
             lineHeight: BASE_TOKENS.typography.lineHeight.lg,
+            letterSpacing: '0px', // Normal letter spacing
             margin: 0
           }}>
             Recent Refunds
@@ -72,7 +73,8 @@ const RecentRefunds = () => {
             backgroundColor: 'transparent',
             border: 'none',
             color: BASE_TOKENS.colors.gray[500],
-            fontSize: BASE_TOKENS.typography.fontSize.sm,
+            fontSize: '13px', // Decreased by 1px from sm (14px)
+            fontWeight: BASE_TOKENS.typography.fontWeight.medium,
             cursor: 'pointer',
             padding: 0,
             display: 'flex',
@@ -114,7 +116,8 @@ const RecentRefunds = () => {
                 <p style={{
                   color: BASE_TOKENS.colors.gray[800],
                   fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                  margin: 0
+                  margin: 0,
+                  fontSize: '15px' // Decreased by 1px from base (16px)
                 }}>
                   ${refund.amount.toFixed(2)}
                 </p>
@@ -139,7 +142,7 @@ const RecentRefunds = () => {
               }}>
                 <p style={{
                   color: BASE_TOKENS.colors.gray[600],
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
+                  fontSize: '13px', // Decreased by 1px from sm (14px)
                   margin: 0
                 }}>
                   {refund.reason}

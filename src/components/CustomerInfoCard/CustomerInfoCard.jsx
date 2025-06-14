@@ -14,7 +14,7 @@ const CustomerInfoCard = () => {
       {/* Customer Profile */}
       <div style={{
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'center', // Changed from flex-start to center for vertical centering
         gap: BASE_TOKENS.spacing.lg,
         flex: 1
       }}>
@@ -44,10 +44,10 @@ const CustomerInfoCard = () => {
         
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            marginBottom: '9px'
+            marginBottom: '3px' // Decreased by 3px more from 6px
           }}>
             <h4 style={{
-              fontSize: '24px',
+              fontSize: '19px', // Decreased by 2px more from 21px
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               color: BASE_TOKENS.colors.gray[900],
               margin: 0
@@ -106,7 +106,7 @@ const CustomerInfoCard = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '15px',
-            marginBottom: '16px'
+            marginBottom: '12px' // Reduced by 4px from 16px
           }}>
             {/* Rides */}
             <div style={{
@@ -133,11 +133,14 @@ const CustomerInfoCard = () => {
           <div style={{
             backgroundColor: '#000000',
             borderRadius: '50px',
-            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            paddingLeft: `calc(${BASE_TOKENS.spacing.sm} - 1px)`,
-            display: 'inline-flex',
+            paddingTop: `calc(${BASE_TOKENS.spacing.xs} + 1px)`, // Increased by 1px
+            paddingBottom: `calc(${BASE_TOKENS.spacing.xs} + 1px)`, // Increased by 1px
+            paddingLeft: `calc(${BASE_TOKENS.spacing.sm} + 1px)`, // Increased by 2px (was -1px, now +1px)
+            paddingRight: `calc(${BASE_TOKENS.spacing.sm} + 2px)`, // Increased by 2px
+            display: 'inline-flex', // Back to inline-flex to maintain natural width
             alignItems: 'center',
-            justifyContent: 'center'
+            transform: 'scale(0.85)', // Shrink to 85% of current size
+            transformOrigin: 'left center' // Ensure scaling happens from left edge
           }}>
             <img 
               src="/uber-one-logo-pill.png" 

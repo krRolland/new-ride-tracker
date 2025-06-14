@@ -134,10 +134,11 @@ const ActivityTimeline = ({ items = [] }) => {
       flexShrink: 0
     },
     headerTitle: {
-      fontSize: BASE_TOKENS.typography.fontSize.lg,
-      fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+      fontSize: '17px', // Decreased by 1px from lg (18px)
+      fontWeight: 800, // One step lower from maximum font weight
       color: BASE_TOKENS.colors.gray[800],
       lineHeight: BASE_TOKENS.typography.lineHeight.lg,
+      letterSpacing: '0px', // Normal letter spacing
       margin: 0
     },
     timelineContainer: {
@@ -166,10 +167,10 @@ const ActivityTimeline = ({ items = [] }) => {
     },
     timelineIcon: {
       position: 'absolute',
-      left: '14px',
-      top: '22px',
-      width: '12px',
-      height: '12px',
+      left: '15px', // Adjusted by 1px to center the smaller circle
+      top: '23px', // Adjusted by 1px to center the smaller circle
+      width: '10px', // Reduced by 2px from 12px
+      height: '10px', // Reduced by 2px from 12px
       borderRadius: BASE_TOKENS.borderRadius.full,
       backgroundColor: BASE_TOKENS.colors.gray[900],
       color: BASE_TOKENS.colors.white,
@@ -177,7 +178,7 @@ const ActivityTimeline = ({ items = [] }) => {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 10,
-      fontSize: '12px'
+      fontSize: '10px' // Reduced font size to match smaller circle
     },
     timelineLine: {
       position: 'absolute',
@@ -204,19 +205,19 @@ const ActivityTimeline = ({ items = [] }) => {
       marginBottom: BASE_TOKENS.spacing.xs
     },
     itemTitle: {
-      fontSize: '16px',
+      fontSize: '15px', // Decreased by 1px from 16px
       fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
       color: BASE_TOKENS.colors.gray[900],
       lineHeight: BASE_TOKENS.typography.lineHeight.sm,
       margin: 0
     },
     itemTime: {
-      fontSize: BASE_TOKENS.typography.fontSize.xs,
+      fontSize: '11px', // Decreased by 1px from xs (12px)
       color: BASE_TOKENS.colors.gray[500],
       fontWeight: BASE_TOKENS.typography.fontWeight.medium
     },
     itemSubtitle: {
-      fontSize: '14px',
+      fontSize: '13px', // Decreased by 1px from 14px
       color: BASE_TOKENS.colors.gray[600],
       lineHeight: BASE_TOKENS.typography.lineHeight.xs,
       margin: 0
@@ -232,7 +233,8 @@ const ActivityTimeline = ({ items = [] }) => {
           backgroundColor: 'transparent',
           border: 'none',
           color: BASE_TOKENS.colors.gray[500],
-          fontSize: BASE_TOKENS.typography.fontSize.sm,
+          fontSize: '13px', // Decreased by 1px from sm (14px)
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
           cursor: 'pointer',
           padding: 0,
           display: 'flex',
@@ -279,10 +281,10 @@ const ActivityTimeline = ({ items = [] }) => {
                 <div>
                   <div style={styles.itemHeader}>
                     <h4 style={styles.itemTitle}>{item.title}</h4>
-                    <span style={styles.itemTime}>{item.time}</span>
+                    {/* <span style={styles.itemTime}>{item.time}</span> */}
                   </div>
-                  {item.subtitle && (
-                    <p style={styles.itemSubtitle}>{item.subtitle}</p>
+                  {item.time && (
+                    <p style={styles.itemSubtitle}>{item.time}</p>
                   )}
                 </div>
               </li>

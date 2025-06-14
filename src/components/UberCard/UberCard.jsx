@@ -74,7 +74,7 @@ const UberCard = ({
             fontWeight: 'bold',
             margin: 0,
             marginBottom: '5px',
-            letterSpacing: '-1px'
+            letterSpacing: '0px'
           }}
         >
           {title}
@@ -125,7 +125,7 @@ const UberCard = ({
         </div>
       </div>
       
-      {/* Right side - Full height image */}
+      {/* Right side - 90% height image, vertically centered */}
       <div 
         className="uber-card-image-container"
         style={{
@@ -142,7 +142,7 @@ const UberCard = ({
           src={imageUrl}
           alt="Card image"
           style={{
-            height: '100%',
+            height: '90%', // Reduced to 90% of container height
             width: 'auto',
             objectFit: 'contain'
           }}

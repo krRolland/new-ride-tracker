@@ -308,8 +308,8 @@ const CallFraudDashboard = () => {
         {/* Tab Navigation */}
         <motion.div 
           style={{
-            paddingTop: BASE_TOKENS.spacing.md,
-            paddingBottom: BASE_TOKENS.spacing.md,
+            paddingTop: '9px', // Reduced by 2px more from 11px
+            paddingBottom: '7px', // Reduced by 2px more from 9px
             paddingLeft: BASE_TOKENS.spacing['2xl'],
             paddingRight: BASE_TOKENS.spacing['2xl'],
             display: 'flex',
@@ -326,7 +326,7 @@ const CallFraudDashboard = () => {
               borderBottom: '2px solid transparent',
               color: activeTab === 'overview' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: '16px',
+              fontSize: '13px', // Increased by 2px from 11px
               cursor: 'pointer',
               transition: 'color 0.2s ease',
               outline: 'none',
@@ -345,7 +345,7 @@ const CallFraudDashboard = () => {
               borderBottom: '2px solid transparent',
               color: activeTab === 'calls' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: '16px',
+              fontSize: '13px', // Increased by 2px from 11px
               cursor: 'pointer',
               transition: 'color 0.2s ease',
               outline: 'none',
@@ -364,7 +364,7 @@ const CallFraudDashboard = () => {
               borderBottom: '2px solid transparent',
               color: activeTab === 'security' ? '#ffffff' : BASE_TOKENS.colors.gray[400],
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-              fontSize: '16px',
+              fontSize: '13px', // Increased by 2px from 11px
               cursor: 'pointer',
               transition: 'color 0.2s ease',
               outline: 'none',
@@ -387,11 +387,11 @@ const CallFraudDashboard = () => {
             }}
             animate={{
               x: activeTab === 'overview' ? 16 : 
-                 activeTab === 'calls' ? 131 : 
-                 activeTab === 'security' ? 211 : 16,
-              width: activeTab === 'overview' ? 74 : 
-                     activeTab === 'calls' ? 44 : 
-                     activeTab === 'security' ? 144 : 74
+                 activeTab === 'calls' ? 125 : 
+                 activeTab === 'security' ? 195 : 16,
+              width: activeTab === 'overview' ? 62 : 
+                     activeTab === 'calls' ? 36 : 
+                     activeTab === 'security' ? 118 : 62
             }}
             transition={{
               type: "spring",
@@ -441,9 +441,11 @@ const CallFraudDashboard = () => {
                 }}
               >
                 <h2 style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.lg,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  fontSize: '17px', // Decreased by 1px from lg (18px)
+                  fontWeight: 800, // Updated to match component titles
                   color: BASE_TOKENS.colors.gray[800],
+                  lineHeight: BASE_TOKENS.typography.lineHeight.lg, // Added missing lineHeight
+                  letterSpacing: '0px', // Normal letter spacing
                   margin: 0
                 }}>
                   User
@@ -484,9 +486,11 @@ const CallFraudDashboard = () => {
                 }}
               >
                 <h2 style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.lg,
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  fontSize: '17px', // Decreased by 1px from lg (18px)
+                  fontWeight: 800, // Updated to match component titles
                   color: BASE_TOKENS.colors.gray[800],
+                  lineHeight: BASE_TOKENS.typography.lineHeight.lg, // Added missing lineHeight
+                  letterSpacing: '0px', // Normal letter spacing
                   margin: 0
                 }}>
                   Fraud Signals
@@ -581,7 +585,7 @@ const CallFraudDashboard = () => {
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: '44px',
+                  gap: '80px', // Increased even more from 59px
                   marginBottom: BASE_TOKENS.spacing['2xl'],
                   marginTop: '35px',
                   alignItems: 'stretch',
