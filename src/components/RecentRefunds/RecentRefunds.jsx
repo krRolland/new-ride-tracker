@@ -60,11 +60,9 @@ const RecentRefunds = () => {
           marginBottom: '24px'
         }}>
           <h3 style={{
-            fontSize: '17px', // Decreased by 1px from lg (18px)
-            fontWeight: 800, // One step lower from maximum font weight
-            color: BASE_TOKENS.colors.gray[800],
-            lineHeight: BASE_TOKENS.typography.lineHeight.lg,
-            letterSpacing: '0px', // Normal letter spacing
+            fontSize: '19px',
+            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+            color: BASE_TOKENS.colors.gray[900],
             margin: 0
           }}>
             Recent Refunds

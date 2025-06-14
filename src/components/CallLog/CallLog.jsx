@@ -131,7 +131,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
             placeholder="Search..."
             style={{
               width: '100%',
-              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} calc(${BASE_TOKENS.spacing['2xl']} + 2px)`,
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} calc(${BASE_TOKENS.spacing['2xl']} + 4px)`,
               border: '1px solid #E1E1E1',
               backgroundColor: '#F9FAFB',
               borderRadius: BASE_TOKENS.borderRadius.md,
@@ -154,7 +154,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
           display: 'block',
           marginBottom: BASE_TOKENS.spacing.sm
         }}>
-          Label:
+          Sort:
         </span>
         
         <div style={{
@@ -342,85 +342,42 @@ const CallDetails = ({ call }) => {
         }}>
           {/* Left Side - Title and Description */}
           <div>
-            <h2 style={{
-              fontSize: BASE_TOKENS.typography.fontSize['2xl'],
-              fontWeight: BASE_TOKENS.typography.fontWeight.bold,
-              color: BASE_TOKENS.colors.gray[800],
-              margin: 0,
-              marginBottom: BASE_TOKENS.spacing.xs
+            <div style={{
+              paddingTop: '16px',
+              paddingBottom: '16px',
+              marginTop: '0px',
+              marginBottom: '15px'
             }}>
-              Support for Lost Phone
-            </h2>
+              <h2 style={{
+                fontSize: '19px',
+                fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                color: BASE_TOKENS.colors.gray[900],
+                margin: 0
+              }}>
+                Support for Lost Phone
+              </h2>
+            </div>
             <p style={{
               color: BASE_TOKENS.colors.gray[500],
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               fontWeight: BASE_TOKENS.typography.fontWeight.normal,
               margin: 0,
-              marginTop: '10px'
+              marginTop: '-20px'
             }}>
               {formatDate(call.dateTime.split(' - ')[0])} • {call.duration} • {call.agent.split(' ')[1]} • Case #8742
             </p>
           </div>
 
-          {/* Right Side - Metrics */}
+          {/* Right Side - Status Badge */}
           <div style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: BASE_TOKENS.spacing.lg
+            alignItems: 'center'
           }}>
-            {/* Customer Satisfaction */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: BASE_TOKENS.spacing.xs
-            }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#FFD700"/>
-              </svg>
-              <span style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
-                fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                color: BASE_TOKENS.colors.gray[800]
-              }}>
-                8.5
-              </span>
-              <span style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
-                color: BASE_TOKENS.colors.gray[500]
-              }}>
-                /10
-              </span>
-            </div>
-
-            {/* Fraud Risk */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: BASE_TOKENS.spacing.xs
-            }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L22 8.5V15.5C22 16.61 21.35 17.61 20.35 18.04L12 22L3.65 18.04C2.65 17.61 2 16.61 2 15.5V8.5L12 2ZM12 7C10.9 7 10 7.9 10 9S10.9 11 12 11 14 10.1 14 9 13.1 7 12 7ZM12 13C10.9 13 10 13.9 10 15S10.9 17 12 17 14 16.1 14 15 13.1 13 12 13Z" fill="#EF4444"/>
-              </svg>
-              <span style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
-                fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                color: BASE_TOKENS.colors.gray[800]
-              }}>
-                7
-              </span>
-              <span style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
-                color: BASE_TOKENS.colors.gray[500]
-              }}>
-                /10
-              </span>
-            </div>
-
             {/* Status Badge */}
             <div style={{
               padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.md}`,
-              backgroundColor: BASE_TOKENS.colors.green[500],
-              color: BASE_TOKENS.colors.white,
+              backgroundColor: '#0D8345',
+              color: '#FFFFFF',
               borderRadius: BASE_TOKENS.borderRadius.full,
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               fontWeight: BASE_TOKENS.typography.fontWeight.medium

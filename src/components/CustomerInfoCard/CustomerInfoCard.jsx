@@ -133,8 +133,8 @@ const CustomerInfoCard = () => {
           <div style={{
             backgroundColor: '#000000',
             borderRadius: '50px',
-            paddingTop: `calc(${BASE_TOKENS.spacing.xs} + 1px)`, // Increased by 1px
-            paddingBottom: `calc(${BASE_TOKENS.spacing.xs} + 1px)`, // Increased by 1px
+            paddingTop: `calc(${BASE_TOKENS.spacing.xs} + 3px)`, // Increased by 2px more (was +1px, now +3px)
+            paddingBottom: `calc(${BASE_TOKENS.spacing.xs} + 3px)`, // Increased by 2px more (was +1px, now +3px)
             paddingLeft: `calc(${BASE_TOKENS.spacing.sm} + 1px)`, // Increased by 2px (was -1px, now +1px)
             paddingRight: `calc(${BASE_TOKENS.spacing.sm} + 2px)`, // Increased by 2px
             display: 'inline-flex', // Back to inline-flex to maintain natural width

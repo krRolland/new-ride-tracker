@@ -441,11 +441,9 @@ const CallFraudDashboard = () => {
                 }}
               >
                 <h2 style={{
-                  fontSize: '17px', // Decreased by 1px from lg (18px)
-                  fontWeight: 800, // Updated to match component titles
-                  color: BASE_TOKENS.colors.gray[800],
-                  lineHeight: BASE_TOKENS.typography.lineHeight.lg, // Added missing lineHeight
-                  letterSpacing: '0px', // Normal letter spacing
+                  fontSize: '19px',
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[900],
                   margin: 0
                 }}>
                   User
@@ -486,11 +484,9 @@ const CallFraudDashboard = () => {
                 }}
               >
                 <h2 style={{
-                  fontSize: '17px', // Decreased by 1px from lg (18px)
-                  fontWeight: 800, // Updated to match component titles
-                  color: BASE_TOKENS.colors.gray[800],
-                  lineHeight: BASE_TOKENS.typography.lineHeight.lg, // Added missing lineHeight
-                  letterSpacing: '0px', // Normal letter spacing
+                  fontSize: '19px',
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[900],
                   margin: 0
                 }}>
                   Fraud Signals
@@ -574,7 +570,7 @@ const CallFraudDashboard = () => {
                     subtitle="Account Age"
                     description="Established"
                     imageUrl="/time.png"
-                    backgroundColor="#F1F9F4"
+                    backgroundColor="#F7FCF7"
                     titleColor="#0D8345"
                   />
                 </motion.div>

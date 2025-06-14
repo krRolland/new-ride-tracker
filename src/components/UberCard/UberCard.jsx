@@ -29,6 +29,7 @@ const UberCard = ({
       style={{
         borderRadius: '12px',
         backgroundColor: backgroundColor,
+        border: '2px solid #E8E8E8',
         position: 'relative',
         display: 'flex',
         cursor: 'pointer',
@@ -104,9 +105,14 @@ const UberCard = ({
             fontWeight: '500',
             color: '#050C4D',
             margin: 0,
+            marginTop: '-8px',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '8px',
+            backgroundColor: '#FFFFFF',
+            padding: '10px',
+            borderRadius: '50px',
+            alignSelf: 'flex-start'
           }}
         >
           <span>{description}</span>
