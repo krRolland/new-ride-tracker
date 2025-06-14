@@ -7,67 +7,64 @@ const FraudSignals = () => {
     {
       id: 'billing-disputes',
       title: 'Billing Disputes',
-      normal: '5%',
       current: '50%',
       multiplier: '10x higher',
-      severity: 'high'
+      icon: 'credit-card'
     },
     {
       id: 'call-frequency',
       title: 'Call Frequency',
-      normal: '2/month',
       current: '6',
       multiplier: '3x higher',
-      severity: 'medium'
+      icon: 'phone'
     },
     {
       id: 'refund-rate',
       title: 'Refund Rate',
-      normal: '$15/month',
       current: '$74',
       multiplier: '5x higher',
-      severity: 'high'
+      icon: 'arrow-left'
     },
     {
       id: 'account-age',
       title: 'Account Age',
-      normal: 'Good indicator',
       current: '2.5yr',
       multiplier: 'Established',
-      severity: 'low'
+      icon: 'clock'
     }
   ];
 
-  const getSeverityColor = (severity) => {
-    switch (severity) {
-      case 'high':
-        return {
-          bg: BASE_TOKENS.colors.red[50],
-          text: BASE_TOKENS.colors.red[700],
-          border: BASE_TOKENS.colors.red[200],
-          multiplier: BASE_TOKENS.colors.red[800]
-        };
-      case 'medium':
-        return {
-          bg: BASE_TOKENS.colors.yellow[50],
-          text: BASE_TOKENS.colors.yellow[700],
-          border: BASE_TOKENS.colors.yellow[200],
-          multiplier: BASE_TOKENS.colors.yellow[800]
-        };
-      case 'low':
-        return {
-          bg: BASE_TOKENS.colors.green[50],
-          text: BASE_TOKENS.colors.green[700],
-          border: BASE_TOKENS.colors.green[200],
-          multiplier: BASE_TOKENS.colors.green[800]
-        };
+  const getIcon = (iconType) => {
+    switch (iconType) {
+      case 'credit-card':
+        return (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        );
+      case 'phone':
+        return (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        );
+      case 'arrow-left':
+        return (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12,19 5,12 12,5"/>
+          </svg>
+        );
+      case 'clock':
+        return (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+        );
       default:
-        return {
-          bg: BASE_TOKENS.colors.gray[50],
-          text: BASE_TOKENS.colors.gray[700],
-          border: BASE_TOKENS.colors.gray[200],
-          multiplier: BASE_TOKENS.colors.gray[800]
-        };
+        return null;
     }
   };
 
@@ -106,72 +103,80 @@ const FraudSignals = () => {
         </p>
       </div>
 
-      {/* Metrics List */}
+      {/* Streamlined List */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: BASE_TOKENS.spacing.lg,
+        gap: BASE_TOKENS.spacing.sm,
         flex: 1
       }}>
-        {fraudMetrics.map((metric) => {
-          const colors = getSeverityColor(metric.severity);
+        {fraudMetrics.map((metric, index) => {
+          const isLastItem = index === fraudMetrics.length - 1;
           return (
-            <div
-              key={metric.id}
-              style={{
-                padding: BASE_TOKENS.spacing.md,
-                borderRadius: BASE_TOKENS.borderRadius.md,
-                border: `1px solid ${colors.border}`,
-                backgroundColor: colors.bg
-              }}
-            >
-              {/* Metric Title */}
-              <h4 style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
-                fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                color: BASE_TOKENS.colors.gray[800],
-                margin: 0,
-                marginBottom: BASE_TOKENS.spacing.sm
-              }}>
-                {metric.title}
-              </h4>
-
-              {/* Normal vs Current - Restructured Layout */}
+            <div key={metric.id}>
               <div style={{
                 display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: BASE_TOKENS.spacing.xs
+                padding: `${BASE_TOKENS.spacing.sm} 0`,
+                minHeight: '40px'
               }}>
+                {/* Left side - Icon and Title */}
                 <div style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.xs,
-                  color: BASE_TOKENS.colors.gray[500]
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: BASE_TOKENS.spacing.sm,
+                  flex: 1
                 }}>
-                  Normal: {metric.normal}
+                  <div style={{
+                    color: BASE_TOKENS.colors.gray[500],
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexShrink: 0
+                  }}>
+                    {getIcon(metric.icon)}
+                  </div>
+                  <span style={{
+                    fontSize: BASE_TOKENS.typography.fontSize.sm,
+                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+                    color: BASE_TOKENS.colors.gray[800]
+                  }}>
+                    {metric.title}
+                  </span>
                 </div>
+
+                {/* Right side - Values */}
                 <div style={{
                   textAlign: 'right',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'flex-end'
+                  alignItems: 'flex-end',
+                  gap: '2px'
                 }}>
                   <div style={{
                     fontSize: BASE_TOKENS.typography.fontSize.lg,
-                    fontWeight: BASE_TOKENS.typography.fontWeight.bold,
-                    color: colors.text,
-                    marginBottom: '2px'
+                    fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                    color: BASE_TOKENS.colors.gray[900]
                   }}>
                     {metric.current}
                   </div>
                   <div style={{
-                    fontSize: BASE_TOKENS.typography.fontSize.sm,
-                    fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                    color: colors.multiplier
+                    fontSize: BASE_TOKENS.typography.fontSize.xs,
+                    color: BASE_TOKENS.colors.gray[500]
                   }}>
                     {metric.multiplier}
                   </div>
                 </div>
               </div>
+              
+              {/* Separator line (except for last item) */}
+              {!isLastItem && (
+                <div style={{
+                  height: '1px',
+                  backgroundColor: BASE_TOKENS.colors.gray[200],
+                  marginLeft: '24px' // Align with text after icon
+                }} />
+              )}
             </div>
           );
         })}

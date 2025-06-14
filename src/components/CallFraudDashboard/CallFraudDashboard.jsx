@@ -4,15 +4,17 @@ import { BASE_TOKENS } from '../../tokens';
 import RecentRefunds from '../RecentRefunds';
 import CallLog from '../CallLog';
 import CustomerInfoCard from '../CustomerInfoCard';
-import FraudRiskCard from '../FraudRiskCard';
 import FraudSignals from '../FraudSignals';
 import DevicesSecurity from '../DevicesSecurity';
+import UberCard from '../UberCard';
+import ActivityTimeline from '../ActivityTimeline';
 
 // Main App component
 const CallFraudDashboard = () => {
   const [selectedCall, setSelectedCall] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   // Dummy data for the dashboard
   const callsData = [
@@ -240,7 +242,7 @@ const CallFraudDashboard = () => {
 
   const styles = {
     container: {
-      backgroundColor: BASE_TOKENS.colors.gray[50],
+      backgroundColor: BASE_TOKENS.colors.white,
       minHeight: '100vh',
       fontFamily: "'UberMove', 'UberMoveText', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
     },
@@ -343,469 +345,176 @@ const CallFraudDashboard = () => {
       {/* Main Content */}
       <div style={styles.content}>
 
-        {/* Top Row - Two Card Components with proper grid layout */}
-        <motion.div 
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '3fr 2fr', // Match second row proportions: ~60% for customer card, ~40% for fraud risk card
-            gap: BASE_TOKENS.spacing['2xl'],
-            marginBottom: BASE_TOKENS.spacing['2xl'],
-            alignItems: 'stretch',
-            justifyItems: 'stretch' // Ensures components stretch to fill grid cells horizontally
-          }}
-          variants={containerVariants}
-        >
-          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
-            <CustomerInfoCard />
-          </motion.div>
-          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
-            <FraudRiskCard />
-          </motion.div>
-        </motion.div>
-
-        {/* Devices & Security Row - Full Width */}
+        {/* Customer Info Card - Full Width */}
         <motion.div 
           style={{
             marginBottom: BASE_TOKENS.spacing['2xl']
           }}
           variants={componentVariants}
         >
-          <DevicesSecurity />
+          <CustomerInfoCard />
         </motion.div>
 
-        {/* Third Row - Refund List and Fraud Signals with proper grid layout */}
+        {/* Tab Navigation */}
         <motion.div 
           style={{
-            display: 'grid',
-            gridTemplateColumns: '3fr 2fr', // Refund list matches customer card width (60%), Fraud Signals takes remaining (40%)
-            gap: BASE_TOKENS.spacing['2xl'],
+            borderBottom: `2px solid ${BASE_TOKENS.colors.gray[200]}`,
             marginBottom: BASE_TOKENS.spacing['2xl'],
-            alignItems: 'stretch',
-            justifyItems: 'stretch' // Ensures components stretch to fill grid cells horizontally
-          }}
-          variants={containerVariants}
-        >
-          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
-            <RecentRefunds />
-          </motion.div>
-          <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
-            <FraudSignals />
-          </motion.div>
-        </motion.div>
-
-        {/* CallLog Component */}
-        <motion.div 
-          style={{
-            marginTop: BASE_TOKENS.spacing['2xl']
+            display: 'flex',
+            gap: BASE_TOKENS.spacing.md
           }}
           variants={componentVariants}
         >
-          <CallLog callsData={callsData} />
+          <button 
+            style={{
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderBottom: activeTab === 'overview' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
+              color: activeTab === 'overview' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              outline: 'none'
+            }}
+            onClick={() => setActiveTab('overview')}
+          >
+            Overview
+          </button>
+          <button 
+            style={{
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderBottom: activeTab === 'calls' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
+              color: activeTab === 'calls' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              outline: 'none'
+            }}
+            onClick={() => setActiveTab('calls')}
+          >
+            Calls
+          </button>
+          <button 
+            style={{
+              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg}`,
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderBottom: activeTab === 'security' ? `2px solid ${BASE_TOKENS.colors.blue[500]}` : '2px solid transparent',
+              color: activeTab === 'security' ? BASE_TOKENS.colors.blue[600] : BASE_TOKENS.colors.gray[600],
+              fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              outline: 'none'
+            }}
+            onClick={() => setActiveTab('security')}
+          >
+            Security & Devices
+          </button>
         </motion.div>
-      </div>
-    </motion.div>
-  );
-};
 
-// UserProfile Component
-const UserProfile = () => {
-  const [showDeviceTooltip, setShowDeviceTooltip] = useState(false);
-
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: BASE_TOKENS.spacing.lg,
-      position: 'relative'
-    }}>
-      {/* Avatar */}
-      <div style={{
-        width: '64px',
-        height: '64px',
-        borderRadius: BASE_TOKENS.borderRadius.full,
-        backgroundColor: BASE_TOKENS.colors.gray[200],
-        border: `2px solid ${BASE_TOKENS.colors.white}`,
-        boxShadow: BASE_TOKENS.shadows.md,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0
-      }}>
-        <img 
-          src="/headshot-8.png" 
-          alt="Customer avatar"
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            objectFit: 'cover'
-          }}
-        />
-      </div>
-      
-      {/* Customer Info */}
-      <div style={{ flexGrow: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: BASE_TOKENS.spacing.xs }}>
-          <h2 style={{
-            fontSize: BASE_TOKENS.typography.fontSize.base,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-            color: BASE_TOKENS.colors.gray[900],
-            lineHeight: BASE_TOKENS.typography.lineHeight.base,
-            margin: 0
-          }}>
-            Sarah Johnson
-          </h2>
-          <span style={{
-            marginLeft: BASE_TOKENS.spacing.lg,
-            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            backgroundColor: BASE_TOKENS.colors.yellow[400],
-            color: BASE_TOKENS.colors.yellow[900],
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-            borderRadius: BASE_TOKENS.borderRadius.full
-          }}>
-            Gold Member
-          </span>
-        </div>
-        <div style={{
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          color: BASE_TOKENS.colors.gray[500],
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          marginBottom: BASE_TOKENS.spacing.xs,
-          lineHeight: BASE_TOKENS.typography.lineHeight.xs
-        }}>
-          sarah.j@email.com
-        </div>
-        <div style={{
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          color: BASE_TOKENS.colors.gray[500],
-          lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-          marginBottom: '2px'
-        }}>
-          Member since March 2023 • 247 rides
-        </div>
-        <div style={{
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          color: BASE_TOKENS.colors.gray[400],
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-          display: 'flex',
-          alignItems: 'center',
-          gap: BASE_TOKENS.spacing.xs
-        }}>
-          <span>$3,847 lifetime value</span>
-          <span>•</span>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: BASE_TOKENS.spacing.xs
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: BASE_TOKENS.colors.yellow[500] }}>
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <span>4.8</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Device Mockup */}
-      <div 
-        style={{
-          position: 'relative',
-          flexShrink: 0,
-          cursor: 'pointer'
-        }}
-        onMouseEnter={() => setShowDeviceTooltip(true)}
-        onMouseLeave={() => setShowDeviceTooltip(false)}
-      >
-        {/* Device Icon/Mockup */}
-        <div style={{
-          width: '48px',
-          height: '48px',
-          backgroundColor: BASE_TOKENS.colors.gray[100],
-          borderRadius: BASE_TOKENS.borderRadius.lg,
-          border: `1px solid ${BASE_TOKENS.colors.gray[300]}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'all 0.2s ease'
-        }}>
-          {/* Phone Icon */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BASE_TOKENS.colors.gray[600]} strokeWidth="2">
-            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-            <line x1="12" y1="18" x2="12.01" y2="18"/>
-          </svg>
-        </div>
-
-        {/* Animated Tooltip */}
-        <AnimatePresence>
-          {showDeviceTooltip && (
-            <motion.div 
-              initial={{ 
-                opacity: 0, 
-                scale: 0.8,
-                y: 10
-              }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                y: 0
-              }}
-              exit={{ 
-                opacity: 0, 
-                scale: 0.8,
-                y: 10
-              }}
-              transition={{
-                duration: 0.2,
-                ease: "easeOut"
-              }}
-              style={{
-                position: 'absolute',
-                top: '-10px',
-                right: '60px',
-                backgroundColor: BASE_TOKENS.colors.gray[900],
-                color: BASE_TOKENS.colors.white,
-                padding: BASE_TOKENS.spacing.lg,
-                borderRadius: BASE_TOKENS.borderRadius.lg,
-                boxShadow: BASE_TOKENS.shadows.xl,
-                zIndex: 1000,
-                width: '160px',
-                fontSize: BASE_TOKENS.typography.fontSize.xs,
-                lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: BASE_TOKENS.spacing.sm
-              }}
-            >
-              {/* Tooltip Arrow */}
-              <div style={{
-                position: 'absolute',
-                top: '20px',
-                right: '-6px',
-                width: 0,
-                height: 0,
-                borderLeft: `6px solid ${BASE_TOKENS.colors.gray[900]}`,
-                borderTop: '6px solid transparent',
-                borderBottom: '6px solid transparent'
-              }}></div>
-
-              {/* Title */}
-              <motion.div 
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.2 }}
-                style={{
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-                  color: BASE_TOKENS.colors.white,
-                  textAlign: 'center',
-                  fontSize: BASE_TOKENS.typography.fontSize.sm
-                }}
-              >
-                Device Details
-              </motion.div>
-
-              {/* Device Image */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.15, duration: 0.3 }}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <img 
-                  src="/iphone-13-mockup.png" 
-                  alt="iPhone 13 mockup"
-                  style={{
-                    width: '110px',
-                    height: 'auto',
-                    objectFit: 'contain'
-                  }}
-                />
-              </motion.div>
-
-              {/* Device Information - Vertical Layout */}
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.2 }}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: BASE_TOKENS.spacing.md
-                }}
-              >
-                <div>
-                  <div style={{
-                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                    color: BASE_TOKENS.colors.white,
-                    marginBottom: '2px',
-                    fontSize: BASE_TOKENS.typography.fontSize.xs
-                  }}>
-                    Current:
-                  </div>
-                  <div style={{
-                    color: BASE_TOKENS.colors.gray[300],
-                    fontSize: BASE_TOKENS.typography.fontSize.xs
-                  }}>
-                    iPhone 13 (iOS 16.3)<br/>
-                    MacBook Pro (Web)
-                  </div>
-                </div>
-
-                <div>
-                  <div style={{
-                    fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-                    color: BASE_TOKENS.colors.white,
-                    marginBottom: '2px',
-                    fontSize: BASE_TOKENS.typography.fontSize.xs
-                  }}>
-                    Signup:
-                  </div>
-                  <div style={{
-                    color: BASE_TOKENS.colors.gray[300],
-                    fontSize: BASE_TOKENS.typography.fontSize.xs
-                  }}>
-                    iPhone 11 (iOS 15.6)
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-};
-
-// NavbarCustomerInfo Component
-const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
-  return (
-    <motion.div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: BASE_TOKENS.spacing.md,
-        cursor: 'pointer',
-        padding: BASE_TOKENS.spacing.sm,
-        borderRadius: BASE_TOKENS.borderRadius.lg,
-        transition: 'all 0.2s ease',
-        position: 'relative'
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ scale: 1.02 }}
-      animate={{
-        backgroundColor: isHovered ? BASE_TOKENS.colors.gray[50] : 'rgba(0,0,0,0)'
-      }}
-    >
-      {/* Avatar - Positioned on the left */}
-      <div 
-        style={{
-          width: '60px',
-          height: '60px',
-          borderRadius: BASE_TOKENS.borderRadius.full,
-          backgroundColor: BASE_TOKENS.colors.gray[200],
-          border: `2px solid ${BASE_TOKENS.colors.white}`,
-          boxShadow: BASE_TOKENS.shadows.md,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0
-        }}
-      >
-        <img 
-          src="/headshot-8.png" 
-          alt="Customer avatar"
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            objectFit: 'cover'
-          }}
-        />
-      </div>
-
-      {/* Customer Info - Left aligned */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        position: 'relative'
-      }}>
-        {/* Name and Gold Member - Always visible */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: BASE_TOKENS.spacing.sm,
-          whiteSpace: 'nowrap'
-        }}>
-          <span style={{
-            fontSize: BASE_TOKENS.typography.fontSize.sm,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-            color: BASE_TOKENS.colors.gray[900]
-          }}>
-            Sarah Johnson
-          </span>
-          <span style={{
-            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-            backgroundColor: BASE_TOKENS.colors.yellow[400],
-            color: BASE_TOKENS.colors.yellow[900],
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-            borderRadius: BASE_TOKENS.borderRadius.full
-          }}>
-            Gold Member
-          </span>
-        </div>
-        
-        {/* Additional info - Hidden on scroll, shown on hover - left aligned */}
-        <AnimatePresence>
-          {(!isScrolled || isHovered) && (
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                marginTop: BASE_TOKENS.spacing.xs
-              }}
+              key="overview"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
             >
-              <div style={{
-                fontSize: BASE_TOKENS.typography.fontSize.xs,
-                color: BASE_TOKENS.colors.gray[500],
-                whiteSpace: 'nowrap'
-              }}>
-                sarah.j@email.com
-              </div>
-              <div style={{
-                fontSize: BASE_TOKENS.typography.fontSize.xs,
-                color: BASE_TOKENS.colors.gray[400],
-                whiteSpace: 'nowrap',
-                display: 'flex',
-                alignItems: 'center',
-                gap: BASE_TOKENS.spacing.xs,
-                marginTop: '2px'
-              }}>
-                <span>$3,847 lifetime value</span>
-                <span>•</span>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: BASE_TOKENS.spacing.xs
-                }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{ color: BASE_TOKENS.colors.yellow[500] }}>
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <span>4.8</span>
-                </div>
-              </div>
+              {/* Three UberCard Components */}
+              <motion.div 
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gap: BASE_TOKENS.spacing['2xl'],
+                  marginBottom: BASE_TOKENS.spacing['2xl'],
+                  alignItems: 'stretch',
+                  justifyItems: 'stretch'
+                }}
+                variants={containerVariants}
+              >
+                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <UberCard 
+                    title="50%"
+                    subtitle="Billing Disputes"
+                    description="x 10 higher"
+                    imageUrl="/billing.png"
+                    backgroundColor="#FFF6F6"
+                    titleColor="#DE1135"
+                  />
+                </motion.div>
+                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <UberCard 
+                    title="$74"
+                    subtitle="Monthly Refunds"
+                    description="x 5 higher"
+                    imageUrl="/refunds.png"
+                    backgroundColor="#FFF6F6"
+                    titleColor="#DE1135"
+                  />
+                </motion.div>
+                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <UberCard 
+                    title="2.5 yrs"
+                    subtitle="Account Age"
+                    description="Established"
+                    imageUrl="/time.png"
+                    backgroundColor="#F1F9F4"
+                    titleColor="#1BAA5F"
+                  />
+                </motion.div>
+              </motion.div>
+
+              {/* Activity Timeline and Recent Refunds */}
+              <motion.div 
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: BASE_TOKENS.spacing['2xl'],
+                  marginBottom: BASE_TOKENS.spacing['2xl'],
+                  alignItems: 'stretch',
+                  justifyItems: 'stretch'
+                }}
+                variants={containerVariants}
+              >
+                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <ActivityTimeline />
+                </motion.div>
+                <motion.div variants={componentVariants} style={{ width: '100%', boxSizing: 'border-box' }}>
+                  <RecentRefunds />
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {activeTab === 'calls' && (
+            <motion.div
+              key="calls"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CallLog callsData={callsData} />
+            </motion.div>
+          )}
+
+          {activeTab === 'security' && (
+            <motion.div
+              key="security"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <DevicesSecurity />
             </motion.div>
           )}
         </AnimatePresence>
@@ -813,80 +522,5 @@ const NavbarCustomerInfo = ({ isScrolled, isHovered, setIsHovered }) => {
     </motion.div>
   );
 };
-
-
-// DeviceUsage Component
-const DeviceUsage = () => (
-  <div style={{
-    backgroundColor: BASE_TOKENS.colors.white,
-    borderRadius: BASE_TOKENS.borderRadius.lg,
-    border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-    padding: BASE_TOKENS.spacing['2xl'],
-    boxShadow: BASE_TOKENS.shadows.md
-  }}>
-    <h3 style={{
-      fontSize: BASE_TOKENS.typography.fontSize.lg,
-      fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-      color: BASE_TOKENS.colors.gray[800],
-      marginBottom: BASE_TOKENS.spacing.sm,
-      margin: 0
-    }}>
-      Device Usage Details
-    </h3>
-    <p style={{
-      fontSize: BASE_TOKENS.typography.fontSize.sm,
-      color: BASE_TOKENS.colors.gray[600],
-      marginBottom: BASE_TOKENS.spacing.lg,
-      margin: 0
-    }}>
-      Specific device information for Sarah Johnson.
-    </p>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: BASE_TOKENS.spacing.md }}>
-      <div>
-        <p style={{
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          color: BASE_TOKENS.colors.gray[800],
-          margin: 0,
-          marginBottom: BASE_TOKENS.spacing.xs
-        }}>
-          Device used for Signup:
-        </p>
-        <p style={{
-          color: BASE_TOKENS.colors.gray[600],
-          fontSize: BASE_TOKENS.typography.fontSize.sm,
-          marginLeft: BASE_TOKENS.spacing.sm,
-          margin: 0
-        }}>
-          iPhone 11 (iOS 15.6)
-        </p>
-      </div>
-      <div>
-        <p style={{
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          color: BASE_TOKENS.colors.gray[800],
-          margin: 0,
-          marginBottom: BASE_TOKENS.spacing.xs
-        }}>
-          Current Devices Used:
-        </p>
-        <ul style={{
-          color: BASE_TOKENS.colors.gray[600],
-          fontSize: BASE_TOKENS.typography.fontSize.sm,
-          marginLeft: BASE_TOKENS.spacing.sm,
-          margin: 0,
-          paddingLeft: BASE_TOKENS.spacing.lg,
-          listStyle: 'disc'
-        }}>
-          <li>iPhone 13 (iOS 16.3)</li>
-          <li>MacBook Pro (Web)</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-);
-
-
-
-
 
 export default CallFraudDashboard;

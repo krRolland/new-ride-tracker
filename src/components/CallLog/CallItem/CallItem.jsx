@@ -31,7 +31,7 @@ const CallItem = ({
     <div
       style={{
         minHeight: '56px', // Reduced from 64px to make items more compact
-        padding: `${BASE_TOKENS.spacing.xs} 0 ${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.xs}`, // Remove left padding to align with other elements
+        padding: `9px 0 9px ${BASE_TOKENS.spacing.xs}`, // Increased top/bottom from 4px to 9px (4px + 5px)
         borderRadius: BASE_TOKENS.borderRadius.md,
         cursor: 'pointer',
         transition: 'all 0.2s ease',
@@ -124,7 +124,7 @@ const CallItem = ({
         {/* Title */}
         <h4 style={{
           fontSize: BASE_TOKENS.typography.fontSize.md,
-          fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
           color: BASE_TOKENS.colors.gray[900],
           margin: 0,
           marginBottom: '4px', // Increased from 2px to 4px for more spacing

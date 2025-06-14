@@ -5,52 +5,12 @@ import { BASE_TOKENS } from '../../tokens';
 const CustomerInfoCard = () => {
   return (
     <div style={{
-      backgroundColor: BASE_TOKENS.colors.white,
-      borderRadius: BASE_TOKENS.borderRadius.lg,
-      border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
-      padding: BASE_TOKENS.spacing['2xl'],
-      boxShadow: BASE_TOKENS.shadows.md,
       height: '100%',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      boxSizing: 'border-box',
-      position: 'relative'
+      boxSizing: 'border-box'
     }}>
-      {/* Uber One Logo Pill - Top Right Corner Badge */}
-      <div style={{
-        position: 'absolute',
-        top: BASE_TOKENS.spacing.lg,
-        right: BASE_TOKENS.spacing.lg,
-        zIndex: 10,
-        backgroundColor: '#000000',
-        borderRadius: '50px',
-        padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <img 
-          src="/uber-one-logo-pill.png" 
-          alt="Uber One"
-          style={{
-            height: '24px',
-            width: 'auto',
-            objectFit: 'contain',
-            display: 'block'
-          }}
-        />
-      </div>
-      {/* <h3 style={{
-        fontSize: BASE_TOKENS.typography.fontSize.lg,
-        fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
-        color: BASE_TOKENS.colors.gray[800],
-        margin: 0,
-        marginBottom: BASE_TOKENS.spacing.lg
-      }}>
-        Customer Information
-      </h3> */}
-      
       {/* Customer Profile */}
       <div style={{
         display: 'flex',
@@ -59,8 +19,8 @@ const CustomerInfoCard = () => {
         flex: 1
       }}>
         <div style={{
-          width: '80px',
-          height: '80px',
+          width: '130px',
+          height: '130px',
           borderRadius: BASE_TOKENS.borderRadius.full,
           backgroundColor: BASE_TOKENS.colors.gray[200],
           border: `3px solid ${BASE_TOKENS.colors.white}`,
@@ -84,10 +44,10 @@ const CustomerInfoCard = () => {
         
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            marginBottom: BASE_TOKENS.spacing.sm
+            marginBottom: '13px'
           }}>
             <h4 style={{
-              fontSize: BASE_TOKENS.typography.fontSize.lg,
+              fontSize: '26px',
               fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
               color: BASE_TOKENS.colors.gray[900],
               margin: 0
@@ -96,68 +56,99 @@ const CustomerInfoCard = () => {
             </h4>
           </div>
           
+          {/* Subtitle Text - First Row */}
           <div style={{
             display: 'flex',
-            flexDirection: 'column',
-            gap: BASE_TOKENS.spacing.xs
+            alignItems: 'center',
+            gap: '15px',
+            marginBottom: '5px'
           }}>
             {/* Email */}
             <div style={{
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontSize: '14px',
               lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-              color: BASE_TOKENS.colors.gray[600],
-              fontWeight: BASE_TOKENS.typography.fontWeight.medium
+              color: '#4B5563',
+              fontWeight: BASE_TOKENS.typography.fontWeight.light
             }}>
               sarah.j@email.com
             </div>
             
-            {/* Membership Info */}
-            <div style={{
-              fontSize: BASE_TOKENS.typography.fontSize.sm,
-              lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-              color: BASE_TOKENS.colors.gray[500],
-              fontWeight: BASE_TOKENS.typography.fontWeight.normal
-            }}>
-              Member since March 2023 • 247 rides
-            </div>
-            
-            {/* Stats Row */}
+            {/* Rating with Star */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: BASE_TOKENS.spacing.lg,
-              flexWrap: 'wrap',
-              marginTop: BASE_TOKENS.spacing.xs
+              gap: '4px'
             }}>
-              {/* Lifetime Value */}
-              <div style={{
-                fontSize: BASE_TOKENS.typography.fontSize.sm,
+              <svg 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="#4B5563"
+                style={{
+                  flexShrink: 0
+                }}
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span style={{
+                fontSize: '14px',
                 lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-                color: BASE_TOKENS.colors.gray[700],
-                fontWeight: BASE_TOKENS.typography.fontWeight.semibold
+                color: '#4B5563',
+                fontWeight: BASE_TOKENS.typography.fontWeight.light
               }}>
-                $3,847 lifetime value
-              </div>
-              
-              {/* Rating */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: BASE_TOKENS.spacing.xs
-              }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ color: BASE_TOKENS.colors.yellow[500] }}>
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-                <span style={{
-                  fontSize: BASE_TOKENS.typography.fontSize.sm,
-                  lineHeight: BASE_TOKENS.typography.lineHeight.xs,
-                  color: BASE_TOKENS.colors.gray[700],
-                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold
-                }}>
-                  4.8 rating
-                </span>
-              </div>
+                4.8 rating
+              </span>
             </div>
+          </div>
+          
+          {/* Subtitle Text - Second Row */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+            marginBottom: '16px'
+          }}>
+            {/* Rides */}
+            <div style={{
+              fontSize: '14px',
+              lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+              color: '#4B5563',
+              fontWeight: BASE_TOKENS.typography.fontWeight.light
+            }}>
+              247 rides
+            </div>
+            
+            {/* Lifetime Value */}
+            <div style={{
+              fontSize: '14px',
+              lineHeight: BASE_TOKENS.typography.lineHeight.xs,
+              color: '#4B5563',
+              fontWeight: BASE_TOKENS.typography.fontWeight.light
+            }}>
+              $3,847 lifetime value
+            </div>
+          </div>
+          
+          {/* Uber One Logo Pill */}
+          <div style={{
+            backgroundColor: '#000000',
+            borderRadius: '50px',
+            padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+            paddingLeft: `calc(${BASE_TOKENS.spacing.sm} + 5px)`,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <img 
+              src="/uber-one-logo-pill.png" 
+              alt="Uber One"
+              style={{
+                height: '24px',
+                width: 'auto',
+                objectFit: 'contain',
+                display: 'block'
+              }}
+            />
           </div>
         </div>
       </div>

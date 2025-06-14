@@ -274,7 +274,8 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
                   left: `-${BASE_TOKENS.spacing.md}`,
                   right: `-${BASE_TOKENS.spacing.md}`,
                   bottom: isLastItem ? 0 : '1px', // Don't cover the separator line
-                  border: `1px solid ${BASE_TOKENS.colors.blue[500]}`,
+                  border: `1px solid ${BASE_TOKENS.colors.black}`,
+                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
                   borderRadius: BASE_TOKENS.borderRadius.md,
                   pointerEvents: 'none', // Allow clicks to pass through to the CallItem
                   zIndex: 1
