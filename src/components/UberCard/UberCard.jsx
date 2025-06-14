@@ -42,10 +42,10 @@ const UberCard = ({
         boxShadow: '0 0px 0px rgba(0, 0, 0, 0)'
       }}
       whileHover={{
-        y: -4,
+        y: -2,
         rotateY: 2,
         backgroundColor: lightenColor(backgroundColor, 0.15),
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.06)'
+        boxShadow: '0 4px 2px rgba(0, 0, 0, 0.03)'
       }}
       transition={{
         type: "spring",
@@ -105,33 +105,59 @@ const UberCard = ({
             fontWeight: '500',
             color: '#050C4D',
             margin: 0,
-            marginTop: '-8px',
+            marginTop: '-12px',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: titleColor === '#0D8345' ? '#F7FCF7' : '#FFF0EE',
             padding: '10px',
             borderRadius: '50px',
             alignSelf: 'flex-start'
           }}
         >
+          <div style={{
+            width: '20px',
+            height: '20px',
+            backgroundColor: titleColor === '#0D8345' ? '#0D8345' : '#DE1135',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0
+          }}>
+            {titleColor === '#0D8345' ? (
+              <svg 
+                width="18" 
+                height="18" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="2.7"
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            ) : (
+              <svg 
+                width="18" 
+                height="18" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="2.7"
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+              </svg>
+            )}
+          </div>
           <span>{description}</span>
-          <svg 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="#050C4D" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
         </div>
       </div>
       
-      {/* Right side - 90% height image, vertically centered */}
+      {/* Right side - Full height image, snapped to right edge */}
       <div 
         className="uber-card-image-container"
         style={{
@@ -148,7 +174,7 @@ const UberCard = ({
           src={imageUrl}
           alt="Card image"
           style={{
-            height: '90%', // Reduced to 90% of container height
+            height: '100%', // Full height of container
             width: 'auto',
             objectFit: 'contain'
           }}

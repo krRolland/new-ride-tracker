@@ -24,7 +24,7 @@ const CallFraudDashboard = () => {
       fraudRisk: false,
       duration: '15min',
       dateTime: '2024-06-08 - 14:30',
-      agent: 'Agent Smith',
+      agent: 'Agent Alex',
       customer: {
         name: 'Sarah Johnson',
         avatar: '/headshot-8.png'
@@ -72,7 +72,7 @@ const CallFraudDashboard = () => {
       fraudRisk: false,
       duration: '10min',
       dateTime: '2024-05-15 - 09:05',
-      agent: 'Agent Johnson',
+      agent: 'Agent Davis',
       customer: {
         name: 'Emma Rodriguez',
         avatar: '/headshot-4.png'
@@ -95,7 +95,7 @@ const CallFraudDashboard = () => {
       fraudRisk: false,
       duration: '20min',
       dateTime: '2024-04-20 - 18:25',
-      agent: 'Agent Lee',
+      agent: 'Agent Alex',
       customer: {
         name: 'David Kim',
         avatar: '/headshot-7.png'
@@ -119,7 +119,7 @@ const CallFraudDashboard = () => {
       fraudRisk: false,
       duration: '12min',
       dateTime: '2024-06-01 - 10:00',
-      agent: 'Agent Smith',
+      agent: 'Agent Alex',
       customer: {
         name: 'Lisa Thompson',
         avatar: '/headshot-2.png'
@@ -142,7 +142,7 @@ const CallFraudDashboard = () => {
       fraudRisk: false,
       duration: '25min',
       dateTime: '2024-05-25 - 16:45',
-      agent: 'Agent Johnson',
+      agent: 'Agent Davis',
       customer: {
         name: 'Robert Wilson',
         avatar: '/headshot-6.png'
@@ -387,11 +387,11 @@ const CallFraudDashboard = () => {
             }}
             animate={{
               x: activeTab === 'overview' ? 16 : 
-                 activeTab === 'calls' ? 125 : 
-                 activeTab === 'security' ? 195 : 16,
+                 activeTab === 'calls' ? 117 : 
+                 activeTab === 'security' ? 193 : 16,
               width: activeTab === 'overview' ? 62 : 
                      activeTab === 'calls' ? 36 : 
-                     activeTab === 'security' ? 118 : 62
+                     activeTab === 'security' ? 122 : 62
             }}
             transition={{
               type: "spring",
@@ -530,7 +530,7 @@ const CallFraudDashboard = () => {
                     subtitle="Billing Disputes"
                     description="x 10 higher"
                     imageUrl="/billing.png"
-                    backgroundColor="#FFF6F6"
+                    backgroundColor="#FFFFFF"
                     titleColor="#DE1135"
                   />
                 </motion.div>
@@ -550,7 +550,7 @@ const CallFraudDashboard = () => {
                     subtitle="Monthly Refunds"
                     description="x 5 higher"
                     imageUrl="/refunds.png"
-                    backgroundColor="#FFF6F6"
+                    backgroundColor="#FFFFFF"
                     titleColor="#DE1135"
                   />
                 </motion.div>
@@ -570,7 +570,7 @@ const CallFraudDashboard = () => {
                     subtitle="Account Age"
                     description="Established"
                     imageUrl="/time.png"
-                    backgroundColor="#F7FCF7"
+                    backgroundColor="#FFFFFF"
                     titleColor="#0D8345"
                   />
                 </motion.div>

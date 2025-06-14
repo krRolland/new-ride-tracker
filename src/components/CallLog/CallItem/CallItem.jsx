@@ -30,8 +30,8 @@ const CallItem = ({
   return (
     <div
       style={{
-        minHeight: '56px', // Reduced from 64px to make items more compact
-        padding: `11px 0 11px ${BASE_TOKENS.spacing.xs}`, // Increased top/bottom from 9px to 11px (additional 2px)
+        minHeight: '50px', // Match ActivityTimeline minHeight
+        padding: `calc(${BASE_TOKENS.spacing.sm} + 5px) ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.lg} ${BASE_TOKENS.spacing.xs}`, // Added 5px more top padding
         borderRadius: BASE_TOKENS.borderRadius.md,
         cursor: 'pointer',
         transition: 'all 0.2s ease',
@@ -39,7 +39,7 @@ const CallItem = ({
         border: '1px solid transparent', // Border now handled by wrapper
         display: 'flex',
         alignItems: 'center',
-        gap: BASE_TOKENS.spacing.sm
+        gap: `calc(${BASE_TOKENS.spacing.sm} + 4px)` // Added 4px more spacing between avatars and text
       }}
       onClick={() => onSelectCall(call)}
       // Removed hover effects to prevent white overlay over blue highlight
@@ -47,17 +47,18 @@ const CallItem = ({
       {/* Overlapping Avatars Container */}
       <div style={{
         position: 'relative',
-        width: '68px', // Increased by 5px more to accommodate additional offset
-        height: '42px', // Reduced from 47px to 42px
-        flexShrink: 0
+        width: '73px', // Increased by 5px to accommodate larger avatars
+        height: '47px', // Increased by 5px to match avatar size
+        flexShrink: 0,
+        alignSelf: 'center' // Center vertically within the item
       }}>
         {/* Customer Avatar (Foreground - In front of agent) */}
         <div style={{
           position: 'absolute',
           right: 0,
           top: 0,
-          width: '42px', // Reduced by 5px from 47px to 42px
-          height: '42px', // Reduced by 5px from 47px to 42px
+          width: '47px', // Increased by 5px from 42px to 47px
+          height: '47px', // Increased by 5px from 42px to 47px
           borderRadius: BASE_TOKENS.borderRadius.full,
           backgroundColor: BASE_TOKENS.colors.gray[200],
           border: `2px solid ${BASE_TOKENS.colors.white}`,
@@ -85,8 +86,8 @@ const CallItem = ({
           position: 'absolute',
           left: '0px', // Align leftmost avatar to the very left edge
           top: 0,
-          width: '42px', // Reduced by 5px from 47px to 42px
-          height: '42px', // Reduced by 5px from 47px to 42px
+          width: '47px', // Increased by 5px from 42px to 47px
+          height: '47px', // Increased by 5px from 42px to 47px
           borderRadius: BASE_TOKENS.borderRadius.full,
           backgroundColor: BASE_TOKENS.colors.gray[200],
           border: `2px solid ${BASE_TOKENS.colors.white}`,
@@ -98,9 +99,9 @@ const CallItem = ({
           zIndex: 1
         }}>
           <img 
-            src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
-                 call.agent === 'Agent Davis' ? '/headshot-2.png' : 
-                 call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+            src={call.agent === 'Agent Alex' ? '/alex-headshot.png' : 
+                 call.agent === 'Agent Davis' ? '/davis-headshot.png' : 
+                 call.agent === 'Agent Johnson' ? '/johnson-headshot.png' : 
                  '/headshot-6.png'} 
             alt={`${call.agent} avatar`}
             style={{
@@ -119,16 +120,17 @@ const CallItem = ({
         minWidth: 0,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignSelf: 'center' // Center vertically within the item
       }}>
         {/* Title */}
         <h4 style={{
-          fontSize: BASE_TOKENS.typography.fontSize.md,
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+          fontSize: '15px', // Match ActivityTimeline title size
+          fontWeight: BASE_TOKENS.typography.fontWeight.semibold, // Match ActivityTimeline weight
           color: BASE_TOKENS.colors.gray[900],
           margin: 0,
-          marginBottom: '4px', // Increased from 2px to 4px for more spacing
-          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
+          marginBottom: BASE_TOKENS.spacing.xs, // Match ActivityTimeline title spacing
+          lineHeight: BASE_TOKENS.typography.lineHeight.sm, // Match ActivityTimeline line height
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap'
@@ -138,32 +140,17 @@ const CallItem = ({
         
         {/* Subtitle - Date and Duration */}
         <p style={{
-          color: BASE_TOKENS.colors.gray[500],
-          fontWeight: BASE_TOKENS.typography.fontWeight.light,
+          color: BASE_TOKENS.colors.gray[600], // Match ActivityTimeline subtitle color
+          fontWeight: BASE_TOKENS.typography.fontWeight.normal, // Match ActivityTimeline weight
           margin: 0,
-          marginBottom: '3px',
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
+          fontSize: '13px', // Match ActivityTimeline subtitle size
+          lineHeight: BASE_TOKENS.typography.lineHeight.xs, // Match ActivityTimeline line height
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap'
         }}>
           {formatDate(call.dateTime.split(' - ')[0])} • {call.duration}
         </p>
-        
-        {/* Agent Name - Separate Line */}
-        <div style={{
-          color: BASE_TOKENS.colors.gray[500],
-          fontWeight: BASE_TOKENS.typography.fontWeight.light,
-          margin: 0,
-          fontSize: BASE_TOKENS.typography.fontSize.xs,
-          lineHeight: BASE_TOKENS.typography.lineHeight.tight,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
-        }}>
-          Agent: {call.agent.split(' ')[1]}
-        </div>
       </div>
       
       {/* Right Side - Timestamp */}
@@ -172,10 +159,10 @@ const CallItem = ({
         alignSelf: 'center'
       }}>
         <span style={{
-          color: BASE_TOKENS.colors.gray[600],
+          color: '#969696',
           fontSize: BASE_TOKENS.typography.fontSize.xs,
           fontWeight: BASE_TOKENS.typography.fontWeight.light,
-          backgroundColor: BASE_TOKENS.colors.gray[100],
+          backgroundColor: '#F6F6F6',
           padding: `6px 10px`, // Increased from 4px 8px (xs/sm) to 6px 10px for more padding
           borderRadius: BASE_TOKENS.borderRadius.full,
           display: 'inline-block'

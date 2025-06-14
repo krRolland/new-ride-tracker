@@ -44,7 +44,7 @@ const CustomerInfoCard = () => {
         
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            marginBottom: '3px' // Decreased by 3px more from 6px
+            marginBottom: '5px' // Increased by 2px from 3px
           }}>
             <h4 style={{
               fontSize: '19px', // Decreased by 2px more from 21px

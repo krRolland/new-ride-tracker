@@ -41,6 +41,20 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
   const [sortBy, setSortBy] = useState('Newest First');
   const [colorBy, setColorBy] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
+  const filtersDropdownRef = useRef(null);
+
+  // Close filters dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filtersDropdownRef.current && !filtersDropdownRef.current.contains(event.target)) {
+        setShowFiltersDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Filter and sort calls (incorporating search term)
   const filteredCalls = calls
@@ -86,7 +100,7 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
 
   return (
     <div style={{
-      flex: '0 0 380px', // Increased by 30px from 350px
+      flex: '0 0 420px', // Increased by 40px from 380px
       padding: BASE_TOKENS.spacing['2xl'], // Changed from lg to 2xl for proper alignment
       borderRight: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
       display: 'flex',
@@ -95,6 +109,179 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
       overflow: 'hidden'
     }}>
       
+
+      {/* Header with call count and filters */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: BASE_TOKENS.spacing.lg
+      }}>
+        <span style={{
+          fontSize: BASE_TOKENS.typography.fontSize.sm,
+          color: BASE_TOKENS.colors.black,
+          fontWeight: BASE_TOKENS.typography.fontWeight.medium
+        }}>
+          {filteredCalls.length} Calls
+        </span>
+        
+        {/* Filters Dropdown */}
+        <div style={{ position: 'relative' }} ref={filtersDropdownRef}>
+          <button
+            onClick={() => setShowFiltersDropdown(!showFiltersDropdown)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: BASE_TOKENS.spacing.xs,
+              padding: `${BASE_TOKENS.spacing.xs} ${BASE_TOKENS.spacing.sm}`,
+              border: 'none',
+              borderRadius: BASE_TOKENS.borderRadius.md,
+              backgroundColor: 'transparent',
+              color: BASE_TOKENS.colors.black,
+              fontSize: BASE_TOKENS.typography.fontSize.sm,
+              fontWeight: BASE_TOKENS.typography.fontWeight.medium,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              outline: 'none'
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[100];
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+            }}
+          >
+            Filters
+            <svg 
+              style={{
+                width: '14px',
+                height: '14px',
+                transform: showFiltersDropdown ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease'
+              }}
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          {showFiltersDropdown && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              marginTop: BASE_TOKENS.spacing.xs,
+              backgroundColor: BASE_TOKENS.colors.white,
+              border: `1px solid ${BASE_TOKENS.colors.gray[200]}`,
+              borderRadius: BASE_TOKENS.borderRadius.lg,
+              boxShadow: BASE_TOKENS.shadows.lg,
+              zIndex: 100,
+              minWidth: '200px',
+              padding: BASE_TOKENS.spacing.sm
+            }}>
+              {/* Sort Options */}
+              <div style={{ marginBottom: BASE_TOKENS.spacing.md }}>
+                <div style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.xs,
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[500],
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginBottom: BASE_TOKENS.spacing.sm
+                }}>
+                  Sort By
+                </div>
+                {['Newest First', 'Oldest First', 'Duration (Shortest)', 'Duration (Longest)'].map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setSortBy(option);
+                      setShowFiltersDropdown(false);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: BASE_TOKENS.spacing.sm,
+                      border: 'none',
+                      background: sortBy === option ? BASE_TOKENS.colors.blue[50] : 'transparent',
+                      color: sortBy === option ? BASE_TOKENS.colors.blue[700] : BASE_TOKENS.colors.gray[700],
+                      fontSize: BASE_TOKENS.typography.fontSize.sm,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      borderRadius: BASE_TOKENS.borderRadius.md,
+                      marginBottom: BASE_TOKENS.spacing.xs
+                    }}
+                    onMouseOver={(e) => {
+                      if (sortBy !== option) {
+                        e.target.style.backgroundColor = BASE_TOKENS.colors.gray[50];
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (sortBy !== option) {
+                        e.target.style.backgroundColor = 'transparent';
+                      }
+                    }}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Color By Options */}
+              <div>
+                <div style={{
+                  fontSize: BASE_TOKENS.typography.fontSize.xs,
+                  fontWeight: BASE_TOKENS.typography.fontWeight.semibold,
+                  color: BASE_TOKENS.colors.gray[500],
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginBottom: BASE_TOKENS.spacing.sm
+                }}>
+                  Color By
+                </div>
+                {[
+                  { label: 'None', value: null },
+                  { label: 'Fraud Risk', value: 'Fraud Risk' },
+                  { label: 'Sentiment', value: 'Sentiment' }
+                ].map((option) => (
+                  <button
+                    key={option.label}
+                    onClick={() => {
+                      setColorBy(option.value);
+                      setShowFiltersDropdown(false);
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: BASE_TOKENS.spacing.sm,
+                      border: 'none',
+                      background: colorBy === option.value ? BASE_TOKENS.colors.blue[50] : 'transparent',
+                      color: colorBy === option.value ? BASE_TOKENS.colors.blue[700] : BASE_TOKENS.colors.gray[700],
+                      fontSize: BASE_TOKENS.typography.fontSize.sm,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      borderRadius: BASE_TOKENS.borderRadius.md,
+                      marginBottom: BASE_TOKENS.spacing.xs
+                    }}
+                    onMouseOver={(e) => {
+                      if (colorBy !== option.value) {
+                        e.target.style.backgroundColor = BASE_TOKENS.colors.gray[50];
+                      }
+                    }}
+                    onMouseOut={(e) => {
+                      if (colorBy !== option.value) {
+                        e.target.style.backgroundColor = 'transparent';
+                      }
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
       <div style={{
         marginBottom: BASE_TOKENS.spacing.lg
@@ -131,94 +318,16 @@ const AllCalls = ({ calls, onSelectCall, selectedCallId }) => {
             placeholder="Search..."
             style={{
               width: '100%',
-              padding: `${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} ${BASE_TOKENS.spacing.sm} calc(${BASE_TOKENS.spacing['2xl']} + 4px)`,
-              border: '1px solid #E1E1E1',
-              backgroundColor: '#F9FAFB',
-              borderRadius: BASE_TOKENS.borderRadius.md,
+              padding: `calc(${BASE_TOKENS.spacing.sm} + 4px) ${BASE_TOKENS.spacing.sm} calc(${BASE_TOKENS.spacing.sm} + 4px) calc(${BASE_TOKENS.spacing['2xl']} + 4px)`,
+              border: 'none',
+              backgroundColor: '#EEEEEE',
+              borderRadius: BASE_TOKENS.borderRadius.full,
               fontSize: BASE_TOKENS.typography.fontSize.sm,
               outline: 'none'
             }}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
-      </div>
-      
-      <div style={{
-        marginBottom: BASE_TOKENS.spacing.lg
-      }}>
-        <span style={{
-          fontSize: BASE_TOKENS.typography.fontSize.sm,
-          color: BASE_TOKENS.colors.gray[700],
-          fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-          display: 'block',
-          marginBottom: BASE_TOKENS.spacing.sm
-        }}>
-          Sort:
-        </span>
-        
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: BASE_TOKENS.spacing.md
-        }}>
-          {/* Fraud Risk Pill */}
-          <button
-          style={{
-            padding: `calc(${BASE_TOKENS.spacing.xs} + 4px) calc(${BASE_TOKENS.spacing.sm} + 4px)`,
-            border: `0.5px solid ${colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[500] : '#E1E1E1'}`,
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[100] : '#F9FAFB',
-            color: colorBy === 'Fraud Risk' ? BASE_TOKENS.colors.red[700] : BASE_TOKENS.colors.gray[700],
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            outline: 'none'
-          }}
-          onClick={() => setColorBy(colorBy === 'Fraud Risk' ? null : 'Fraud Risk')}
-          onMouseEnter={(e) => {
-            if (colorBy !== 'Fraud Risk') {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[50];
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (colorBy !== 'Fraud Risk') {
-              e.target.style.backgroundColor = '#F9FAFB';
-            }
-          }}
-        >
-          Fraud Risk
-        </button>
-        
-        {/* Sentiment Pill */}
-        <button
-          style={{
-            padding: `calc(${BASE_TOKENS.spacing.xs} + 4px) calc(${BASE_TOKENS.spacing.sm} + 4px)`,
-            border: `0.5px solid ${colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[500] : '#E1E1E1'}`,
-            borderRadius: BASE_TOKENS.borderRadius.full,
-            backgroundColor: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[100] : '#F9FAFB',
-            color: colorBy === 'Sentiment' ? BASE_TOKENS.colors.blue[700] : BASE_TOKENS.colors.gray[700],
-            fontSize: BASE_TOKENS.typography.fontSize.xs,
-            fontWeight: BASE_TOKENS.typography.fontWeight.medium,
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            outline: 'none'
-          }}
-          onClick={() => setColorBy(colorBy === 'Sentiment' ? null : 'Sentiment')}
-          onMouseEnter={(e) => {
-            if (colorBy !== 'Sentiment') {
-              e.target.style.backgroundColor = BASE_TOKENS.colors.gray[50];
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (colorBy !== 'Sentiment') {
-              e.target.style.backgroundColor = '#F9FAFB';
-            }
-          }}
-        >
-          Sentiment
-        </button>
         </div>
       </div>
 
@@ -499,9 +608,9 @@ const CallDetails = ({ call }) => {
                   flexShrink: 0
                 }}>
                   <img 
-                    src={call.agent === 'Agent Smith' ? '/headshot-1.png' : 
-                         call.agent === 'Agent Davis' ? '/headshot-2.png' : 
-                         call.agent === 'Agent Johnson' ? '/headshot-5.png' : 
+                    src={call.agent === 'Agent Alex' ? '/alex-headshot.png' : 
+                         call.agent === 'Agent Davis' ? '/davis-headshot.png' : 
+                         call.agent === 'Agent Johnson' ? '/johnson-headshot.png' : 
                          '/headshot-6.png'} 
                     alt={`${call.agent} avatar`}
                     style={{
