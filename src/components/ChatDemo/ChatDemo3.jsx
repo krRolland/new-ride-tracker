@@ -268,6 +268,10 @@ const ChatDemo3 = () => {
               customBotResponses={{
                 2: "Great, I've included a section that shows the call logs on a given trip!"
               }}
+              chatTitle="Ride Tracking Dashboard"
+              chatSubtitle="Building your custom dashboard"
+              initialTitle="What should we get started building?"
+              initialSubtitle="Let's build something amazing together"
             />
           </div>
         </div>

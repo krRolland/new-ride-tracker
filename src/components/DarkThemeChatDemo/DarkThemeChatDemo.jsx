@@ -351,6 +351,10 @@ const DarkThemeChatDemo = () => {
             darkMode={true}
             onExpansionChange={handleExpansionChange}
             onMinimizedChange={handleMinimizedChange}
+            chatTitle="Ride Tracking Dashboard"
+            chatSubtitle="Building your custom dashboard"
+            initialTitle="What should we get started building?"
+            initialSubtitle="Let's build something amazing together"
             style={{
               background: 'rgba(20, 20, 20, 0.3)',
               backdropFilter: 'blur(10px)',

@@ -15,51 +15,27 @@ import { CallFraudDashboard } from './components/CallFraudDashboard';
 
 function App() {
   return (
-    <div className="App" style={{ 
-      // padding: '20px', 
-      // backgroundColor: '#F9FAFB', 
-      // minHeight: '100vh',
-      // display: 'flex',
-      // gap: '20px',
-      // felexWrap: 'wrap',
-      // alignItems: 'flex-start'
-    }}>
-      {/* <RideTrackingDashboard 
-        tripInfo={mockRideData.tripInfo}
-        timelineData={mockRideData.timelineData}
-        callLogs={mockRideData.callLogs}
-        messages={mockRideData.messages}
-        driver={mockRideData.driver}
-        rider={mockRideData.rider}
-        showCommunicationLog={false}
-      /> */}
-      {/* <QueryVisualizer /> */}
-      
-      {/* Regular ChatBox Demo */}
-      {/* <ChatBox 
-        width="400px" 
-        height="600px" 
-      />
-       */}
-      {/* Expandable ChatBox Demo */}
-      {/* <ExpandableChatBox 
-        width="400px" 
-        height="600px" 
-      /> */}
-      
-      {/* Another Expandable ChatBox with different size */}
-      {/* <ExpandableChatBox 
-        width="350px" 
-        height="500px" 
-      /> */}
-      {/* <ChatDemo /> */}
-      <ChatDemo4 />
-      {/* <CallFraudDashboard /> */}
+    <div className="App">
 
-      {/* < Timeline /> */}
-      {/* <CallbackDemo /> */}
-      {/* < DarkThemeChatDemo /> */}
+      {/* BONUS: QUERY VISUALIZER */}  
+      {/* LOOKS BAD */}
       {/* <QueryVisualizer /> */}
+
+      {/* CHATDEMO 2 */}
+      {/* ANIMATION SWAPPING IN AND OUT THE COMPONENTS ON SECOND MSG. */}
+      {/* <ChatDemo2 /> */}
+
+      {/* CHATDEMO 3 */}
+      {/* SKELETONLOAD AGAIN ON SECOND MSG */}
+      <ChatDemo3 />
+      
+      
+      {/* CHAT DEMO 4 */}
+      {/* CALL FRAUD DASHBOARD WITH CHAT DEMO */}
+      {/* <ChatDemo4 /> */}
+
+      {/* <CallFraudDashboard/> */}
+      
     </div>
   );
 }

@@ -268,6 +268,10 @@ const ChatDemo = () => {
               showCollapseButton={false}
               onExpansionChange={handleExpansionChange}
               onMinimizedChange={handleMinimizedChange}
+              chatTitle="Ride Tracking Dashboard"
+              chatSubtitle="Building your custom dashboard"
+              initialTitle="What should we get started building?"
+              initialSubtitle="Let's build something amazing together"
             />
           </div>
         </div>

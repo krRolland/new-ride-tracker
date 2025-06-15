@@ -14,12 +14,16 @@ const ExpandableChatBox = ({
   onUserMessage,
   customBotResponses = {},
   fixedTime = null,
+  chatTitle = "Call Fraud Dashboard",
+  chatSubtitle = "Building your custom dashboard",
+  initialTitle = "What do you want to make?",
+  initialSubtitle = "Let's build something amazing together",
   ...props 
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [headerTitle, setHeaderTitle] = useState("What do you want to make?");
-  const [headerSubtitle, setHeaderSubtitle] = useState("Let's build something amazing together");
+  const [headerTitle, setHeaderTitle] = useState(initialTitle);
+  const [headerSubtitle, setHeaderSubtitle] = useState(initialSubtitle);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -120,14 +124,14 @@ const ExpandableChatBox = ({
     
     // Change header title after "thinking" (during typing)
     setTimeout(() => {
-      setHeaderTitle("Call Fraud Dashboard");
-      setHeaderSubtitle("Building your custom dashboard");
+      setHeaderTitle(chatTitle);
+      setHeaderSubtitle(chatSubtitle);
     }, 1000);
     
     setTimeout(() => {
       // Determine bot response text based on message count and custom responses
       const userMessageCount = messages.filter(msg => msg.sender === 'user').length + 1;
-      let botResponseText = "Here's your fraud dashboard!";
+      let botResponseText = "Here's your ride dashboard!";
       
       if (customBotResponses[userMessageCount]) {
         botResponseText = customBotResponses[userMessageCount];

@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Operative Demo - Call Fraud Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based interactive dashboard application for analyzing call fraud patterns and customer support interactions. This project demonstrates advanced UI components with animations, chat interfaces, and data visualization capabilities.
 
-## Available Scripts
+## 🏗️ Get Started
 
-In the project directory, you can run:
+Here are the components you'll want to swap in/out in the App.js file:
 
-### `npm start`
+## Call Fraud Dashboard
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### 1. **ChatDemo4** (Main Entry Point)
+Call Fraud dashboard is triggered by the first message in the chat.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![ChatDemo4 Preview](./assets/chatdemo4-preview.gif)
 
-### `npm test`
+#### 2. **CallFraudDashboard**
+If you just want the Call Fraud Dashboard, no chat, then just use this component.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![CallFraudDashboard Preview](./assets/callfraud-dashboard-preview.gif)
 
-### `npm run build`
+## Ride Tracking Dashboard
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 3. **ChatDemo2**
+Animation swapping in and out the components on second message.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![ChatDemo2 Preview](./assets/chatdemo2-preview.gif)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 4. **ChatDemo3**
+Skeleton overlay, triggered on second message.
 
-### `npm run eject`
+![ChatDemo3 Preview](./assets/chatdemo3-preview.gif)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🛠️ Technology Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **React 18.2.0** - Component-based UI framework
+- **Vite 5.0.8** - Fast build tool and development server
+- **Framer Motion 12.16.0** - Advanced animation library
+- **Chart.js 4.4.9** - Data visualization charts
+- **React Map GL 8.0.4** - Interactive map components
+- **React Icons 5.5.0** - Icon library
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🚀 Getting Started
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Prerequisites
 
-## Learn More
+- Node.js (v14 or higher)
+- npm or yarn package manager
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd new-ride-tracker
+   ```
 
-### Code Splitting
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. **Start development server**
+   ```bash
+   npm start
+   # or
+   npm run dev
+   ```
 
-### Analyzing the Bundle Size
+4. **Open in browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📁 Project Structure
 
-### Making a Progressive Web App
+```
+src/
+├── components/
+│   ├── ChatDemo2.js
+│   ├── ChatDemo3.js
+│   ├── ChatDemo4.js
+│   └── CallFraudDashboard.js
+├── assets/
+│   ├── chatdemo4-preview.gif
+│   ├── callfraud-dashboard-preview.gif
+│   ├── chatdemo2-preview.gif
+│   └── chatdemo3-preview.gif
+├── App.js
+└── index.js
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🎯 Features
 
-### Advanced Configuration
+- Real-time chat interface with AI responses
+- Interactive fraud detection dashboard
+- Live ride tracking with map integration
+- Smooth animations and transitions
+- Responsive design for all screen sizes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📸 Adding Component Previews
 
-### Deployment
+To add preview GIFs for each component:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Create an `assets` folder in your project root
+2. Record GIFs of each component in action
+3. Save them with the following names:
+   - `chatdemo4-preview.gif`
+   - `callfraud-dashboard-preview.gif`
+   - `chatdemo2-preview.gif`
+   - `chatdemo3-preview.gif`
+4. The GIFs will automatically display in the README
